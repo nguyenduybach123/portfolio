@@ -2,21 +2,25 @@
 
 import { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Home, FileText, Briefcase, Mail, BookOpen, X } from 'lucide-react'
+import { Home, FileText, Briefcase, BookOpen, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { NavigationIcon } from './components'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 const navItems = [
   { icon: Home, label: 'HOME', href: '/', isActive: true },
   { icon: FileText, label: 'ABOUT', href: '/about' },
-  { icon: Briefcase, label: 'PROJECTS', href: '#' },
-  { icon: BookOpen, label: 'BLOG', href: '#' }
+  { icon: Briefcase, label: 'PROJECTS', href: '/projects' },
+  { icon: BookOpen, label: 'BLOG', href: '/blogs' }
 ]
 
 /**
  * NavigationContent: slide-in panel từ phải -> trái
  */
 function NavigationContent({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  // Hooks
+  const pathName = usePathname()
+
   return (
     <AnimatePresence mode='wait'>
       {isOpen && (
@@ -57,7 +61,7 @@ function NavigationContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: idx * 0.05 }}
                       className={`flex items-center gap-4 px-3 py-4 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-                        item.isActive
+                        pathName === item.href
                           ? 'border-l-4 border-orange-500 bg-orange-100/50 text-orange-500'
                           : 'text-slate-800 hover:bg-orange-100/70 hover:text-orange-500'
                       }`}

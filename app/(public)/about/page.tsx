@@ -8,7 +8,7 @@ export default function About() {
     <section className='min-h-screen bg-[#f3f3f3] px-6 py-20'>
       <div className='mx-auto max-w-6xl'>
         {/* Heading */}
-        <h1 className='mb-20 text-center font-serif text-6xl font-semibold md:text-7xl'>
+        <h1 className='mb-20 text-center font-serif text-6xl md:text-7xl'>
           <span className='text-slate-700'>About </span>
           <span className='text-orange-500'>Me</span>
         </h1>
