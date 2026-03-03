@@ -1,0 +1,1 @@
+export { DotPattern as default } from './DotPattern';

@@ -1,0 +1,1 @@
+export { GeometricShapes as default } from './GeometricShapes';

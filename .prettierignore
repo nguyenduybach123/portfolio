@@ -1,0 +1,7 @@
+node_modules/
+dist/
+build/
+**/*.hbs
+src/api/endpoints/**
+src/api/models/**
+**/*.md
