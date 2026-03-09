@@ -1,0 +1,6 @@
+export { default as TimelineDot } from './timeline-dot'
+export { default as TimelineItem } from './timeline-item'
+export { default as TimelineConnector } from './timeline-connector'
+export { default as TimelineSeperator } from './timeline-seperator'
+export { default as TimelineContent } from './timeline-content'
+export { default as TimelineOppositeContent } from './timeline-opposite-content'
