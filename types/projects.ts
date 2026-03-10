@@ -5,8 +5,9 @@ export interface Project {
   technologies: string[]
   github: string
   demo: string
-  image?: string
+  image: string
   featured: boolean
   createdAt: string
   category: 'frontend' | 'backend' | 'fullstack'
+  tech: string[]
 }

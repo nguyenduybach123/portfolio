@@ -1,6 +1,6 @@
 import { GalleryWrapper } from '@/components/shared'
 import { projects } from '@/data/project-data'
-import { ProjectItem } from './components'
+import { ProjectCarousel, ProjectItem } from './components'
 
 const Projects = () => {
   return (
@@ -11,10 +11,9 @@ const Projects = () => {
             <span className='text-slate-700'>Projects </span>
             <span className='text-orange-500'>Portfolio</span>
           </h1>
-          <p className='mb-8 text-muted-foreground'>
-            Here are some of the projects I have worked on. Click on each project to see more details.
-          </p>
         </div>
+
+        <ProjectCarousel />
 
         <GalleryWrapper animation='stagger'>
           {projects.map((project) => (

@@ -1,9 +1,11 @@
 'use client'
 
-import { motion, Variants } from 'framer-motion'
+import { AnimatePresence, motion, Variants } from 'framer-motion'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useState } from 'react'
 import { skillsData } from '@/data/about-data'
+import Image from 'next/image'
+import { cn } from '@/lib/utils'
 
 // Mock SkillItem component - replace with your actual import
 const SkillItem = ({ name, logo }: { name: string; logo: string }) => (
@@ -33,16 +35,14 @@ export const containerVariants: Variants = {
 export const itemVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 20,
     scale: 0.95
   },
   visible: {
     opacity: 1,
-    y: 0,
     scale: 1,
     transition: {
-      duration: 0.4,
-      ease: 'easeOut'
+      duration: 0.3,
+      ease: 'easeInOut'
     }
   }
 }
@@ -53,11 +53,40 @@ const SkillGrid = ({ skills }: { skills: Array<{ name: string; logo: string }> }
       variants={containerVariants}
       initial='hidden'
       animate='visible'
-      className='grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6'
+      className='grid grid-cols-2 gap-px overflow-hidden border border-black/5 bg-black/5 md:grid-cols-3 lg:grid-cols-5'
     >
-      {skills.map((skill) => (
-        <motion.div key={skill.name} variants={itemVariants}>
-          <SkillItem {...skill} />
+      {skills.map((skill, index) => (
+        <motion.div
+          variants={itemVariants}
+          key={`${skill.name}-${index}`}
+          whileHover={{ y: -6, scale: 1.03 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+          className={cn(
+            'group relative flex aspect-square flex-col items-center justify-center bg-white p-8 transition-all duration-500 hover:z-10',
+            'cursor-pointer overflow-hidden hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]'
+          )}
+        >
+          <div className='relative mb-6 aspect-square w-full overflow-hidden grayscale transition-all duration-700 group-hover:grayscale-0'>
+            <Image
+              src={skill.logo || '/placeholder.svg'}
+              alt={skill.name}
+              fill
+              className='scale-95 object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-105'
+            />
+          </div>
+
+          <div className='text-center'>
+            <h3 className='text-[11px] font-medium uppercase tracking-[0.15em] text-black/80 transition-colors group-hover:text-black'>
+              {skill.name}
+            </h3>
+            <div className='mx-auto mt-2 h-px w-0 bg-black/20 transition-all duration-500 group-hover:w-8' />
+          </div>
+
+          {/* Subtle architectural corner markers */}
+          <div className='absolute left-4 top-4 h-px w-2 bg-black/5 opacity-0 transition-opacity group-hover:opacity-100' />
+          <div className='absolute left-4 top-4 h-2 w-px bg-black/5 opacity-0 transition-opacity group-hover:opacity-100' />
+          <div className='absolute bottom-4 right-4 h-px w-2 bg-black/5 opacity-0 transition-opacity group-hover:opacity-100' />
+          <div className='absolute bottom-4 right-4 h-2 w-px bg-black/5 opacity-0 transition-opacity group-hover:opacity-100' />
         </motion.div>
       ))}
     </motion.div>
@@ -112,15 +141,15 @@ const SkillsCollection = () => {
           </motion.div>
 
           {/* Tab Content */}
-          {skillsData.map((group) => (
-            <TabsContent
-              key={group.category}
-              value={group.category.toLowerCase()}
-              className='mt-8 focus-visible:outline-none'
-            >
-              <SkillGrid skills={group.skills} />
-            </TabsContent>
-          ))}
+          <AnimatePresence mode='wait'>
+            {skillsData.map((group) =>
+              activeTab === group.category.toLowerCase() ? (
+                <TabsContent value={group.category.toLowerCase()} className='mt-8 focus-visible:outline-none'>
+                  <SkillGrid skills={group.skills} />
+                </TabsContent>
+              ) : null
+            )}
+          </AnimatePresence>
         </Tabs>
       </div>
     </section>

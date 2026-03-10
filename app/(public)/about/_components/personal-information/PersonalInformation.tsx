@@ -14,7 +14,7 @@ const PersonalInformation = () => {
             alt='Profile'
             width={500}
             height={500}
-            className='object-cover'
+            className='max-h-[450px] w-full object-cover'
           />
         </div>
       </div>

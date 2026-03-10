@@ -11,7 +11,8 @@ export const projects: Project[] = [
     image: 'https://images.pexels.com/photos/34822447/pexels-photo-34822447.jpeg',
     featured: true,
     createdAt: '2025-01-15',
-    category: 'fullstack'
+    category: 'fullstack',
+    tech: ['React', 'Next.js', 'Node.js', 'MongoDB']
   },
   {
     id: '2',
@@ -23,7 +24,8 @@ export const projects: Project[] = [
     image: 'https://images.pexels.com/photos/35672797/pexels-photo-35672797.png',
     featured: true,
     createdAt: '2025-02-10',
-    category: 'frontend'
+    category: 'frontend',
+    tech: ['React', 'TypeScript', 'Zustand']
   },
   {
     id: '3',
@@ -35,7 +37,8 @@ export const projects: Project[] = [
     image: 'https://images.pexels.com/photos/36198218/pexels-photo-36198218.jpeg',
     featured: false,
     createdAt: '2024-12-20',
-    category: 'fullstack'
+    category: 'fullstack',
+    tech: ['Next.js', 'Node.js', 'PostgreSQL']
   },
   {
     id: '4',
@@ -47,7 +50,8 @@ export const projects: Project[] = [
     image: 'https://images.pexels.com/photos/36016480/pexels-photo-36016480.jpeg',
     featured: false,
     createdAt: '2024-11-05',
-    category: 'frontend'
+    category: 'frontend',
+    tech: ['Next.js', 'Redux Toolkit']
   },
   {
     id: '5',
@@ -59,7 +63,8 @@ export const projects: Project[] = [
     image: 'https://images.pexels.com/photos/35783407/pexels-photo-35783407.jpeg',
     featured: true,
     createdAt: '2025-03-01',
-    category: 'frontend'
+    category: 'frontend',
+    tech: ['Next.js', 'Framer Motion', 'TailwindCSS']
   },
   {
     id: '6',
@@ -71,7 +76,8 @@ export const projects: Project[] = [
     image: 'https://images.pexels.com/photos/7171902/pexels-photo-7171902.jpeg',
     featured: false,
     createdAt: '2024-10-18',
-    category: 'frontend'
+    category: 'frontend',
+    tech: ['React', 'Ant Design', 'React Query']
   },
   {
     id: '7',
@@ -83,7 +89,8 @@ export const projects: Project[] = [
     image: 'https://images.pexels.com/photos/36302053/pexels-photo-36302053.jpeg',
     featured: false,
     createdAt: '2024-09-12',
-    category: 'fullstack'
+    category: 'fullstack',
+    tech: ['React', 'Node.js', 'Socket.IO']
   },
   {
     id: '8',
@@ -95,7 +102,8 @@ export const projects: Project[] = [
     image: 'https://images.pexels.com/photos/36142511/pexels-photo-36142511.jpeg',
     featured: true,
     createdAt: '2025-02-25',
-    category: 'fullstack'
+    category: 'fullstack',
+    tech: ['Next.js', 'Node.js', 'MongoDB']
   },
   {
     id: '9',
@@ -107,7 +115,8 @@ export const projects: Project[] = [
     image: 'https://images.pexels.com/photos/36116280/pexels-photo-36116280.jpeg',
     featured: false,
     createdAt: '2024-08-30',
-    category: 'frontend'
+    category: 'frontend',
+    tech: ['React', 'Dnd Kit', 'Zustand']
   },
   {
     id: '10',
@@ -119,6 +128,7 @@ export const projects: Project[] = [
     image: 'https://images.pexels.com/photos/35060742/pexels-photo-35060742.jpeg',
     featured: false,
     createdAt: '2024-07-22',
-    category: 'backend'
+    category: 'backend',
+    tech: ['Next.js', 'Zod', 'PostgreSQL']
   }
 ]
