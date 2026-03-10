@@ -16,16 +16,16 @@ const BlogItem = ({ blog }: Props) => {
       initial='rest'
       whileHover='hover'
       animate='rest'
-      className='group relative mb-8 cursor-pointer overflow-hidden rounded-2xl bg-white shadow-md transition-shadow hover:shadow-xl'
+      className='group relative mb-8 cursor-pointer rounded-2xl bg-white shadow-md transition-shadow hover:shadow-xl'
     >
       {/* IMAGE */}
-      <div className='relative overflow-hidden'>
+      <div className='relative'>
         <Image
           src={blog.image || '/images/placeholder.png'}
           alt={blog.title}
           width={600}
           height={400}
-          className='h-60 w-full object-cover transition-transform duration-700 group-hover:scale-110'
+          className='w-full object-cover transition-transform duration-700 group-hover:scale-110'
         />
 
         {/* Gradient overlay */}

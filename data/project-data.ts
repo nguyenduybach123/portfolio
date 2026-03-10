@@ -3,6 +3,7 @@ import { Project } from '@/types'
 export const projects: Project[] = [
   {
     id: '1',
+    type: 'personal',
     title: 'Fast Food Ordering System',
     description: 'Fullstack fast food ordering platform with admin dashboard and payment integration.',
     technologies: ['React', 'Next.js', 'Node.js', 'MongoDB'],
@@ -12,10 +13,20 @@ export const projects: Project[] = [
     featured: true,
     createdAt: '2025-01-15',
     category: 'fullstack',
-    tech: ['React', 'Next.js', 'Node.js', 'MongoDB']
+    tech: ['React', 'Next.js', 'Node.js', 'MongoDB'],
+    startDate: '2024-12-01',
+    endDate: '2025-01-15',
+    responsibilities: [
+      'Designed and implemented the frontend using React and Next.js',
+      'Developed RESTful APIs with Node.js and Express',
+      'Integrated MongoDB for data storage',
+      'Implemented Stripe for payment processing',
+      'Deployed the application on Vercel'
+    ]
   },
   {
     id: '2',
+    type: 'personal',
     title: 'English Learning App',
     description: 'Interactive English learning platform with quizzes and progress tracking.',
     technologies: ['React', 'TypeScript', 'Zustand'],
@@ -25,10 +36,20 @@ export const projects: Project[] = [
     featured: true,
     createdAt: '2025-02-10',
     category: 'frontend',
-    tech: ['React', 'TypeScript', 'Zustand']
+    tech: ['React', 'TypeScript', 'Zustand'],
+    startDate: '2025-01-20',
+    endDate: '2025-02-10',
+    responsibilities: [
+      'Built a responsive UI with React and TypeScript',
+      'Managed global state using Zustand',
+      'Implemented interactive quizzes and progress tracking',
+      'Optimized performance and accessibility',
+      'Deployed the app on Vercel'
+    ]
   },
   {
     id: '3',
+    type: 'personal',
     title: 'Orphanage Management System',
     description: 'Management system for orphanage centers with donation tracking.',
     technologies: ['Next.js', 'Node.js', 'PostgreSQL'],
@@ -38,10 +59,20 @@ export const projects: Project[] = [
     featured: false,
     createdAt: '2024-12-20',
     category: 'fullstack',
-    tech: ['Next.js', 'Node.js', 'PostgreSQL']
+    tech: ['Next.js', 'Node.js', 'PostgreSQL'],
+    startDate: '2024-11-15',
+    endDate: '2024-12-20',
+    responsibilities: [
+      'Developed the frontend with Next.js and TailwindCSS',
+      'Created RESTful APIs using Node.js and Express',
+      'Designed the database schema and implemented PostgreSQL',
+      'Implemented donation tracking and reporting features',
+      'Deployed the application on Vercel'
+    ]
   },
   {
     id: '4',
+    type: 'personal',
     title: 'Traveler Booking Website',
     description: 'Responsive travel booking website with dynamic pricing.',
     technologies: ['Next.js', 'Redux Toolkit'],
@@ -51,10 +82,20 @@ export const projects: Project[] = [
     featured: false,
     createdAt: '2024-11-05',
     category: 'frontend',
-    tech: ['Next.js', 'Redux Toolkit']
+    tech: ['Next.js', 'Redux Toolkit'],
+    startDate: '2024-10-01',
+    endDate: '2024-11-05',
+    responsibilities: [
+      'Built a responsive UI with Next.js and TailwindCSS',
+      'Managed state using Redux Toolkit',
+      'Implemented dynamic pricing based on user selections',
+      'Optimized for SEO and performance',
+      'Deployed the website on Vercel'
+    ]
   },
   {
     id: '5',
+    type: 'personal',
     title: 'Portfolio Website',
     description: 'Modern minimal developer portfolio optimized for SEO.',
     technologies: ['Next.js', 'Framer Motion', 'TailwindCSS'],
@@ -64,10 +105,20 @@ export const projects: Project[] = [
     featured: true,
     createdAt: '2025-03-01',
     category: 'frontend',
-    tech: ['Next.js', 'Framer Motion', 'TailwindCSS']
+    tech: ['Next.js', 'Framer Motion', 'TailwindCSS'],
+    startDate: '2025-02-01',
+    endDate: '2025-03-01',
+    responsibilities: [
+      'Designed a modern and minimal UI with Next.js and TailwindCSS',
+      'Implemented smooth animations using Framer Motion',
+      'Optimized for SEO with server-side rendering',
+      'Showcased projects and blog posts with dynamic content',
+      'Deployed the portfolio on Vercel'
+    ]
   },
   {
     id: '6',
+    type: 'professional',
     title: 'Admin Dashboard Template',
     description: 'Reusable admin dashboard with charts and role-based authentication.',
     technologies: ['React', 'Ant Design', 'React Query'],
@@ -77,10 +128,20 @@ export const projects: Project[] = [
     featured: false,
     createdAt: '2024-10-18',
     category: 'frontend',
-    tech: ['React', 'Ant Design', 'React Query']
+    tech: ['React', 'Ant Design', 'React Query'],
+    startDate: '2024-09-01',
+    endDate: '2024-10-18',
+    responsibilities: [
+      'Developed a reusable admin dashboard template with React and Ant Design',
+      'Implemented charts and data visualization using Recharts',
+      'Added role-based authentication and authorization',
+      'Optimized performance and responsiveness',
+      'Deployed the dashboard on Vercel'
+    ]
   },
   {
     id: '7',
+    type: 'professional',
     title: 'Real-time Chat Application',
     description: 'WebSocket-powered real-time chat app with online presence.',
     technologies: ['React', 'Node.js', 'Socket.IO'],
@@ -90,10 +151,20 @@ export const projects: Project[] = [
     featured: false,
     createdAt: '2024-09-12',
     category: 'fullstack',
-    tech: ['React', 'Node.js', 'Socket.IO']
+    tech: ['React', 'Node.js', 'Socket.IO'],
+    startDate: '2024-08-01',
+    endDate: '2024-09-12',
+    responsibilities: [
+      'Built the frontend with React and TailwindCSS',
+      'Implemented real-time communication using Socket.IO',
+      'Developed the backend with Node.js and Express',
+      'Added online presence indicators and typing notifications',
+      'Deployed the application on Vercel'
+    ]
   },
   {
     id: '8',
+    type: 'professional',
     title: 'E-commerce Platform',
     description: 'E-commerce platform with cart system and Stripe payment.',
     technologies: ['Next.js', 'Node.js', 'MongoDB'],
@@ -103,10 +174,20 @@ export const projects: Project[] = [
     featured: true,
     createdAt: '2025-02-25',
     category: 'fullstack',
-    tech: ['Next.js', 'Node.js', 'MongoDB']
+    tech: ['Next.js', 'Node.js', 'MongoDB'],
+    startDate: '2025-01-10',
+    endDate: '2025-02-25',
+    responsibilities: [
+      'Designed and implemented the frontend using Next.js and TailwindCSS',
+      'Developed RESTful APIs with Node.js and Express',
+      'Integrated MongoDB for data storage',
+      'Implemented Stripe for payment processing',
+      'Deployed the application on Vercel'
+    ]
   },
   {
     id: '9',
+    type: 'personal',
     title: 'Task Management App',
     description: 'Kanban-style task management app with drag-and-drop.',
     technologies: ['React', 'Dnd Kit', 'Zustand'],
@@ -116,10 +197,20 @@ export const projects: Project[] = [
     featured: false,
     createdAt: '2024-08-30',
     category: 'frontend',
-    tech: ['React', 'Dnd Kit', 'Zustand']
+    tech: ['React', 'Dnd Kit', 'Zustand'],
+    startDate: '2024-07-15',
+    endDate: '2024-08-30',
+    responsibilities: [
+      'Built a responsive UI with React and TailwindCSS',
+      'Implemented drag-and-drop functionality using Dnd Kit',
+      'Managed state with Zustand for a smooth user experience',
+      'Optimized performance and accessibility',
+      'Deployed the app on Vercel'
+    ]
   },
   {
     id: '10',
+    type: 'personal',
     title: 'Blog CMS Platform',
     description: 'Custom CMS with markdown editor and SEO optimization.',
     technologies: ['Next.js', 'Zod', 'PostgreSQL'],
@@ -129,6 +220,15 @@ export const projects: Project[] = [
     featured: false,
     createdAt: '2024-07-22',
     category: 'backend',
-    tech: ['Next.js', 'Zod', 'PostgreSQL']
+    tech: ['Next.js', 'Zod', 'PostgreSQL'],
+    startDate: '2024-06-01',
+    endDate: '2024-07-22',
+    responsibilities: [
+      'Developed a custom CMS platform with Next.js and TailwindCSS',
+      'Implemented a markdown editor for content creation',
+      'Used Zod for schema validation and PostgreSQL for data storage',
+      'Optimized for SEO with server-side rendering',
+      'Deployed the CMS on Vercel'
+    ]
   }
 ]

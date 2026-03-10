@@ -1,6 +1,6 @@
 import { blogs } from '@/data/blog-data'
 import { BlogItem } from './_components'
-import { GridWrapper } from '@/components/shared'
+import { GalleryWrapper } from '@/components/shared'
 
 const Blogs = () => {
   return (
@@ -16,13 +16,13 @@ const Blogs = () => {
           </p>
         </div>
 
-        <GridWrapper animation='stagger'>
+        <GalleryWrapper animation='stagger'>
           {blogs.map((blog) => (
             <div key={blog.id} className='mb-8 break-inside-avoid'>
               <BlogItem blog={blog} />
             </div>
           ))}
-        </GridWrapper>
+        </GalleryWrapper>
       </div>
     </section>
   )

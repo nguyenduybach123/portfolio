@@ -1,5 +1,6 @@
 export interface Project {
   id: string
+  type: 'personal' | 'professional'
   title: string
   description: string
   technologies: string[]
@@ -10,4 +11,7 @@ export interface Project {
   createdAt: string
   category: 'frontend' | 'backend' | 'fullstack'
   tech: string[]
+  startDate?: string
+  endDate?: string
+  responsibilities?: string[]
 }

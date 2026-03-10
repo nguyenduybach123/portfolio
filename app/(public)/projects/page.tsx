@@ -1,6 +1,8 @@
-import { GalleryWrapper } from '@/components/shared'
+import { GridWrapper } from '@/components/shared'
 import { projects } from '@/data/project-data'
-import { ProjectCarousel, ProjectItem } from './components'
+import { ProjectCarousel, ProjectTimeline } from './components'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Separator } from '@radix-ui/react-separator'
 
 const Projects = () => {
   return (
@@ -15,13 +17,31 @@ const Projects = () => {
 
         <ProjectCarousel />
 
-        <GalleryWrapper animation='stagger'>
-          {projects.map((project) => (
-            <div key={project.id} className='mb-8 break-inside-avoid'>
-              <ProjectItem project={project} />
-            </div>
-          ))}
-        </GalleryWrapper>
+        <Tabs defaultValue='personal' className='w-full'>
+          <TabsList className='mx-auto flex w-fit items-center rounded-none bg-transparent'>
+            <TabsTrigger
+              value='personal'
+              className='flex-1 bg-transparent text-xl font-semibold uppercase data-[state=active]:bg-transparent data-[state=active]:text-orange-500 data-[state=active]:shadow-none'
+            >
+              Personal
+            </TabsTrigger>
+
+            <Separator orientation='vertical' className='mx-4 h-6 w-px bg-gray-300' />
+
+            <TabsTrigger
+              value='professional'
+              className='flex-1 bg-transparent text-xl font-semibold uppercase data-[state=active]:bg-transparent data-[state=active]:text-orange-500 data-[state=active]:shadow-none'
+            >
+              Professional
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value='personal' className='mt-8'>
+            <ProjectTimeline />
+          </TabsContent>
+          <TabsContent value='professional' className='mt-8'>
+            <ProjectTimeline />
+          </TabsContent>
+        </Tabs>
       </div>
     </section>
   )
