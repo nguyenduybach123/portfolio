@@ -8,6 +8,10 @@ import { ProjectTimelineItem } from './components'
 
 type Project = (typeof projects)[number]
 
+interface ProjectTimelineProps {
+  type: 'personal' | 'professional'
+}
+
 const ProjectMetaCard = ({ project }: { project: Project }) => {
   return (
     <motion.div
@@ -25,72 +29,70 @@ const ProjectMetaCard = ({ project }: { project: Project }) => {
       {/* DESCRIPTION */}
       {project.description && <p className='text-sm leading-relaxed text-slate-700'>{project.description}</p>}
 
-      {/* TECHNOLOGIES */}
-      {project.technologies?.length > 0 && (
-        <p className='text-sm text-slate-700'>
-          <span className='font-medium text-slate-900'>Technologies:</span> {project.technologies.join(', ')}
-        </p>
-      )}
-
       {/* RESPONSIBILITIES */}
-      {(project.responsibilities?.length ?? 0) > 0 && (
-        <ul className='list-disc space-y-1 pl-5 text-sm text-slate-700'>
-          {project.responsibilities?.slice(0, 3).map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      )}
+      <div>
+        <h5 className='font-medium text-slate-900'>Responsibilities:</h5>
+        {(project.responsibilities?.length ?? 0) > 0 && (
+          <ul className='list-disc space-y-1 pl-5 text-sm text-slate-700'>
+            {project.responsibilities?.slice(0, 3).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        )}
+      </div>
     </motion.div>
   )
 }
 
-const ProjectTimeline = () => {
+const ProjectTimeline = ({ type }: ProjectTimelineProps) => {
   return (
     <div className='mt-8'>
       <Timeline variant='outlined'>
-        {projects.map((project, index) => {
-          const isEven = index % 2 === 0
+        {projects
+          .filter((project) => project.type === type)
+          .map((project, index) => {
+            const isEven = index % 2 === 0
 
-          return (
-            <Timeline.Item key={project.id}>
-              {/* LEFT SIDE */}
-              <Timeline.OppositeContent className={`pr-6 ${isEven ? 'hidden justify-end md:flex' : ''}`}>
-                {isEven ? (
-                  <ProjectMetaCard project={project} />
-                ) : (
-                  <AnimatedCard>
-                    <ProjectTimelineItem project={project} />
-                  </AnimatedCard>
-                )}
-              </Timeline.OppositeContent>
+            return (
+              <Timeline.Item key={project.id}>
+                {/* LEFT SIDE */}
+                <Timeline.OppositeContent className={`pr-6 ${isEven ? 'hidden justify-end md:flex' : ''}`}>
+                  {isEven ? (
+                    <ProjectMetaCard project={project} />
+                  ) : (
+                    <AnimatedCard>
+                      <ProjectTimelineItem project={project} />
+                    </AnimatedCard>
+                  )}
+                </Timeline.OppositeContent>
 
-              {/* CENTER */}
-              <Timeline.Separator>
-                <motion.div
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <Timeline.Dot className='relative h-4 w-4 border-4 border-white bg-orange-500 shadow-md' />
-                </motion.div>
+                {/* CENTER */}
+                <Timeline.Separator>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <Timeline.Dot className='relative h-4 w-4 border-4 border-white bg-orange-500 shadow-md' />
+                  </motion.div>
 
-                {index !== projects.length - 1 && <Timeline.Connector className='bg-slate-200' />}
-              </Timeline.Separator>
+                  {index !== projects.length - 1 && <Timeline.Connector className='bg-slate-200' />}
+                </Timeline.Separator>
 
-              {/* RIGHT SIDE */}
-              <Timeline.Content className={`pl-6 ${!isEven ? 'hidden items-center md:flex' : ''}`}>
-                {isEven ? (
-                  <AnimatedCard>
-                    <ProjectTimelineItem project={project} />
-                  </AnimatedCard>
-                ) : (
-                  <ProjectMetaCard project={project} />
-                )}
-              </Timeline.Content>
-            </Timeline.Item>
-          )
-        })}
+                {/* RIGHT SIDE */}
+                <Timeline.Content className={`pl-6 ${!isEven ? 'hidden items-center md:flex' : ''}`}>
+                  {isEven ? (
+                    <AnimatedCard>
+                      <ProjectTimelineItem project={project} />
+                    </AnimatedCard>
+                  ) : (
+                    <ProjectMetaCard project={project} />
+                  )}
+                </Timeline.Content>
+              </Timeline.Item>
+            )
+          })}
       </Timeline>
     </div>
   )

@@ -4,7 +4,7 @@ export interface Project {
   title: string
   description: string
   technologies: string[]
-  github: string
+  github?: string
   demo: string
   image: string
   featured: boolean

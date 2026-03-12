@@ -2,10 +2,11 @@
 
 import { AnimatePresence, motion, Variants } from 'framer-motion'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { skillsData } from '@/data/about-data'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
+import { Separator } from '@/components/ui/separator'
 
 // Mock SkillItem component - replace with your actual import
 const SkillItem = ({ name, logo }: { name: string; logo: string }) => (
@@ -121,35 +122,36 @@ const SkillsCollection = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className='flex justify-center'
           >
-            <TabsList className='inline-flex h-auto gap-2 bg-transparent p-0'>
+            <TabsList className='inline-flex h-auto justify-center bg-transparent p-0'>
               {skillsData.map((group, idx) => (
-                <motion.div
-                  key={group.category}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3, delay: 0.2 + idx * 0.05 }}
-                >
-                  <TabsTrigger
-                    value={group.category.toLowerCase()}
-                    className='relative px-4 py-2 text-sm font-medium transition-all duration-300 hover:text-foreground data-[state=active]:bg-background data-[state=active]:text-orange-500 data-[state=inactive]:text-muted-foreground data-[state=active]:shadow-none'
+                <Fragment>
+                  <motion.div
+                    key={group.category}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.2 + idx * 0.05 }}
                   >
-                    {group.category}
-                  </TabsTrigger>
-                </motion.div>
+                    <TabsTrigger
+                      value={group.category.toLowerCase()}
+                      className='bg-transparent text-xl font-semibold uppercase data-[state=active]:bg-transparent data-[state=active]:text-orange-500 data-[state=active]:shadow-none'
+                    >
+                      {group.category}
+                    </TabsTrigger>
+                  </motion.div>
+                  {idx < skillsData.length - 1 && <Separator orientation='vertical' className='mx-4 h-6 bg-gray-300' />}
+                </Fragment>
               ))}
             </TabsList>
           </motion.div>
 
           {/* Tab Content */}
-          <AnimatePresence mode='wait'>
-            {skillsData.map((group) =>
-              activeTab === group.category.toLowerCase() ? (
-                <TabsContent value={group.category.toLowerCase()} className='mt-8 focus-visible:outline-none'>
-                  <SkillGrid skills={group.skills} />
-                </TabsContent>
-              ) : null
-            )}
-          </AnimatePresence>
+          {skillsData.map((group) =>
+            activeTab === group.category.toLowerCase() ? (
+              <TabsContent value={group.category.toLowerCase()} className='mt-8 focus-visible:outline-none'>
+                <SkillGrid skills={group.skills} />
+              </TabsContent>
+            ) : null
+          )}
         </Tabs>
       </div>
     </section>

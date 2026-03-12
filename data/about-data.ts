@@ -3,31 +3,33 @@ import { EducationTimeline, ExperienceTimeline } from '@/types/timeline'
 export const experienceData: ExperienceTimeline[] = [
   {
     id: '1',
-    title: 'Frontend Developer',
-    company: 'ABC Company',
-    period: '06/2022 - Present',
-    description: 'Working on building and maintaining the company main website using React, Next.js and TypeScript.'
+    title: 'Passionate about website development.',
+    period: '01/2024 - 09/2024',
+    description:
+      'Start with JavaScript, then focus on frontend development with ReactJS and continue to delve deeper into modern frontend technologies .'
   },
   {
     id: '2',
-    title: 'Fullstack Developer Intern',
-    company: 'MeU Solutions',
-    period: '09/2023 - 02/2024',
-    description: 'Developed internal dashboard systems using React, Node.js, and integrated REST APIs.'
+    title: 'Intern Frontend Developer',
+    company: 'MEU Solutions',
+    period: '09/2024 - 01/2025',
+    description:
+      "Internship as a Front End ReactJS developer, assisting in building React Front End solutions for the company's projects."
   },
   {
     id: '3',
-    title: 'Personal Projects & Learning',
-    period: '2024 - Present',
+    title: 'Frontend Developer',
+    company: 'MeU Solutions',
+    period: '01/2025 - 11/2025',
     description:
-      'Building personal projects with Next.js, exploring DDD architecture, and studying Data Structures & Algorithms.'
+      "Participate in frontend development for the company's systems, build user interfaces, and provide training and mentoring support to new interns in the team."
   },
   {
     id: '4',
-    title: 'Layoff - Exploring Remote Opportunities',
-    period: '2025',
+    title: 'Learn more about Backend',
+    period: '11/2025 - Present',
     description:
-      'Focusing on improving system design, backend architecture with Node.js and preparing for remote developer roles.'
+      'Study Java Core, Databases, and the Spring Framework, proactively read documentation, and build backend applications.'
   }
 ]
 
@@ -35,31 +37,30 @@ export const educationData: EducationTimeline[] = [
   {
     id: '1',
     title: 'Bachelor of Information Technology',
-    school: 'Open University Ho Chi Minh City',
-    period: '2020 - 2024',
+    school: 'HUST University',
+    period: '01/2020 - 05/2020',
     description:
       'Studied core computer science subjects including Data Structures, Algorithms, Database Systems, and Web Development.'
   },
   {
     id: '2',
-    title: 'Fullstack Web Development',
-    school: 'Self-learning & Online Courses',
-    period: '2022 - Present',
-    description: 'Focused on React, Next.js, Node.js, TypeScript and modern frontend architecture.'
+    title: 'Studying at home',
+    school: 'COVID-19',
+    period: '06/2021 - 12/2022',
+    description:
+      'Without computers for studying, boredom, failing many subjects, and repeatedly wanting to drop out of school.'
   },
   {
     id: '3',
-    title: 'Data Structures & Algorithms',
-    school: 'Self Study',
-    period: '2024 - Present',
-    description: 'Practicing algorithmic thinking, problem solving, and preparing for technical interviews.'
+    title: 'Focus on learning',
+    period: '01/2023 - 12/2024',
+    description: 'I studied while working part-time to gain practical experience and develop my programming skills.'
   },
   {
     id: '4',
-    title: 'Software Architecture & Backend Development',
-    school: 'Personal Learning',
-    period: '2025 - Present',
-    description: 'Studying Domain Driven Design (DDD), Clean Architecture, and scalable backend systems with Node.js.'
+    title: 'Never stop learning',
+    period: '01/2025 - Present',
+    description: 'Always eager to deepen my knowledge and continuously improve my programming skills.'
   }
 ]
 
@@ -68,34 +69,25 @@ export const skillsData = [
     category: 'Frontend',
     skills: [
       { name: 'React', logo: '/skills/react.png' },
+      { name: 'React Router', logo: '/skills/react.png' },
       { name: 'Next.js', logo: '/skills/react.png' },
       { name: 'TypeScript', logo: '/skills/react.png' },
-      { name: 'TailwindCSS', logo: '/skills/react.png' },
-      { name: 'Shadcn/UI', logo: '/skills/react.png' }
+      { name: 'Tanstack Tech', logo: '/skills/react.png' },
+      { name: 'Zustand', logo: '/skills/react.png' },
+      { name: 'RHF', logo: '/skills/react.png' },
+      { name: 'Zod', logo: '/skills/react.png' },
+      { name: 'Framer Motion', logo: '/skills/react.png' },
+      { name: 'TailwindCSS', logo: '/skills/react.png' }
     ]
   },
   {
     category: 'Backend',
     skills: [
-      { name: 'Node.js', logo: '/skills/react.png' },
+      { name: 'Java', logo: '/skills/react.png' },
+      { name: 'Spring', logo: '/skills/react.png' },
+      { name: 'MyBatis', logo: '/skills/react.png' },
       { name: 'Express', logo: '/skills/react.png' },
-      { name: 'NestJS', logo: '/skills/react.png' }
-    ]
-  },
-  {
-    category: 'Database',
-    skills: [
-      { name: 'PostgreSQL', logo: '/skills/react.png' },
-      { name: 'MongoDB', logo: '/skills/react.png' },
-      { name: 'Redis', logo: '/skills/react.png' }
-    ]
-  },
-  {
-    category: 'DevOps',
-    skills: [
-      { name: 'Docker', logo: '/skills/react.png' },
-      { name: 'AWS', logo: '/skills/react.png' },
-      { name: 'CI/CD', logo: '/skills/react.png' }
+      { name: 'Docker', logo: '/skills/react.png' }
     ]
   }
 ]

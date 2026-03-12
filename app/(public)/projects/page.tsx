@@ -36,10 +36,10 @@ const Projects = () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value='personal' className='mt-8'>
-            <ProjectTimeline />
+            <ProjectTimeline type='personal' />
           </TabsContent>
           <TabsContent value='professional' className='mt-8'>
-            <ProjectTimeline />
+            <ProjectTimeline type='professional' />
           </TabsContent>
         </Tabs>
       </div>

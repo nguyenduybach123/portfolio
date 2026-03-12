@@ -3,15 +3,8 @@
 import { useEffect, useState } from 'react'
 import { ExternalLink, Github } from 'lucide-react'
 import Image from 'next/image'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  type CarouselApi
-} from '@/components/ui/carousel'
-import { projects } from '@/data/project-data'
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel'
+import { featuredProjects } from '@/data/project-data'
 
 const ProjectCarousel = () => {
   const [api, setApi] = useState<CarouselApi>()
@@ -33,7 +26,7 @@ const ProjectCarousel = () => {
     <div className='px-4 sm:px-6 lg:px-8'>
       <Carousel setApi={setApi} className='relative w-full'>
         <CarouselContent>
-          {projects.slice(0, 5).map((project) => (
+          {featuredProjects.slice(0, 5).map((project) => (
             <CarouselItem key={project.id} className='basis-full'>
               <div className='flex flex-col items-center gap-12 md:flex-row md:gap-20'>
                 {/* LEFT */}
@@ -70,31 +63,31 @@ const ProjectCarousel = () => {
                       href={project.demo}
                       target='_blank'
                       rel='noopener noreferrer'
-                      className='rounded-full border border-slate-200 p-3 transition-all duration-200 hover:border-orange-500'
+                      className='rounded-full border border-slate-200 bg-orange-500 p-3 transition-all duration-200 hover:border-orange-500'
                     >
-                      <ExternalLink className='h-5 w-5 text-slate-700 hover:text-orange-500' />
+                      <ExternalLink className='h-5 w-5 text-white' />
                     </a>
 
                     <a
                       href={project.github}
                       target='_blank'
                       rel='noopener noreferrer'
-                      className='rounded-full border border-slate-200 p-3 transition-all duration-200 hover:border-orange-500'
+                      className='rounded-full border border-slate-200 bg-orange-500 p-3 transition-all duration-200 hover:border-orange-500'
                     >
-                      <Github className='h-5 w-5 text-slate-700 hover:text-orange-500' />
+                      <Github className='h-5 w-5 text-white' />
                     </a>
                   </div>
                 </div>
 
                 {/* RIGHT */}
-                <div className='flex flex-1 shrink-0 items-center justify-center'>
-                  <div className='relative w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl'>
+                <div className='mr-2 flex flex-1 shrink-0 items-center justify-center'>
+                  <div className='relative w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl ring-8 ring-gray-300/50'>
                     <div className='relative aspect-video sm:aspect-auto sm:h-96'>
                       <Image
                         src={project.image}
                         alt={project.title}
                         fill
-                        className='object-cover transition-transform duration-500 hover:scale-105'
+                        className='object-contain transition-transform duration-500 hover:scale-105'
                         priority
                       />
                     </div>

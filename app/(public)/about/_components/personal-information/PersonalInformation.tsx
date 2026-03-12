@@ -28,13 +28,37 @@ const PersonalInformation = () => {
         </p>
 
         {/* Info Grid */}
-        <div className='grid gap-x-10 gap-y-6 text-lg text-slate-700 sm:grid-cols-2'>
-          <InfoItem icon={<CalendarIcon size={20} />} label='Birthdate' value='April 2002' />
-          <InfoItem icon={<PhoneIcon size={20} />} label='Phone' value='+84 792 298 202' />
-          <InfoItem icon={<FlagIcon size={20} />} label='Nationality' value='Vietnamese' />
-          <InfoItem icon={<MapPinIcon size={20} />} label='Address' value='Ho Chi Minh City, Vietnam' />
-          <InfoItem icon={<BookIcon size={20} />} label='Experience' value='1 years' />
-          <InfoItem icon={<MailIcon size={20} />} label='Email' value='nguyenduybachdev@gmail.com' />
+        <div className='grid gap-x-1 gap-y-6 text-lg text-slate-700 sm:grid-cols-2'>
+          <InfoItem
+            icon={<CalendarIcon size={20} fill='background' stroke='orange' />}
+            label='Birthdate'
+            value='April 2002'
+          />
+          <InfoItem
+            icon={<PhoneIcon size={20} fill='background' stroke='orange' />}
+            label='Phone'
+            value='+84 792 298 202'
+          />
+          <InfoItem
+            icon={<FlagIcon size={20} fill='background' stroke='orange' />}
+            label='Nationality'
+            value='Vietnamese'
+          />
+          <InfoItem
+            icon={<MapPinIcon size={20} fill='background' stroke='orange' />}
+            label='Address'
+            value='Ho Chi Minh City, Vietnam'
+          />
+          <InfoItem
+            icon={<BookIcon size={20} fill='background' stroke='orange' />}
+            label='Experience'
+            value='1 years'
+          />
+          <InfoItem
+            icon={<MailIcon size={20} fill='background' stroke='orange' />}
+            label='Email'
+            value='nguyenduybachdev@gmail.com'
+          />
         </div>
 
         {/* Button */}
@@ -48,9 +72,9 @@ const PersonalInformation = () => {
 
 function InfoItem({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className='flex items-center gap-3'>
+    <div className='flex w-fit items-center gap-3'>
       <div className='text-slate-600'>{icon}</div>
-      <span className='truncate text-sm font-medium'>
+      <span className='truncate text-sm font-medium text-slate-500'>
         {label} : <span className='font-semibold text-slate-900'>{value}</span>
       </span>
     </div>
