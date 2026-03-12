@@ -32,7 +32,12 @@ export const itemVariants: Variants = {
 
 export default function About() {
   return (
-    <motion.section className='min-h-screen px-6 py-20' variants={containerVariants} initial='hidden' animate='visible'>
+    <motion.section
+      className='min-h-screen bg-[#f3f3f3] px-6 py-20'
+      variants={containerVariants}
+      initial='hidden'
+      animate='visible'
+    >
       <div className='mx-auto max-w-5xl'>
         {/* Heading */}
         <motion.h1 variants={itemVariants} className='mb-20 text-center font-serif text-6xl md:text-7xl'>

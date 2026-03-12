@@ -57,7 +57,7 @@ const ProjectTimelineItem = ({ project }: Props) => {
             </Link>
 
             <Link
-              href={project.github}
+              href={project.github ?? '#'}
               target='_blank'
               className='flex items-center gap-1 text-sm text-slate-600 hover:text-slate-900'
             >

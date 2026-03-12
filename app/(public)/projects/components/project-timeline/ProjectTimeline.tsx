@@ -45,10 +45,12 @@ const ProjectMetaCard = ({ project }: { project: Project }) => {
 }
 
 const ProjectTimeline = ({ type }: ProjectTimelineProps) => {
+  const projectFiltered = projects.filter((project) => project.type === type)
+
   return (
     <div className='mt-8'>
       <Timeline variant='outlined'>
-        {projects
+        {projectFiltered
           .filter((project) => project.type === type)
           .map((project, index) => {
             const isEven = index % 2 === 0
@@ -77,7 +79,7 @@ const ProjectTimeline = ({ type }: ProjectTimelineProps) => {
                     <Timeline.Dot className='relative h-4 w-4 border-4 border-white bg-orange-500 shadow-md' />
                   </motion.div>
 
-                  {index !== projects.length - 1 && <Timeline.Connector className='bg-slate-200' />}
+                  {index !== projectFiltered.length - 1 && <Timeline.Connector className='bg-slate-200' />}
                 </Timeline.Separator>
 
                 {/* RIGHT SIDE */}

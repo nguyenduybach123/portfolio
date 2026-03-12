@@ -80,16 +80,35 @@ const ProjectCarousel = () => {
                 </div>
 
                 {/* RIGHT */}
+                {/* RIGHT */}
                 <div className='mr-2 flex flex-1 shrink-0 items-center justify-center'>
-                  <div className='relative w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl ring-8 ring-gray-300/50'>
-                    <div className='relative aspect-video sm:aspect-auto sm:h-96'>
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        className='object-contain transition-transform duration-500 hover:scale-105'
-                        priority
-                      />
+                  <div className='relative w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl'>
+                    {/* glow background */}
+                    <div className='absolute -inset-1 bg-gradient-to-r from-orange-400/30 via-pink-400/20 to-purple-400/30 opacity-40 blur-2xl' />
+
+                    {/* card */}
+                    <div className='relative overflow-hidden rounded-2xl'>
+                      <div className='relative flex aspect-video items-center justify-center overflow-hidden bg-gray-100 p-6 sm:aspect-auto sm:h-96'>
+                        {/* background image */}
+                        <div
+                          className='absolute inset-0 scale-110 bg-cover bg-center opacity-40 blur-sm'
+                          style={{
+                            backgroundImage: `url(${project.image})`
+                          }}
+                        />
+
+                        {/* gradient overlay */}
+                        <div className='absolute inset-0 bg-gradient-to-t from-black/50 via-black/30 to-black/20' />
+
+                        {/* main image */}
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          fill
+                          className='object-contain transition-transform duration-500 hover:scale-105'
+                          priority
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

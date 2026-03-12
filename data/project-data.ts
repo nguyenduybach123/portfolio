@@ -133,14 +133,13 @@ export const projects: Project[] = [
     featured: true,
     createdAt: '2025-01-15',
     category: 'fullstack',
-    tech: ['Next.js', 'MongoDB'],
+    tech: ['Next.js', 'Prisma', 'MongoDB'],
     startDate: '2024-12-01',
     endDate: '2025-01-15',
     responsibilities: [
       'Designed and implemented the frontend using React and Next.js',
-      'Developed RESTful APIs with Node.js and Express',
-      'Integrated MongoDB for data storage',
-      'Implemented Stripe for payment processing',
+      'Developed RESTful APIs with Prisma and NextJS Backend',
+      'Learn how to use Oauth2 with Clerk',
       'Deployed the application on Vercel'
     ]
   },
@@ -149,22 +148,19 @@ export const projects: Project[] = [
     type: 'personal',
     title: 'Fashion E-commerce',
     description: 'Interactive fashion e-commerce platform with product browsing and shopping cart features.',
-    technologies: ['React', 'TypeScript', 'Tanstack Query', 'Zustand'],
+    technologies: ['NextJS', 'TypeScript', 'Spring', 'PostgreSQL'],
     github: 'https://github.com/yourname/fashion-ecommerce',
     demo: 'https://fashion-ecommerce-demo.vercel.app',
     image: '/projects/fashion-ecommerce-project.png',
     featured: true,
     createdAt: '2025-02-10',
     category: 'frontend',
-    tech: ['React', 'TypeScript', 'Tanstack Query', 'Zustand'],
+    tech: ['NextJS', 'TypeScript', 'Spring', 'PostgreSQL'],
     startDate: '2025-01-20',
     endDate: '2025-02-10',
     responsibilities: [
-      'Built a responsive UI with React and TypeScript',
-      'Managed global state using Zustand',
-      'Implemented interactive quizzes and progress tracking',
-      'Optimized performance and accessibility',
-      'Deployed the app on Vercel'
+      'Built a responsive UI with Next.js and TypeScript',
+      'Design System implemented backend with Spring and PostgreSQL'
     ]
   },
   {
@@ -172,22 +168,20 @@ export const projects: Project[] = [
     type: 'personal',
     title: 'Fast Food Delivery',
     description: 'Responsive fast food delivery website with dynamic pricing.',
-    technologies: ['Next.js', 'Redux Toolkit'],
+    technologies: ['Next.js', 'Tanstack Query', 'Zustand'],
     github: 'https://github.com/yourname/fast-food-delivery',
     demo: 'https://fast-food-delivery-demo.vercel.app',
     image: '/projects/fast-food-delivery-project.png',
     featured: false,
     createdAt: '2024-11-05',
     category: 'frontend',
-    tech: ['Next.js', 'Redux Toolkit'],
+    tech: ['Next.js', 'Tanstack Query', 'Zustand'],
     startDate: '2024-10-01',
     endDate: '2024-11-05',
     responsibilities: [
       'Built a responsive UI with Next.js and TailwindCSS',
-      'Managed state using Redux Toolkit',
-      'Implemented dynamic pricing based on user selections',
-      'Optimized for SEO and performance',
-      'Deployed the website on Vercel'
+      'Managed state using Tanstack Query and Zustand',
+      'Implemented dynamic pricing based on user selections'
     ]
   },
   {
@@ -202,15 +196,13 @@ export const projects: Project[] = [
     featured: false,
     createdAt: '2024-12-20',
     category: 'fullstack',
-    tech: ['Next.js', 'Node.js', 'PostgreSQL'],
+    tech: ['Java'],
     startDate: '2024-11-15',
     endDate: '2024-12-20',
     responsibilities: [
-      'Developed the frontend with Next.js and TailwindCSS',
-      'Created RESTful APIs using Node.js and Express',
-      'Designed the database schema and implemented PostgreSQL',
-      'Implemented donation tracking and reporting features',
-      'Deployed the application on Vercel'
+      'Built entirely with Java Core',
+      'Learn how to construct an object using OOP.',
+      'Physics design, characters, monsters, maps.'
     ]
   },
   {
@@ -218,22 +210,20 @@ export const projects: Project[] = [
     type: 'personal',
     title: 'The Movie Website',
     description: 'Responsive travel booking website with dynamic pricing.',
-    technologies: ['Next.js', 'Redux Toolkit'],
+    technologies: ['React', 'TypeScript', 'Tanstack Query', 'Zustand'],
     github: 'https://github.com/yourname/traveler-app',
     demo: 'https://traveler-demo.vercel.app',
     image: '/projects/the-movie-project.png',
     featured: false,
     createdAt: '2024-11-05',
     category: 'frontend',
-    tech: ['Next.js', 'Redux Toolkit'],
+    tech: ['React', 'TypeScript', 'Tanstack Query', 'Zustand'],
     startDate: '2024-10-01',
     endDate: '2024-11-05',
     responsibilities: [
-      'Built a responsive UI with Next.js and TailwindCSS',
-      'Managed state using Redux Toolkit',
-      'Implemented dynamic pricing based on user selections',
-      'Optimized for SEO and performance',
-      'Deployed the website on Vercel'
+      'Built a responsive UI with React and TypeScript',
+      'Managed state using Tanstack Query and Zustand',
+      'Implemented API from themoviedb.org to fetch movie data'
     ]
   },
   {
@@ -253,33 +243,28 @@ export const projects: Project[] = [
     endDate: '2025-02-10',
     responsibilities: [
       'Built a responsive UI with React and TypeScript',
-      'Managed global state using Zustand',
-      'Implemented interactive quizzes and progress tracking',
-      'Optimized performance and accessibility',
-      'Deployed the app on Vercel'
+      'Implemented system test exam IELTS, TOEIC',
+      'Designed game flashcard to help user learn vocabulary'
     ]
   },
   {
     id: '7',
     type: 'personal',
-    title: 'MCP Document Writer',
-    description: 'Automated document generation document generation tool for MCP with Notion integration.',
-    technologies: ['React', 'Node.js', 'Socket.IO'],
-    github: 'https://github.com/yourname/chat-app',
-    demo: 'https://chat-demo.vercel.app',
-    image: 'https://images.pexels.com/photos/36302053/pexels-photo-36302053.jpeg',
+    title: 'Portfolio',
+    description: 'Modern minimal portfolio website to showcase projects and blog posts.',
+    technologies: ['NextJS', 'Tanstack Query', 'Zustand', 'Framer Motion', 'TailwindCSS'],
+    github: 'https://github.com/yourname/portfolio',
+    demo: 'https://portfolio-demo.vercel.app',
+    image: '/projects/portfolio-project.png',
     featured: false,
     createdAt: '2024-09-12',
     category: 'fullstack',
-    tech: ['React', 'Node.js', 'Socket.IO'],
+    tech: ['NextJS', 'Tanstack Query', 'Zustand', 'Framer Motion', 'TailwindCSS'],
     startDate: '2024-08-01',
     endDate: '2024-09-12',
     responsibilities: [
-      'Built the frontend with React and TailwindCSS',
-      'Implemented real-time communication using Socket.IO',
-      'Developed the backend with Node.js and Express',
-      'Added online presence indicators and typing notifications',
-      'Deployed the application on Vercel'
+      'Designed and implemented the frontend using Next.js and TailwindCSS',
+      'Implemented smooth animations with Framer Motion'
     ]
   },
   {
@@ -287,20 +272,21 @@ export const projects: Project[] = [
     type: 'professional',
     title: 'First Green Internal Social Network',
     description: 'Internal social network for First Green employees to collaborate and share updates.',
-    technologies: ['React', 'Node.js', 'Socket.IO'],
+    technologies: ['NextJS', 'Tanstack Query', 'Zustand'],
     github: 'https://github.com/yourname/chat-app',
     demo: 'https://chat-demo.vercel.app',
     image: '/projects/first-green-project.png',
     featured: false,
     createdAt: '2024-09-12',
     category: 'fullstack',
-    tech: ['React', 'Node.js', 'Socket.IO'],
+    tech: ['NextJS', 'Tanstack Query', 'Zustand'],
     startDate: '2024-08-01',
     endDate: '2024-09-12',
     responsibilities: [
-      'Built the frontend with React and TailwindCSS',
-      'Implemented real-time communication using Socket.IO',
-      'Developed the backend with Node.js and Express',
+      'Setup front-end technologies',
+      'Setup Tanstack Query handle realtime',
+      'Analyze and develop new features',
+      'Work and communicate with other team members to find an effective solution',
       'Added online presence indicators and typing notifications',
       'Deployed the application on Vercel'
     ]
@@ -309,21 +295,21 @@ export const projects: Project[] = [
     id: '9',
     type: 'professional',
     title: 'Samco Binh Tan Ecommerce',
-    description: 'Ecommerce website for Samco Binh Tan with product listings, shopping cart, and payment integration.',
-    technologies: ['React', 'Node.js', 'Socket.IO'],
+    description: 'Ecommerce website for Samco Binh Tan with product listings, shopping cart, and warranty.',
+    technologies: ['NextJS', 'Tanstack Query', 'Zustand'],
     github: 'https://github.com/yourname/chat-app',
     demo: 'https://chat-demo.vercel.app',
     image: '/projects/samco-project.png',
     featured: false,
     createdAt: '2024-09-12',
     category: 'fullstack',
-    tech: ['React', 'Node.js', 'Socket.IO'],
+    tech: ['NextJS', 'Tanstack Query', 'Zustand'],
     startDate: '2024-08-01',
     endDate: '2024-09-12',
     responsibilities: [
-      'Built the frontend with React and TailwindCSS',
-      'Implemented real-time communication using Socket.IO',
-      'Developed the backend with Node.js and Express',
+      'Setup front-end technologies',
+      'Frontend managers assign tasks to team members.',
+      'Work and communicate with other team members to find an effective solution',
       'Added online presence indicators and typing notifications',
       'Deployed the application on Vercel'
     ]
@@ -333,23 +319,21 @@ export const projects: Project[] = [
     type: 'professional',
     title: 'Noblelift Logistics Management System',
     description:
-      'Logistics management system for Noblelift with shipment tracking, inventory management, and reporting features.',
-    technologies: ['React', 'Node.js', 'Socket.IO'],
+      'Logistics management system for Noblelift with delivery tracking, inventory management, and reporting features.',
+    technologies: ['ReactJS', 'Tanstack Query', 'Zustand'],
     github: 'https://github.com/yourname/noblelift-logistics',
     demo: 'https://noblelift-logistics-demo.vercel.app',
     image: '/projects/noblelift-project.png',
     featured: false,
     createdAt: '2024-09-12',
     category: 'fullstack',
-    tech: ['React', 'Node.js', 'Socket.IO'],
+    tech: ['ReactJS', 'MUI', 'Tanstack Query', 'Zustand', 'Spring'],
     startDate: '2024-08-01',
     endDate: '2024-09-12',
     responsibilities: [
-      'Built the frontend with React and TailwindCSS',
-      'Implemented real-time communication using Socket.IO',
-      'Developed the backend with Node.js and Express',
-      'Added online presence indicators and typing notifications',
-      'Deployed the application on Vercel'
+      'Configuration Tanstack Query, MUI, TailwindCSS',
+      'Implemented Tanstack visualization to display logistics data',
+      'Support and maintain backend system'
     ]
   }
 ]

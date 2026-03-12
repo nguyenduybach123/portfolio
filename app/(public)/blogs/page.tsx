@@ -16,6 +16,12 @@ const Blogs = () => {
           </p>
         </div>
 
+        {blogs.length === 0 && (
+          <div className='mx-auto text-center text-gray-500'>
+            No blogs available at the moment. Please check back later!
+          </div>
+        )}
+
         <GalleryWrapper animation='stagger'>
           {blogs.map((blog) => (
             <div key={blog.id} className='mb-8 break-inside-avoid'>

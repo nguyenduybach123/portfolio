@@ -1,6 +1,7 @@
 import { Timeline } from '@/components/shared'
 import { experienceData } from '@/data/about-data'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 const ExperienceTimeline = () => {
   return (
@@ -12,9 +13,14 @@ const ExperienceTimeline = () => {
               {/* Timeline indicator */}
               <Timeline.Separator className='flex flex-col items-center'>
                 {/* Dot */}
-                <Timeline.Dot className='relative flex items-center justify-center'>
-                  <span className='absolute h-6 w-6 rounded-full border-2 border-gray-400 bg-primary' />
-                </Timeline.Dot>
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <Timeline.Dot className='relative h-4 w-4 border-4 border-white bg-orange-500 shadow-md' />
+                </motion.div>
 
                 {/* Line */}
                 {index !== experienceData.length - 1 && (

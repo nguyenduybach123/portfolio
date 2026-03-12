@@ -69,25 +69,25 @@ export const skillsData = [
     category: 'Frontend',
     skills: [
       { name: 'React', logo: '/skills/react.png' },
-      { name: 'React Router', logo: '/skills/react.png' },
-      { name: 'Next.js', logo: '/skills/react.png' },
-      { name: 'TypeScript', logo: '/skills/react.png' },
-      { name: 'Tanstack Tech', logo: '/skills/react.png' },
-      { name: 'Zustand', logo: '/skills/react.png' },
-      { name: 'RHF', logo: '/skills/react.png' },
-      { name: 'Zod', logo: '/skills/react.png' },
-      { name: 'Framer Motion', logo: '/skills/react.png' },
-      { name: 'TailwindCSS', logo: '/skills/react.png' }
+      { name: 'React Router', logo: '/skills/react-router.svg' },
+      { name: 'Next.js', logo: '/skills/next.png' },
+      { name: 'TypeScript', logo: '/skills/ts.png' },
+      { name: 'Tanstack Tech', logo: '/skills/tanstack.png' },
+      { name: 'Zustand', logo: '/skills/zustand.jpg' },
+      { name: 'RHF', logo: '/skills/rhf.png' },
+      { name: 'Zod', logo: '/skills/zod.webp' },
+      { name: 'Framer Motion', logo: '/skills/framer.png' },
+      { name: 'TailwindCSS', logo: '/skills/tailwind.png' }
     ]
   },
   {
     category: 'Backend',
     skills: [
-      { name: 'Java', logo: '/skills/react.png' },
-      { name: 'Spring', logo: '/skills/react.png' },
-      { name: 'MyBatis', logo: '/skills/react.png' },
-      { name: 'Express', logo: '/skills/react.png' },
-      { name: 'Docker', logo: '/skills/react.png' }
+      { name: 'Java', logo: '/skills/java.png' },
+      { name: 'Spring', logo: '/skills/spring.png' },
+      { name: 'MyBatis', logo: '/skills/batis.png' },
+      { name: 'Express', logo: '/skills/express.jpg' },
+      { name: 'Docker', logo: '/skills/docker.jpg' }
     ]
   }
 ]
