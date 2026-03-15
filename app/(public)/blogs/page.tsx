@@ -1,6 +1,10 @@
+'use client'
+
 import { blogs } from '@/data/blog-data'
 import { BlogItem } from './_components'
 import { GalleryWrapper } from '@/components/shared'
+import { motion } from 'framer-motion'
+import { FileTextIcon } from 'lucide-react'
 
 const Blogs = () => {
   return (
@@ -17,9 +21,20 @@ const Blogs = () => {
         </div>
 
         {blogs.length === 0 && (
-          <div className='mx-auto text-center text-gray-500'>
-            No blogs available at the moment. Please check back later!
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className='mx-auto mt-10 flex max-w-md flex-col items-center justify-center p-10 text-center'
+          >
+            {/* Title */}
+            <h3 className='text-lg font-semibold text-slate-800'>No blogs yet</h3>
+
+            {/* Description */}
+            <p className='mt-2 text-sm text-slate-500'>
+              There are currently no blog posts available. Please check back later for new content.
+            </p>
+          </motion.div>
         )}
 
         <GalleryWrapper animation='stagger'>

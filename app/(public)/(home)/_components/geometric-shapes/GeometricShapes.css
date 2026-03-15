@@ -1,0 +1,19 @@
+@keyframes floating {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0.15;
+    border-radius: 12px;
+  }
+
+  100% {
+    transform: translateY(-120vh) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+}
+
+.floating-shape {
+  position: absolute;
+  animation: floating 25s linear infinite;
+  will-change: transform;
+}

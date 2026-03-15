@@ -4,13 +4,21 @@ import Image from 'next/image'
 import React from 'react'
 
 const PersonalInformation = () => {
+  // Methods
+  const handleDownloadCV = () => {
+    const link = document.createElement('a')
+    link.href = '/resume/CV_Duy_Bach_FE Developer.pdf'
+    link.download = 'CV_Duy_Bach_FE Developer.pdf'
+    link.click()
+  }
+
   return (
     <div className='grid gap-4 md:grid-cols-2'>
       {/* Image */}
       <div className='relative mx-auto w-full max-w-md'>
         <div className='border-[8px] border-gray-300'>
           <Image
-            src={'https://images.pexels.com/photos/34055834/pexels-photo-34055834.jpeg'}
+            src={'/about/me.jpg'}
             alt='Profile'
             width={500}
             height={500}
@@ -62,7 +70,10 @@ const PersonalInformation = () => {
         </div>
 
         {/* Button */}
-        <Button className='mt-6 h-14 bg-orange-500 px-8 py-4 font-semibold text-white transition duration-300 hover:bg-orange-600'>
+        <Button
+          onClick={handleDownloadCV}
+          className='mt-6 h-14 bg-orange-500 px-8 py-4 font-semibold text-white transition duration-300 hover:bg-orange-600'
+        >
           DOWNLOAD MY CV
         </Button>
       </div>

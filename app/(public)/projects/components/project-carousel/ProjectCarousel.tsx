@@ -1,10 +1,21 @@
 'use client'
 
+// Core
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { ExternalLink, Github } from 'lucide-react'
-import Image from 'next/image'
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel'
+import Autoplay from 'embla-carousel-autoplay'
+
+// App
 import { featuredProjects } from '@/data/project-data'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi
+} from '@/components/ui/carousel'
 
 const ProjectCarousel = () => {
   const [api, setApi] = useState<CarouselApi>()
@@ -24,8 +35,21 @@ const ProjectCarousel = () => {
 
   return (
     <div className='px-4 sm:px-6 lg:px-8'>
-      <Carousel setApi={setApi} className='relative w-full'>
-        <CarouselContent>
+      <Carousel
+        setApi={setApi}
+        opts={{
+          loop: true
+        }}
+        plugins={[
+          Autoplay({
+            delay: 3000,
+            stopOnInteraction: false,
+            stopOnMouseEnter: true
+          })
+        ]}
+        className='group relative w-full'
+      >
+        <CarouselContent className='px-2'>
           {featuredProjects.slice(0, 5).map((project) => (
             <CarouselItem key={project.id} className='basis-full'>
               <div className='flex flex-col items-center gap-12 md:flex-row md:gap-20'>
@@ -80,9 +104,8 @@ const ProjectCarousel = () => {
                 </div>
 
                 {/* RIGHT */}
-                {/* RIGHT */}
                 <div className='mr-2 flex flex-1 shrink-0 items-center justify-center'>
-                  <div className='relative w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl'>
+                  <div className='relative w-full overflow-hidden rounded-2xl border border-slate-200 bg-white'>
                     {/* glow background */}
                     <div className='absolute -inset-1 bg-gradient-to-r from-orange-400/30 via-pink-400/20 to-purple-400/30 opacity-40 blur-2xl' />
 
@@ -130,6 +153,10 @@ const ProjectCarousel = () => {
             />
           ))}
         </div>
+
+        <CarouselPrevious className='absolute left-2 top-1/2 aspect-square size-14 -translate-x-6 -translate-y-1/2 rounded-lg bg-white/60 text-orange-500 opacity-0 backdrop-blur-md transition-all duration-300 hover:bg-orange-500/50 hover:text-white group-hover:translate-x-0 group-hover:opacity-100' />
+
+        <CarouselNext className='absolute right-2 top-1/2 aspect-square size-14 -translate-y-1/2 translate-x-6 rounded-lg bg-white/60 text-orange-500 opacity-0 backdrop-blur-md transition-all duration-300 hover:bg-orange-500/50 hover:text-white group-hover:translate-x-0 group-hover:opacity-100' />
       </Carousel>
     </div>
   )

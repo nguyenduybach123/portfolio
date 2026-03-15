@@ -1,28 +1,71 @@
-import { motion } from 'framer-motion'
+'use client'
 
-const layers = [
-  { className: 'bg-primary z-30', delay: 0 },
-  { className: 'bg-light z-20', delay: 0.2 },
-  { className: 'bg-dark z-10', delay: 0.4 }
-]
+import { AnimatePresence, easeInOut, motion } from 'framer-motion'
+import { usePathname } from 'next/navigation'
 
-const NavigationEffect = () => {
+const stairAnimation = {
+  initial: {
+    top: '0%'
+  },
+  animate: {
+    top: '100%'
+  },
+  exit: {
+    top: ['100%', '0%']
+  }
+}
+
+const reverseIndex = (index: number) => {
+  const totalSteps = 4
+  return totalSteps - index - 1
+}
+
+const Stairs = () => {
   return (
     <>
-      {layers.map((layer, index) => (
-        <motion.div
-          key={index}
-          initial={{ x: '100%', width: '100%' }}
-          animate={{ x: '0%', width: '0%' }}
-          transition={{
-            duration: 0.8,
-            delay: layer.delay,
-            ease: 'easeInOut'
-          }}
-          className={`fixed inset-y-0 right-full h-screen w-screen ${layer.className}`}
-        />
-      ))}
+      {Array(4)
+        .fill(null)
+        .map((_, index) => (
+          <motion.div
+            key={index}
+            variants={stairAnimation}
+            initial='initial'
+            animate='animate'
+            exit='exit'
+            transition={{
+              duration: 0.3,
+              ease: easeInOut,
+              delay: reverseIndex(index) * 0.1
+            }}
+            className='relative h-full w-full bg-orange-500'
+          />
+        ))}
     </>
+  )
+}
+
+const NavigationEffect = () => {
+  const pathname = usePathname()
+
+  return (
+    <AnimatePresence mode='wait'>
+      <div key={pathname}>
+        <div className='pointer-events-none fixed inset-0 z-40 flex h-dvh w-dvw'>
+          <Stairs />
+        </div>
+        <motion.div
+          className='pointer-events-none fixed inset-0 bg-white'
+          initial={{ opacity: 1 }}
+          animate={{
+            opacity: 0,
+            transition: {
+              duration: 1.2,
+              ease: easeInOut
+            }
+          }}
+        />
+      </div>
+    </AnimatePresence>
   )
 }
 
