@@ -47,23 +47,27 @@ const ProjectTimelineItem = ({ project }: Props) => {
 
           {/* ACTIONS */}
           <div className='mt-4 flex items-center gap-4'>
-            <Link
-              href={project.demo}
-              target='_blank'
-              className='flex items-center gap-1 text-sm font-medium text-orange-500 hover:text-orange-600'
-            >
-              <ExternalLink size={16} />
-              Demo
-            </Link>
+            {project.demo && (
+              <Link
+                href={project.demo}
+                target='_blank'
+                className='flex items-center gap-1 text-sm font-medium text-orange-500 hover:text-orange-600'
+              >
+                <ExternalLink size={16} />
+                Demo
+              </Link>
+            )}
 
-            <Link
-              href={project.github ?? '#'}
-              target='_blank'
-              className='flex items-center gap-1 text-sm text-slate-600 hover:text-slate-900'
-            >
-              <Github size={16} />
-              Code
-            </Link>
+            {project.github && (
+              <Link
+                href={project.github ?? '#'}
+                target='_blank'
+                className='flex items-center gap-1 text-sm font-medium text-orange-500 hover:text-orange-600'
+              >
+                <Github size={16} />
+                Code
+              </Link>
+            )}
           </div>
         </div>
       </div>

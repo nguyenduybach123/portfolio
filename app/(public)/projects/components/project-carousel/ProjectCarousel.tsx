@@ -83,23 +83,27 @@ const ProjectCarousel = () => {
 
                   {/* Buttons */}
                   <div className='flex items-center gap-4'>
-                    <a
-                      href={project.demo}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='rounded-full border border-slate-200 bg-orange-500 p-3 transition-all duration-200 hover:border-orange-500'
-                    >
-                      <ExternalLink className='h-5 w-5 text-white' />
-                    </a>
+                    {project.demo && (
+                      <a
+                        href={project.demo}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='rounded-full border border-slate-200 bg-orange-500 p-3 transition-all duration-200 hover:border-orange-500'
+                      >
+                        <ExternalLink className='h-5 w-5 text-white' />
+                      </a>
+                    )}
 
-                    <a
-                      href={project.github}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='rounded-full border border-slate-200 bg-orange-500 p-3 transition-all duration-200 hover:border-orange-500'
-                    >
-                      <Github className='h-5 w-5 text-white' />
-                    </a>
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='rounded-full border border-slate-200 bg-orange-500 p-3 transition-all duration-200 hover:border-orange-500'
+                      >
+                        <Github className='h-5 w-5 text-white' />
+                      </a>
+                    )}
                   </div>
                 </div>
 

@@ -5,7 +5,7 @@ export interface Project {
   description: string
   technologies: string[]
   github?: string
-  demo: string
+  demo?: string
   image: string
   featured: boolean
   createdAt: string

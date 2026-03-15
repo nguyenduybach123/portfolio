@@ -1,5 +1,3 @@
-import { GridWrapper } from '@/components/shared'
-import { projects } from '@/data/project-data'
 import { ProjectCarousel, ProjectTimeline } from './components'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@radix-ui/react-separator'
