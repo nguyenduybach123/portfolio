@@ -7,8 +7,8 @@ const PersonalInformation = () => {
   // Methods
   const handleDownloadCV = () => {
     const link = document.createElement('a')
-    link.href = '/resume/CV_Duy_Bach_FE Developer.pdf'
-    link.download = 'CV_Duy_Bach_FE Developer.pdf'
+    link.href = '/resume/NguyenDuyBach_Frontend_Developer_CV.pdf'
+    link.download = 'NguyenDuyBach_Frontend_Developer_CV.pdf'
     link.click()
   }
 
