@@ -1,5 +1,5 @@
 import { Fragment, ReactNode } from 'react'
-import { NavigationEffect, NavigationMenu } from './_components'
+import { NavigationEffect, NavigationMenu } from '../_components'
 
 const Public = ({ children }: { children: ReactNode }) => {
   return (
