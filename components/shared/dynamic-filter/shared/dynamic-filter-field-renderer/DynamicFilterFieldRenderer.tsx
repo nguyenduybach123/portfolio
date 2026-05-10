@@ -11,13 +11,11 @@ import { Slider } from '@/components/ui/slider'
 
 // Internal
 import {
-  AutoCompleteFieldConfig,
   FieldConfig,
   SelectFieldConfig,
   SelectQueryFieldConfig,
   TreeFieldConfig,
-  NumberRangeFieldConfig,
-  TreeNode
+  NumberRangeFieldConfig
 } from '../../lib/types'
 import { unwrapSchema } from '../../lib/utils'
 

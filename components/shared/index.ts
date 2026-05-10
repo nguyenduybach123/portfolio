@@ -1,3 +1,6 @@
 export { default as Timeline } from './timeline'
 export { default as GridWrapper } from './grid-wrapper'
 export { default as GalleryWrapper } from './gallery-wrapper'
+export { default as DynamicFilter } from './dynamic-filter'
+export { default as DataTable } from './data-table'
+export { default as TextEditor } from './text-editor'

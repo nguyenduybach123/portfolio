@@ -1,0 +1,109 @@
+import { Slot } from '@radix-ui/react-slot'
+import React from 'react'
+
+import { cn } from '@/lib/utils'
+import { getShortcutKeys } from '@/utils/plateform'
+
+import type { TooltipContentProps } from '@radix-ui/react-tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { Toggle } from '@/components/ui/toggle'
+import { icons } from 'lucide-react'
+
+export interface ActionButtonProps {
+  /* Icon name to display */
+  icon?: string
+  /* Button title */
+  title?: string
+  /* Tooltip text */
+  tooltip?: string
+  /* Whether the button is disabled */
+  disabled?: boolean
+  /* Keyboard shortcut keys */
+  shortcutKeys?: string[]
+  /* Custom CSS class */
+  customClass?: string
+  /* Loading state */
+  loading?: boolean
+  /* Tooltip options */
+  tooltipOptions?: TooltipContentProps
+  /* Button color */
+  color?: string
+  /* Click action handler */
+  action?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  /* Active state checker */
+  isActive?: boolean | (() => boolean)
+  /* Child components */
+  children?: React.ReactNode
+  /* Whether to render as child */
+  asChild?: boolean
+  /* Whether it's an upload button */
+  upload?: boolean
+  /* Initial displayed color */
+  initialDisplayedColor?: string
+
+  dataState?: boolean
+}
+
+const ActionButton = React.forwardRef<HTMLButtonElement, Partial<ActionButtonProps>>((props, ref) => {
+  const {
+    icon = undefined,
+    // title = undefined,
+    tooltip = undefined,
+    disabled = false,
+    customClass = '',
+    // color = undefined,
+    loading = undefined,
+    shortcutKeys = undefined,
+    tooltipOptions = {},
+    action = undefined,
+    isActive = undefined,
+    children,
+    asChild = false,
+    upload = false,
+    initialDisplayedColor = undefined,
+    dataState = false,
+    ...rest
+  } = props
+
+  const Icon = icons[icon as keyof typeof icons] || undefined
+  const Comp = asChild ? Slot : Toggle
+
+  const onClickHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (disabled) {
+      e.preventDefault()
+      return
+    }
+    action?.(e)
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Comp
+          className={cn('richtext-h-[32px] richtext-w-[32px]', customClass)}
+          data-state={dataState ? 'on' : 'off'} // active background control
+          disabled={disabled} // disable button control
+          onClick={onClickHandler}
+          ref={ref}
+          size='sm'
+          {...(rest as Omit<typeof rest, 'loading'>)}
+        >
+          {Icon && <Icon className='richtext-size-4' />}
+          {children}
+        </Comp>
+      </TooltipTrigger>
+
+      {tooltip && (
+        <TooltipContent {...tooltipOptions} className='richtext-tooltip'>
+          <div className='richtext-flex richtext-max-w-24 richtext-flex-col richtext-items-center richtext-text-center'>
+            <div>{tooltip}</div>
+
+            {!!shortcutKeys?.length && <span>{getShortcutKeys(shortcutKeys)}</span>}
+          </div>
+        </TooltipContent>
+      )}
+    </Tooltip>
+  )
+})
+
+export default ActionButton

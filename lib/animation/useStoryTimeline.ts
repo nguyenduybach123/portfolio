@@ -1,29 +1,29 @@
 /**
  * useStoryTimeline Hook
- * 
+ *
  * Reusable timeline animation patterns for storytelling scenes.
  * Provides common animation utilities to avoid repetition across scenes.
- * 
+ *
  * Architecture:
  * - Pure functions that return GSAP animation configs
  * - Composable animation builders
  * - Type-safe with proper TypeScript support
- * 
+ *
  * Performance:
  * - Returns config objects (doesn't create timelines directly)
  * - Can be memoized if needed
  * - No side effects
  */
 
-import { gsap } from './gsap';
+import { gsap } from './gsap'
 
 /**
  * Animation config type for composability
  */
 export interface AnimationConfig {
-  targets: any;
-  vars: gsap.TweenVars;
-  position?: string | number;
+  targets: any
+  vars: gsap.TweenVars
+  position?: string | number
 }
 
 /**
@@ -32,12 +32,12 @@ export interface AnimationConfig {
 export const fadeIn = (
   target: any,
   options: {
-    duration?: number;
-    y?: number;
-    x?: number;
-    scale?: number;
-    delay?: number;
-    stagger?: number;
+    duration?: number
+    y?: number
+    x?: number
+    scale?: number
+    delay?: number
+    stagger?: number
   } = {}
 ): AnimationConfig => ({
   targets: target,
@@ -49,9 +49,9 @@ export const fadeIn = (
     duration: options.duration ?? 1,
     delay: options.delay ?? 0,
     stagger: options.stagger ?? 0,
-    ease: 'power2.out',
-  },
-});
+    ease: 'power2.out'
+  }
+})
 
 /**
  * Fade out animation with optional slide
@@ -59,11 +59,11 @@ export const fadeIn = (
 export const fadeOut = (
   target: any,
   options: {
-    duration?: number;
-    y?: number;
-    x?: number;
-    scale?: number;
-    delay?: number;
+    duration?: number
+    y?: number
+    x?: number
+    scale?: number
+    delay?: number
   } = {}
 ): AnimationConfig => ({
   targets: target,
@@ -74,9 +74,9 @@ export const fadeOut = (
     scale: options.scale ?? 1,
     duration: options.duration ?? 1,
     delay: options.delay ?? 0,
-    ease: 'power2.in',
-  },
-});
+    ease: 'power2.in'
+  }
+})
 
 /**
  * Slide in from direction
@@ -85,18 +85,18 @@ export const slideIn = (
   target: any,
   direction: 'left' | 'right' | 'up' | 'down',
   options: {
-    duration?: number;
-    distance?: number;
-    stagger?: number;
+    duration?: number
+    distance?: number
+    stagger?: number
   } = {}
 ): AnimationConfig => {
-  const distance = options.distance ?? 100;
+  const distance = options.distance ?? 100
   const initial = {
     left: { x: -distance, y: 0 },
     right: { x: distance, y: 0 },
     up: { x: 0, y: -distance },
-    down: { x: 0, y: distance },
-  }[direction];
+    down: { x: 0, y: distance }
+  }[direction]
 
   return {
     targets: target,
@@ -106,10 +106,10 @@ export const slideIn = (
       y: 0,
       duration: options.duration ?? 1,
       stagger: options.stagger ?? 0,
-      ease: 'power3.out',
-    },
-  };
-};
+      ease: 'power3.out'
+    }
+  }
+}
 
 /**
  * Scale animation
@@ -117,19 +117,19 @@ export const slideIn = (
 export const scale = (
   target: any,
   options: {
-    from?: number;
-    to: number;
-    duration?: number;
-    ease?: string;
+    from?: number
+    to: number
+    duration?: number
+    ease?: string
   }
 ): AnimationConfig => ({
   targets: target,
   vars: {
     scale: options.to,
     duration: options.duration ?? 1,
-    ease: options.ease ?? 'power2.inOut',
-  },
-});
+    ease: options.ease ?? 'power2.inOut'
+  }
+})
 
 /**
  * Parallax effect (element moves at different speed than scroll)
@@ -137,9 +137,9 @@ export const scale = (
 export const parallax = (
   target: any,
   options: {
-    y?: number;
-    x?: number;
-    duration?: number;
+    y?: number
+    x?: number
+    duration?: number
   }
 ): AnimationConfig => ({
   targets: target,
@@ -147,9 +147,9 @@ export const parallax = (
     y: options.y ?? 0,
     x: options.x ?? 0,
     duration: options.duration ?? 1,
-    ease: 'none', // Linear for parallax
-  },
-});
+    ease: 'none' // Linear for parallax
+  }
+})
 
 /**
  * Stagger animation helper
@@ -158,13 +158,13 @@ export const parallax = (
 export const staggerAnimation = (
   target: any,
   options: {
-    opacity?: number;
-    y?: number;
-    x?: number;
-    scale?: number;
-    duration?: number;
-    stagger?: number;
-    ease?: string;
+    opacity?: number
+    y?: number
+    x?: number
+    scale?: number
+    duration?: number
+    stagger?: number
+    ease?: string
   } = {}
 ): AnimationConfig => ({
   targets: target,
@@ -175,9 +175,9 @@ export const staggerAnimation = (
     scale: options.scale ?? 1,
     duration: options.duration ?? 0.8,
     stagger: options.stagger ?? 0.15,
-    ease: options.ease ?? 'power3.out',
-  },
-});
+    ease: options.ease ?? 'power3.out'
+  }
+})
 
 /**
  * Color transition
@@ -185,9 +185,9 @@ export const staggerAnimation = (
 export const colorTransition = (
   target: any,
   options: {
-    color?: string;
-    backgroundColor?: string;
-    duration?: number;
+    color?: string
+    backgroundColor?: string
+    duration?: number
   }
 ): AnimationConfig => ({
   targets: target,
@@ -195,19 +195,16 @@ export const colorTransition = (
     color: options.color,
     backgroundColor: options.backgroundColor,
     duration: options.duration ?? 1,
-    ease: 'power2.inOut',
-  },
-});
+    ease: 'power2.inOut'
+  }
+})
 
 /**
  * Apply animation config to timeline
  */
-export const applyAnimation = (
-  timeline: gsap.core.Timeline,
-  config: AnimationConfig
-) => {
-  timeline.to(config.targets, config.vars, config.position);
-};
+export const applyAnimation = (timeline: gsap.core.Timeline, config: AnimationConfig) => {
+  timeline.to(config.targets, config.vars, config.position)
+}
 
 /**
  * Set initial state for animations
@@ -215,15 +212,15 @@ export const applyAnimation = (
 export const setInitialState = (
   target: any,
   options: {
-    opacity?: number;
-    y?: number;
-    x?: number;
-    scale?: number;
-    [key: string]: any;
+    opacity?: number
+    y?: number
+    x?: number
+    scale?: number
+    [key: string]: any
   }
 ) => {
-  gsap.set(target, options);
-};
+  gsap.set(target, options)
+}
 
 /**
  * Split text utility for character/word/line animation
@@ -231,19 +228,19 @@ export const setInitialState = (
  * This is a placeholder that works with CSS
  */
 export const prepareSplitText = (element: HTMLElement | null) => {
-  if (!element) return { lines: [], words: [], chars: [] };
-  
+  if (!element) return { lines: [], words: [], chars: [] }
+
   // Basic implementation: splits by line breaks and spaces
   // For production, use GSAP SplitText or similar library
-  const text = element.textContent || '';
-  const words = text.split(' ');
-  
+  const text = element.textContent || ''
+  const words = text.split(' ')
+
   return {
     lines: [element], // Simplified: treat whole element as one line
     words: words.map(() => element), // Simplified
-    chars: text.split('').map(() => element), // Simplified
-  };
-};
+    chars: text.split('').map(() => element) // Simplified
+  }
+}
 
 /**
  * Timeline preset: Fade in with stagger
@@ -252,12 +249,12 @@ export const fadeInStagger = (
   timeline: gsap.core.Timeline,
   targets: any,
   options: {
-    duration?: number;
-    stagger?: number;
-    position?: string | number;
+    duration?: number
+    stagger?: number
+    position?: string | number
   } = {}
 ) => {
-  gsap.set(targets, { opacity: 0, y: 30 });
+  gsap.set(targets, { opacity: 0, y: 30 })
   timeline.to(
     targets,
     {
@@ -265,11 +262,11 @@ export const fadeInStagger = (
       y: 0,
       duration: options.duration ?? 0.8,
       stagger: options.stagger ?? 0.15,
-      ease: 'power3.out',
+      ease: 'power3.out'
     },
     options.position ?? 0
-  );
-};
+  )
+}
 
 /**
  * Timeline preset: Reveal text line by line
@@ -278,12 +275,12 @@ export const revealTextLines = (
   timeline: gsap.core.Timeline,
   targets: any,
   options: {
-    duration?: number;
-    stagger?: number;
-    position?: string | number;
+    duration?: number
+    stagger?: number
+    position?: string | number
   } = {}
 ) => {
-  gsap.set(targets, { opacity: 0, y: 50 });
+  gsap.set(targets, { opacity: 0, y: 50 })
   timeline.to(
     targets,
     {
@@ -291,8 +288,8 @@ export const revealTextLines = (
       y: 0,
       duration: options.duration ?? 1,
       stagger: options.stagger ?? 0.2,
-      ease: 'power2.out',
+      ease: 'power2.out'
     },
     options.position ?? 0
-  );
-};
+  )
+}

@@ -42,7 +42,7 @@ const DynamicFilterSidebar: FC<Props> = (props) => {
           duration: 0.3,
           ease: [0.4, 0, 0.2, 1]
         }}
-        className='relative z-50 h-screen overflow-hidden border-r border-border/50 bg-background/95 backdrop-blur-sm'
+        className='relative z-50 h-fit overflow-hidden border-r border-border/50 bg-background/95 backdrop-blur-sm'
       >
         <motion.div
           initial={false}

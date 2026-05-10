@@ -78,7 +78,9 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
   }
 }
 
@@ -98,6 +100,227 @@
   }
 }
 
+@layer utilities {
+  /* spacing */
+  .richtext-mb-0 {
+    @apply mb-0;
+  }
+  .richtext-mb-1 {
+    @apply mb-1;
+  }
+  .richtext-mb-1\.5 {
+    @apply mb-1.5;
+  }
+  .richtext-mt-0 {
+    @apply mt-0;
+  }
+  .richtext-mt-2 {
+    @apply mt-2;
+  }
+  .richtext-mt-3 {
+    @apply mt-3;
+  }
+  .richtext-mt-8 {
+    @apply mt-8;
+  }
+  .richtext-mt-12 {
+    @apply mt-12;
+  }
+  .richtext-my-1 {
+    @apply my-1;
+  }
+  .richtext-my-6 {
+    @apply my-6;
+  }
+  .richtext-my-8 {
+    @apply my-8;
+  }
+  .richtext-m-0 {
+    @apply m-0;
+  }
+
+  .richtext-p-0 {
+    @apply p-0;
+  }
+  .richtext-p-2 {
+    @apply p-2;
+  }
+  .richtext-p-4 {
+    @apply p-4;
+  }
+  .richtext-px-0 {
+    @apply px-0;
+  }
+  .richtext-px-4 {
+    @apply px-4;
+  }
+  .richtext-px-8 {
+    @apply px-8;
+  }
+  .richtext-py-0 {
+    @apply py-0;
+  }
+  .richtext-py-1 {
+    @apply py-1;
+  }
+
+  /* typography */
+  .richtext-text-sm {
+    @apply text-sm;
+  }
+  .richtext-text-base {
+    @apply text-base;
+  }
+  .richtext-text-lg {
+    @apply text-lg;
+  }
+  .richtext-text-xl {
+    @apply text-xl;
+  }
+  .richtext-text-2xl {
+    @apply text-2xl;
+  }
+  .richtext-text-3xl {
+    @apply text-3xl;
+  }
+
+  .richtext-font-bold {
+    @apply font-bold;
+  }
+  .richtext-font-extrabold {
+    @apply font-extrabold;
+  }
+  .richtext-font-mono {
+    @apply font-mono;
+  }
+
+  .richtext-leading-relaxed {
+    @apply leading-relaxed;
+  }
+
+  /* colors */
+  .richtext-text-blue-500 {
+    @apply text-blue-500;
+  }
+  .richtext-text-blue-400 {
+    @apply text-blue-400;
+  }
+  .richtext-text-white {
+    @apply text-white;
+  }
+  .richtext-text-black {
+    @apply text-black;
+  }
+  .richtext-text-inherit {
+    @apply text-inherit;
+  }
+
+  .richtext-bg-red-500 {
+    @apply bg-red-500;
+  }
+  .richtext-bg-red-400 {
+    @apply bg-red-400;
+  }
+  .richtext-bg-neutral-900 {
+    @apply bg-neutral-900;
+  }
+  .richtext-bg-neutral-700 {
+    @apply bg-neutral-700;
+  }
+  .richtext-bg-neutral-900 {
+    @apply bg-neutral-900;
+  }
+
+  /* layout */
+  .richtext-block {
+    @apply block;
+  }
+  .richtext-flex {
+    @apply flex;
+  }
+  .richtext-flex-auto {
+    @apply flex-auto;
+  }
+  .richtext-shrink-0 {
+    @apply shrink-0;
+  }
+  .richtext-grow-0 {
+    @apply grow-0;
+  }
+
+  /* size */
+  .richtext-w-full {
+    @apply w-full;
+  }
+  .richtext-h-full {
+    @apply h-full;
+  }
+  .richtext-h-auto {
+    @apply h-auto;
+  }
+  .richtext-max-w-full {
+    @apply max-w-full;
+  }
+  .richtext-min-w-\[1em\] {
+    @apply min-w-[1em];
+  }
+
+  /* border */
+  .richtext-rounded {
+    @apply rounded;
+  }
+  .richtext-rounded-sm {
+    @apply rounded-sm;
+  }
+  .richtext-rounded-lg {
+    @apply rounded-lg;
+  }
+  .richtext-border-collapse {
+    @apply border-collapse;
+  }
+  .richtext-border-l-4 {
+    @apply border-l-4;
+  }
+  .richtext-border-l-neutral-700 {
+    @apply border-l-neutral-700;
+  }
+  .richtext-border-l-neutral-300 {
+    @apply border-l-neutral-300;
+  }
+
+  /* effects */
+  .richtext-shadow-lg {
+    @apply shadow-lg;
+  }
+
+  /* list */
+  .richtext-list-decimal {
+    @apply list-decimal;
+  }
+  .richtext-list-disc {
+    @apply list-disc;
+  }
+  .richtext-list-none {
+    @apply list-none;
+  }
+
+  /* misc */
+  .richtext-table-fixed {
+    @apply table-fixed;
+  }
+  .richtext-select-none {
+    @apply select-none;
+  }
+  .richtext-line-through {
+    @apply line-through;
+  }
+  .richtext-align-top {
+    @apply align-top;
+  }
+  .richtext-text-left {
+    @apply text-left;
+  }
+}
 /**
  * Accessibility: Reduced Motion Support
  * 
@@ -118,7 +341,7 @@
   }
 
   /* Disable GSAP-controlled animations */
-  [data-story-scene][data-reduced-motion="true"] * {
+  [data-story-scene][data-reduced-motion='true'] * {
     transform: none !important;
     opacity: 1 !important;
   }
@@ -160,22 +383,24 @@
  */
 @theme inline {
   @keyframes blink-cursor {
-  0%, 49% {
-    opacity: 1;
+    0%,
+    49% {
+      opacity: 1;
     }
-  50%, 100% {
-    opacity: 0;
+    50%,
+    100% {
+      opacity: 0;
     }
   }
   @keyframes shine {
-  0% {
-    background-position: 0% 0%;
+    0% {
+      background-position: 0% 0%;
     }
-  50% {
-    background-position: 100% 100%;
+    50% {
+      background-position: 100% 100%;
     }
-  to {
-    background-position: 0% 0%;
+    to {
+      background-position: 0% 0%;
     }
   }
 }

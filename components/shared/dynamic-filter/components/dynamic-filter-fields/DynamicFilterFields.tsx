@@ -19,8 +19,8 @@ const item = {
   show: { opacity: 1, y: 0 }
 }
 
-export const DynamicFieldItem = ({ name, fieldSchema, config }: Props) => {
-  const { form } = useDynamicFilterContext()
+const DynamicFieldItem = ({ name, fieldSchema, config }: Props) => {
+  const { form, schema, fieldConfig } = useDynamicFilterContext()
 
   const { field, fieldState } = useController({
     name,
@@ -43,3 +43,4 @@ export const DynamicFieldItem = ({ name, fieldSchema, config }: Props) => {
     </motion.div>
   )
 }
+export default DynamicFieldItem

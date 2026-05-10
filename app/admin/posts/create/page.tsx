@@ -1,4 +1,5 @@
 'use client'
+import { PostEditor } from '@/components/modules/posts'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -52,11 +53,12 @@ const Create = () => {
       <main className='mx-auto max-w-5xl px-6 py-16'>
         {/* Page Title Section */}
         <div className='mb-12'>
-          <h2 className='mb-3 text-4xl font-bold text-foreground'>Create a New Post</h2>
+          <h2 className='mb-3 text-2xl font-bold text-foreground'>Create a New Post</h2>
           <p className='text-lg leading-relaxed text-muted-foreground'>
             Share your thoughts and ideas with your audience. Fill in the details below.
           </p>
         </div>
+        <PostEditor />
       </main>
     </div>
   )
