@@ -1,34 +1,32 @@
-import React from 'react';
-
-import { ActionButton } from '@/components';
-import { CodeBlock } from '@/extensions/CodeBlock/CodeBlock';
-import { useToggleActive } from '@/hooks/useActive';
-import { useButtonProps } from '@/hooks/useButtonProps';
+import React from 'react'
+import { CodeBlock } from '../CodeBlock'
+import { useButtonProps, useToggleActive } from '../../../lib/hooks'
+import ActionButton from '../../../components/action-button'
 
 export function RichTextCodeBlock() {
-  const buttonProps = useButtonProps(CodeBlock.name);
+  const buttonProps = useButtonProps(CodeBlock.name)
 
   const {
     icon = undefined,
     tooltip = undefined,
     tooltipOptions = {},
     action = undefined,
-    isActive = undefined,
-  } = buttonProps?.componentProps ?? {};
+    isActive = undefined
+  } = buttonProps?.componentProps ?? {}
 
-  const { dataState, disabled, update } = useToggleActive(isActive);
+  const { dataState, disabled, update } = useToggleActive(isActive)
 
   const onAction = () => {
-    if (disabled) return;
+    if (disabled) return
 
     if (action) {
-      action();
-      update();
+      action()
+      update()
     }
-  };
+  }
 
   if (!buttonProps) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -36,9 +34,9 @@ export function RichTextCodeBlock() {
       action={onAction}
       dataState={dataState}
       disabled={disabled}
-      icon={icon}
+      icon={'CodeXml'}
       tooltip={tooltip}
       tooltipOptions={tooltipOptions}
     />
-  );
+  )
 }

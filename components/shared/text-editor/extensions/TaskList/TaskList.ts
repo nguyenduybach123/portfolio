@@ -7,19 +7,18 @@ import {
   TaskList as TiptapTaskList,
   TaskItem,
   type TaskItemOptions,
-  type TaskListOptions as TiptapTaskListOptions,
-} from '@tiptap/extension-list';
+  type TaskListOptions as TiptapTaskListOptions
+} from '@tiptap/extension-list'
+import { GeneralOptions } from '../../lib/types'
 
-import type { GeneralOptions } from '@/types';
-
-export * from './components/RichTextTaskList';
+export * from './components/RichTextTaskList'
 
 /**
  * Represents the interface for task list options, extending TiptapTaskListOptions and GeneralOptions.
  */
 export interface TaskListOptions extends TiptapTaskListOptions, GeneralOptions<TaskListOptions> {
   /** options for task items */
-  taskItem: Partial<TaskItemOptions>;
+  taskItem: Partial<TaskItemOptions>
 }
 
 export const TaskList = /* @__PURE__ */ TiptapTaskList.extend<TaskListOptions>({
@@ -28,12 +27,12 @@ export const TaskList = /* @__PURE__ */ TiptapTaskList.extend<TaskListOptions>({
     return {
       ...this.parent?.(),
       HTMLAttributes: {
-        class: 'task-list',
+        class: 'task-list'
       },
       taskItem: {
         HTMLAttributes: {
-          class: 'task-list-item',
-        },
+          class: 'task-list-item'
+        }
       },
       button: ({ editor, t, extension }) => ({
         componentProps: {
@@ -42,13 +41,13 @@ export const TaskList = /* @__PURE__ */ TiptapTaskList.extend<TaskListOptions>({
           disabled: false,
           icon: 'ListTodo',
           shortcutKeys: extension.options.shortcutKeys ?? ['shift', 'mod', '9'],
-          tooltip: t('editor.tasklist.tooltip'),
-        },
-      }),
-    };
+          tooltip: 'Task List'
+        }
+      })
+    }
   },
 
   addExtensions() {
-    return [TaskItem.configure(this.options.taskItem)];
-  },
-});
+    return [TaskItem.configure(this.options.taskItem)]
+  }
+})

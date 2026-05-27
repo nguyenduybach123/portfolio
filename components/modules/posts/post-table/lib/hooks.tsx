@@ -141,9 +141,8 @@ export const usePostColumnsDefs = (props: UsePostColumnsDefsProps) => {
           const isUpdated = updatedAt && createdAt && new Date(updatedAt) > new Date(createdAt)
 
           return (
-            <div className='flex items-center gap-2'>
+            <div>
               <div className='text-sm text-gray-600'>{formatDateTime(updatedAt)}</div>
-              {isUpdated && <Badge>Đã sửa</Badge>}
             </div>
           )
         }

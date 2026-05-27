@@ -1,55 +1,49 @@
-import React, { Fragment, useMemo } from 'react';
+import React, { Fragment, useMemo } from 'react'
 
 import {
-  ActionMenuButton,
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from '@/components';
-import { Heading } from '@/extensions/Heading/Heading';
-import { useActive } from '@/hooks/useActive';
-import { useButtonProps } from '@/hooks/useButtonProps';
-import { cn } from '@/lib/utils';
-import { useLocale } from '@/locales';
-import { getShortcutKey } from '@/utils/plateform';
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 
-import type { ButtonViewReturnComponentProps } from '@/types';
+import { cn } from '@/lib/utils'
+import { getShortcutKey } from '@/utils/plateform'
+import { Button } from '@/components/ui/button'
+import { ButtonViewReturnComponentProps } from '../../../lib/types'
+import { useActive, useButtonProps } from '../../../lib/hooks'
+import { Heading } from '../Heading'
+import { ActionMenuButton } from '../../../components'
 
 export interface Item {
-  title: string;
-  icon?: any;
-  level?: number;
-  isActive: NonNullable<ButtonViewReturnComponentProps['isActive']>;
-  action?: ButtonViewReturnComponentProps['action'];
-  style?: React.CSSProperties;
-  shortcutKeys?: string[];
-  disabled?: boolean;
-  divider?: boolean;
-  default?: boolean;
+  title: string
+  icon?: any
+  level?: number
+  isActive: NonNullable<ButtonViewReturnComponentProps['isActive']>
+  action?: ButtonViewReturnComponentProps['action']
+  style?: React.CSSProperties
+  shortcutKeys?: string[]
+  disabled?: boolean
+  divider?: boolean
+  default?: boolean
 }
 
 export function RichTextHeading() {
-  const { t } = useLocale();
-  const buttonProps = useButtonProps(Heading.name);
+  const buttonProps = useButtonProps(Heading.name)
 
-  const {
-    icon = undefined,
-    tooltip = undefined,
-    isActive = undefined,
-    items = [],
-  } = buttonProps?.componentProps ?? {};
+  const { icon = undefined, tooltip = undefined, isActive = undefined, items = [] } = buttonProps?.componentProps ?? {}
 
-  const { disabled, dataState } = useActive(isActive);
+  const { disabled, dataState } = useActive(isActive)
 
   const title = useMemo(() => {
-    return (dataState as any)?.title || t('editor.paragraph.tooltip');
-  }, [dataState]);
+    return (dataState as any)?.title || 'Paragraph'
+  }, [dataState])
 
+  console.log('RichTextHeading:', buttonProps)
   if (!buttonProps) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -77,14 +71,14 @@ export function RichTextHeading() {
                     'heading-3': item.level === 3,
                     'heading-4': item.level === 4,
                     'heading-5': item.level === 5,
-                    'heading-6': item.level === 6,
+                    'heading-6': item.level === 6
                   })}
                 >
                   {item.title}
                 </div>
 
                 {!!item?.shortcutKeys?.length && (
-                  <DropdownMenuShortcut className='richtext-pl-4'>
+                  <DropdownMenuShortcut className='pl-4'>
                     {item?.shortcutKeys?.map((item: any) => getShortcutKey(item)).join(' ')}
                   </DropdownMenuShortcut>
                 )}
@@ -92,9 +86,9 @@ export function RichTextHeading() {
 
               {item.level === 'Paragraph' && <DropdownMenuSeparator />}
             </Fragment>
-          );
+          )
         })}
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

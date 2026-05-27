@@ -4,7 +4,7 @@ import { Attachment } from '../Attachment'
 
 export function ActionButtonAttachment() {
   const buttonProps = useButtonProps(Attachment.name)
-
+  console.log('[ActionButtonAttachment] buttonProps:', buttonProps)
   const {
     icon = undefined,
     tooltip = undefined,

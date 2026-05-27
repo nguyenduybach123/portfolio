@@ -3,14 +3,15 @@
   color: hsl(var(--foreground));
 
   .ProseMirror.ProseMirror.ProseMirror {
-    @apply richtext-z-0 richtext-py-16 richtext-pl-20 richtext-pr-8 richtext-caret-black richtext-outline-0 dark:richtext-caret-white lg:richtext-pl-8 lg:richtext-pr-8;
+    @apply z-0 caret-black outline-none dark:caret-white;
+
     min-height: 180px;
-    padding: 32px 80px;
 
     .img-placeholder {
       width: fit-content;
       position: relative;
-      @apply richtext-bg-white/30 richtext-backdrop-blur-sm;
+
+      @apply bg-white/30 backdrop-blur-sm;
 
       &:before {
         content: '';
@@ -21,13 +22,15 @@
         width: 24px;
         height: 24px;
         margin: -12px 0 0 -12px;
-        @apply richtext-inline-block richtext-animate-spin richtext-rounded-full richtext-border-[3px] richtext-border-current richtext-border-t-transparent;
+
+        @apply inline-block animate-spin rounded-full border-[3px] border-current border-t-transparent;
       }
     }
 
     .tableWrapper {
       margin: 1em 0;
-      @apply richtext-overflow-x-auto;
+
+      @apply overflow-x-auto;
 
       table {
         overflow: hidden;
@@ -35,24 +38,24 @@
         width: 100%;
 
         .column-resize-handle {
-          @apply richtext-pointer-events-none richtext-absolute richtext-bottom-[-2px] richtext-right-[-2px] richtext-top-0 richtext-z-10 richtext-w-1 richtext-bg-primary;
+          @apply pointer-events-none absolute bottom-[-2px] right-[-2px] top-0 z-10 w-1 bg-primary;
         }
+
         .resize-cursor {
-          cursor: 'col-resize';
+          cursor: col-resize;
         }
 
         .selectedCell {
-          @apply richtext-border-double richtext-border-black/20 richtext-bg-black/5;
-          @apply dark:richtext-border-white/20 dark:richtext-bg-white/10;
+          @apply border-double border-black/20 bg-black/5 dark:border-white/20 dark:bg-white/10;
         }
       }
     }
 
     [data-type='horizontalRule'] {
-      @apply richtext-cursor-pointer richtext-transition-all richtext-duration-100 richtext-ease-in-out;
+      @apply cursor-pointer transition-all duration-100 ease-in-out;
 
       &.ProseMirror-selectednode {
-        @apply richtext-bg-black/5 dark:richtext-bg-white/10;
+        @apply bg-black/5 dark:bg-white/10;
 
         hr {
           border-top-color: hsl(var(--foreground)) !important;
@@ -60,13 +63,13 @@
       }
 
       &:hover:not(&.ProseMirror-selectednode) {
-        @apply richtext-bg-black/5;
-        @apply dark:richtext-bg-white/10;
+        @apply bg-black/5 dark:bg-white/10;
       }
     }
+
     :not(.dragging) .ProseMirror-selectednode:not(.image-view),
     :not(.dragging) .ProseMirror-selectednode:not(.search-result) {
-      @apply richtext-bg-black/10 richtext-shadow-none richtext-outline-none richtext-transition-colors dark:richtext-bg-white/20;
+      @apply bg-black/10 shadow-none outline-none transition-colors dark:bg-white/20;
     }
 
     :not(.image-view)::selection,
@@ -95,6 +98,7 @@
       width: 100%;
       height: 0;
     }
+
     p.is-editor-empty:first-child::before {
       float: left;
       height: 0;
@@ -103,11 +107,12 @@
       width: 100%;
       content: attr(data-placeholder);
     }
+
     .ProseMirror-gapcursor {
-      @apply richtext-relative richtext-mx-auto richtext-w-full richtext-max-w-2xl;
+      @apply relative mx-auto w-full max-w-2xl;
 
       &:after {
-        @apply richtext-left-0 richtext-right-0 richtext-top-[-1.5em] richtext-mx-auto richtext-w-full richtext-max-w-2xl richtext-border-t-black/40 dark:richtext-border-t-white/40;
+        @apply left-0 right-0 top-[-1.5em] mx-auto w-full max-w-2xl border-t-black/40 dark:border-t-white/40;
       }
     }
 
@@ -143,6 +148,7 @@
 
         &:hover {
           outline-color: #ffc83d;
+
           .image-view__body__button-wrap {
             display: block;
           }
@@ -174,7 +180,7 @@
 
       &.focus {
         img {
-          @apply richtext-outline richtext-outline-2 richtext-outline-primary;
+          @apply outline outline-2 outline-primary;
         }
       }
 
@@ -191,8 +197,8 @@
       z-index: 1;
       width: 100%;
       height: 100%;
-      @apply richtext-border !important;
-      @apply richtext-border-border !important;
+
+      @apply border border-border !important;
 
       &__handler {
         position: absolute;
@@ -231,7 +237,7 @@
       }
     }
   }
-  /*  */
+
   &.dense {
     .ProseMirror {
       min-height: 32px;
@@ -258,30 +264,35 @@
 }
 
 .heading-1 {
-  font-weight: 700;
   font-size: 28px;
-  line-height: 1.6;
-}
-.heading-2 {
   font-weight: 700;
-  font-size: 24px;
   line-height: 1.6;
 }
+
+.heading-2 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
 .heading-3 {
   font-size: 20px;
   font-weight: 700;
   line-height: 1.6;
 }
+
 .heading-4 {
   font-size: 16px;
   font-weight: 700;
   line-height: 1.6;
 }
+
 .heading-5 {
   font-size: 14px;
   font-weight: 700;
   line-height: 1.6;
 }
+
 .heading-6 {
   font-size: 14px;
   font-weight: 700;

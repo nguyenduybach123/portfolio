@@ -1,49 +1,41 @@
-import React, { Fragment, useMemo } from 'react';
+import React, { Fragment, useMemo } from 'react'
 
 import {
-  ActionMenuButton,
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components';
-import { FontSize } from '@/extensions/FontSize/FontSize';
-import { useActive } from '@/hooks/useActive';
-import { useButtonProps } from '@/hooks/useButtonProps';
-import { useLocale } from '@/locales';
-
-import type { ButtonViewReturnComponentProps } from '@/types';
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { Button } from '@/components/ui/button'
+import { ButtonViewReturnComponentProps } from '../../../lib/types'
+import { FontSize } from '../FontSize'
+import { useActive, useButtonProps } from '../../../lib/hooks'
+import { ActionMenuButton } from '../../../components'
 
 export interface Item {
-  title: string;
-  isActive: NonNullable<ButtonViewReturnComponentProps['isActive']>;
-  action?: ButtonViewReturnComponentProps['action'];
-  style?: React.CSSProperties;
-  disabled?: boolean;
-  divider?: boolean;
-  default?: boolean;
+  title: string
+  isActive: NonNullable<ButtonViewReturnComponentProps['isActive']>
+  action?: ButtonViewReturnComponentProps['action']
+  style?: React.CSSProperties
+  disabled?: boolean
+  divider?: boolean
+  default?: boolean
 }
 
 export function RichTextFontSize() {
-  const { t } = useLocale();
-  const buttonProps = useButtonProps(FontSize.name);
+  const buttonProps = useButtonProps(FontSize.name)
 
-  const {
-    icon = undefined,
-    tooltip = undefined,
-    items = [],
-    isActive = undefined,
-  } = buttonProps?.componentProps ?? {};
+  const { icon = undefined, tooltip = undefined, items = [], isActive = undefined } = buttonProps?.componentProps ?? {}
 
-  const { disabled, dataState } = useActive(isActive);
+  const { disabled, dataState } = useActive(isActive)
 
   const title = useMemo(() => {
-    return (dataState as any)?.title || t('editor.fontSize.default.tooltip');
-  }, [dataState]);
+    return (dataState as any)?.title || 'Default'
+  }, [dataState])
 
   if (!buttonProps) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -66,11 +58,11 @@ export function RichTextFontSize() {
                 <div className='richtext-ml-1 richtext-h-full'>{item.title}</div>
               </DropdownMenuCheckboxItem>
 
-              {item.title === t('editor.fontSize.default.tooltip') && <DropdownMenuSeparator />}
+              {item.title === 'Default' && <DropdownMenuSeparator />}
             </Fragment>
-          );
+          )
         })}
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

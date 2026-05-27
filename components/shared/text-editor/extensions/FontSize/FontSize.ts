@@ -1,23 +1,21 @@
-import { Extension } from '@tiptap/core';
+import { Extension } from '@tiptap/core'
+import { GeneralOptions, NameValueOption } from '../../lib/types'
+import { DEFAULT_FONT_SIZE_LIST } from './lib/constants'
+import { ensureNameValueOptions } from '../../lib/utils/utils'
 
-import { DEFAULT_FONT_SIZE_LIST } from '@/constants';
-import { ensureNameValueOptions } from '@/utils/utils';
-
-import type { GeneralOptions, NameValueOption } from '@/types';
-
-export * from './components/RichTextFontSize';
+export * from './components/RichTextFontSize'
 
 /**
  * Represents the interface for font size options, extending GeneralOptions.
  */
 export interface FontSizeOptions extends GeneralOptions<FontSizeOptions> {
-  types: string[];
+  types: string[]
   /**
    * List of available font size values
    *
    * @default DEFAULT_FONT_SIZE_LIST
    */
-  fontSizes: (string | NameValueOption)[];
+  fontSizes: (string | NameValueOption)[]
 }
 
 declare module '@tiptap/core' {
@@ -28,12 +26,12 @@ declare module '@tiptap/core' {
        * CSS font-size
        * (https://developer.mozilla.org/en-US/docs/Web/CSS/font-size).
        */
-      setFontSize: (fontSize: string) => ReturnType;
+      setFontSize: (fontSize: string) => ReturnType
       /**
        * Unset the font size
        */
-      unsetFontSize: () => ReturnType;
-    };
+      unsetFontSize: () => ReturnType
+    }
   }
 }
 
@@ -45,55 +43,55 @@ export const FontSize = /* @__PURE__ */ Extension.create<FontSizeOptions>({
       ...this.parent?.(),
       types: ['textStyle'],
       fontSizes: DEFAULT_FONT_SIZE_LIST,
-      button({ editor, extension, t }) {
-        const fontSizes = ensureNameValueOptions(extension.options?.fontSizes);
+      button({ editor, extension }) {
+        const fontSizes = ensureNameValueOptions(extension.options?.fontSizes)
 
         const items = fontSizes.map((k) => ({
-          title: k.value === 'Default' ? t('editor.fontSize.default.tooltip') : String(k.name),
+          title: k.value === 'Default' ? 'Font Size' : String(k.name),
           isActive: () => {
-            const { fontSize } = editor.getAttributes('textStyle');
-            const isDefault = k.value === 'Default';
-            const notFontSize = fontSize === undefined || fontSize === null || fontSize === '';
+            const { fontSize } = editor.getAttributes('textStyle')
+            const isDefault = k.value === 'Default'
+            const notFontSize = fontSize === undefined || fontSize === null || fontSize === ''
             if (isDefault && notFontSize) {
-              return true;
+              return true
             }
-            return editor.isActive({ fontSize: String(k.value) }) || false;
+            return editor.isActive({ fontSize: String(k.value) }) || false
           },
           action: () => {
             if (k.value === 'Default') {
-              editor.commands.unsetFontSize();
-              return;
+              editor.commands.unsetFontSize()
+              return
             }
-            editor.commands.setFontSize(String(k.value));
+            editor.commands.setFontSize(String(k.value))
           },
           // disabled: !editor.can().setFontSize(String(k.value)),
-          default: k.value === 'Default' || false,
-        }));
+          default: k.value === 'Default' || false
+        }))
         // const disabled = items.filter(k => k.disabled).length === items.length;
         return {
           // component: FontSizeMenuButton,
           componentProps: {
             editor,
-            tooltip: t('editor.fontSize.tooltip'),
+            tooltip: 'Font Size',
             disabled: false,
             items,
             maxHeight: 280,
             icon: 'MenuDown',
             isActive: () => {
-              const find: any = (items || []).find((k: any) => k.isActive());
+              const find: any = (items || []).find((k: any) => k.isActive())
               if (find && !find.default) {
-                return find;
+                return find
               }
               const item = {
-                title: t('editor.fontSize.default.tooltip'),
-                isActive: () => false,
-              };
-              return item;
-            },
-          },
-        };
-      },
-    };
+                title: 'Font Size',
+                isActive: () => false
+              }
+              return item
+            }
+          }
+        }
+      }
+    }
   },
   addGlobalAttributes() {
     return [
@@ -105,29 +103,29 @@ export const FontSize = /* @__PURE__ */ Extension.create<FontSizeOptions>({
             parseHTML: (element) => element.style.fontSize.replaceAll(/["']+/g, ''),
             renderHTML: (attributes) => {
               if (!attributes.fontSize) {
-                return {};
+                return {}
               }
               return {
-                style: `font-size: ${attributes.fontSize}`,
-              };
-            },
-          },
-        },
-      },
-    ];
+                style: `font-size: ${attributes.fontSize}`
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   addCommands() {
     return {
       setFontSize:
         (fontSize) =>
         ({ chain }) => {
-          return chain().setMark('textStyle', { fontSize }).run();
+          return chain().setMark('textStyle', { fontSize }).run()
         },
       unsetFontSize:
         () =>
         ({ chain }) => {
-          return chain().setMark('textStyle', { fontSize: null }).removeEmptyTextStyle().run();
-        },
-    };
-  },
-});
+          return chain().setMark('textStyle', { fontSize: null }).removeEmptyTextStyle().run()
+        }
+    }
+  }
+})

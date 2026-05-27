@@ -1,37 +1,35 @@
 .ProseMirror {
-  padding: 1.5em 2em !important;
-
   /* Typography */
   p {
-    @apply richtext-mb-1.5 richtext-leading-relaxed first:richtext-mt-0 last:richtext-mb-0;
+    @apply mb-1.5 leading-relaxed first:mt-0 last:mb-0;
   }
 
   & > p {
-    @apply richtext-mb-1.5 first:richtext-mt-0 last:richtext-mb-0;
+    @apply mb-1.5 first:mt-0 last:mb-0;
   }
 
   h1 {
-    @apply richtext-text-3xl;
+    @apply text-3xl;
   }
 
   h2 {
-    @apply richtext-text-2xl;
+    @apply text-2xl;
   }
 
   h3 {
-    @apply richtext-text-xl;
+    @apply text-xl;
   }
 
   h4 {
-    @apply richtext-text-lg;
+    @apply text-lg;
   }
 
   h5 {
-    @apply richtext-text-base;
+    @apply text-base;
   }
 
   h6 {
-    @apply richtext-text-sm;
+    @apply text-sm;
   }
 
   h1,
@@ -40,150 +38,150 @@
   h4,
   h5,
   h6 {
-    @apply richtext-font-bold first:richtext-mt-0 last:richtext-mb-0;
+    @apply font-bold first:mt-0 last:mb-0;
   }
 
   h1,
   h2,
   h3 {
-    @apply richtext-mt-12;
+    @apply mt-12;
   }
 
   h4,
   h5,
   h6 {
-    @apply richtext-mt-8;
+    @apply mt-8;
   }
 
   a.link {
-    @apply richtext-font-extrabold richtext-text-blue-500 dark:richtext-text-blue-400;
+    @apply font-extrabold text-blue-500 dark:text-blue-400;
   }
 
   mark {
-    @apply richtext-rounded-sm richtext-bg-red-500 richtext-decoration-clone richtext-px-0 richtext-py-1 richtext-text-inherit dark:richtext-bg-red-400;
+    @apply rounded-sm bg-red-500 decoration-clone px-0 py-1 text-inherit dark:bg-red-400;
   }
 
-  & img {
-    @apply richtext-h-auto richtext-max-w-full;
+  img {
+    @apply h-auto max-w-full;
   }
 
-  @for $i from 1 through 7 /* max-indent */ {
+  @for $i from 1 through 7 {
     $indent-margin-base: 2em;
 
     *[data-indent='#{$i}'] {
       text-indent: $indent-margin-base * $i !important;
     }
   }
+
   iframe {
-    @apply richtext-border !important;
-    @apply richtext-mt-2 richtext-h-full richtext-w-full richtext-rounded-sm richtext-border-border;
+    @apply mt-2 h-full w-full rounded-sm border border-border !important;
   }
 
-  /* Block Quote */
+  /* Blockquote */
   .blockquote {
-    @apply richtext-rounded-lg richtext-rounded-bl-none richtext-rounded-tl-none richtext-border-l-4 richtext-border-l-neutral-700 richtext-bg-opacity-80 richtext-px-4 richtext-py-2 richtext-text-black;
-    @apply dark:richtext-border-l-neutral-300 dark:richtext-text-white;
+    @apply rounded-lg rounded-bl-none rounded-tl-none border-l-4 border-l-neutral-700 bg-opacity-80 px-4 py-2 text-black dark:border-l-neutral-300 dark:text-white;
   }
 
   code {
-    @apply richtext-rounded-sm richtext-bg-neutral-900 richtext-font-mono richtext-text-white richtext-caret-white richtext-shadow-lg;
+    @apply rounded-sm bg-neutral-900 font-mono text-white caret-white shadow-lg;
 
     &::selection {
-      @apply richtext-bg-white/30;
+      @apply bg-white/30;
     }
   }
 
   pre {
-    @apply richtext-my-1 richtext-rounded !richtext-border richtext-border-black richtext-border-border richtext-bg-neutral-700 richtext-p-4 richtext-text-white richtext-caret-white dark:richtext-bg-neutral-900;
+    @apply my-1 rounded border border-black border-border bg-neutral-700 p-4 text-white caret-white dark:bg-neutral-900;
 
     *::selection {
-      @apply richtext-bg-white/20;
+      @apply bg-white/20;
     }
 
     code {
-      @apply richtext-bg-inherit richtext-p-0 richtext-text-inherit richtext-shadow-none;
+      @apply bg-inherit p-0 text-inherit shadow-none;
     }
   }
-  /* List */
+
+  /* Lists */
   ol {
-    @apply richtext-list-decimal;
+    @apply list-decimal;
   }
 
   ul {
-    @apply richtext-list-disc;
+    @apply list-disc;
   }
 
   ul,
   ol {
-    @apply richtext-my-6 richtext-px-8 richtext-py-0 first:richtext-mt-0 last:richtext-mb-0;
+    @apply my-6 px-8 py-0 first:mt-0 last:mb-0;
 
     ul,
     ol,
     li {
-      @apply richtext-my-1;
+      @apply my-1;
     }
 
     p {
-      @apply richtext-mb-1 richtext-mt-0;
+      @apply mb-1 mt-0;
     }
   }
 
   & > ul,
   & > ol {
-    @apply richtext-my-8 first:richtext-mt-0 last:richtext-mb-0;
+    @apply my-8 first:mt-0 last:mb-0;
   }
 
   ul[data-type='taskList'] {
-    @apply richtext-list-none richtext-p-0;
+    @apply list-none p-0;
 
     p {
-      @apply richtext-m-0;
+      @apply m-0;
     }
 
     li {
-      @apply richtext-flex;
+      @apply flex;
 
       > label {
-        @apply richtext-mr-2 richtext-inline richtext-flex-auto richtext-shrink-0 richtext-grow-0 richtext-select-none;
+        @apply mr-2 inline flex-auto shrink-0 grow-0 select-none;
       }
 
       > div {
-        @apply richtext-flex-auto;
+        @apply flex-auto;
       }
 
       &[data-checked='true'] {
-        @apply richtext-line-through;
+        @apply line-through;
       }
     }
   }
 
+  /* Table */
   table {
     border: 1px solid;
-    @apply richtext-box-border richtext-block richtext-table-fixed richtext-border-collapse richtext-overflow-x-auto richtext-overflow-y-hidden richtext-border-black/10;
-    @apply dark:richtext-border-white/20;
+
+    @apply box-border w-full table-fixed border-collapse overflow-x-auto overflow-y-hidden border-black/10 dark:border-white/20;
 
     td,
     th {
       border: 1px solid;
-      @apply richtext-border !important;
-      @apply richtext-relative richtext-box-border richtext-min-w-[1em] richtext-border-black/10 richtext-p-2 richtext-text-left richtext-align-top;
-      @apply dark:richtext-border-white/20;
+
+      @apply relative box-border min-w-[1em] border border-black/10 p-2 text-left align-top dark:border-white/20 !important;
 
       &:first-of-type:not(a) {
-        @apply richtext-mt-0;
+        @apply mt-0;
       }
 
       p {
-        @apply richtext-m-0;
+        @apply m-0;
 
         & + p {
-          @apply richtext-mt-3;
+          @apply mt-3;
         }
       }
     }
 
     th {
-      @apply richtext-text-left richtext-font-bold;
+      @apply text-left font-bold;
     }
   }
 }

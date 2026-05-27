@@ -1,36 +1,34 @@
-import React from 'react';
-
-import { ActionButton } from '@/components';
-import CreateTablePopover from '@/extensions/Table/components/CreateTablePopover';
-import { Table } from '@/extensions/Table/Table';
-import { useToggleActive } from '@/hooks/useActive';
-import { useButtonProps } from '@/hooks/useButtonProps';
-import { useEditorInstance } from '@/store/editor';
+import { useButtonProps, useEditorInstance, useToggleActive } from '../../../lib/hooks'
+import { Table } from '../Table'
+import CreateTablePopover from './CreateTablePopover'
+import ActionButton from '../../../components/action-button'
 
 export function RichTextTable() {
-  const editor = useEditorInstance();
-  const buttonProps = useButtonProps(Table.name);
+  const editor = useEditorInstance()
+  const buttonProps = useButtonProps(Table.name)
 
   const {
     icon = undefined,
     tooltip = undefined,
     action = undefined,
     isActive = undefined,
-    color,
-  } = buttonProps?.componentProps ?? {};
+    color
+  } = buttonProps?.componentProps ?? {}
 
-  const { dataState, disabled } = useToggleActive(isActive);
+  const { dataState, disabled } = useToggleActive(isActive)
 
   if (!buttonProps) {
-    return <></>;
+    return <></>
   }
 
   function createTable(options: any) {
+    console.log('Creating table with options:', options)
+
     editor
       .chain()
       .focus()
       .insertTable({ ...options, withHeaderRow: false })
-      .run();
+      .run()
   }
 
   return (
@@ -46,5 +44,5 @@ export function RichTextTable() {
         disabled={disabled}
       />
     </CreateTablePopover>
-  );
+  )
 }

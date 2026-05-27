@@ -11,7 +11,7 @@ import { icons } from 'lucide-react'
 
 export interface ActionButtonProps {
   /* Icon name to display */
-  icon?: string
+  icon?: keyof typeof icons
   /* Button title */
   title?: string
   /* Tooltip text */
@@ -65,7 +65,7 @@ const ActionButton = React.forwardRef<HTMLButtonElement, Partial<ActionButtonPro
     ...rest
   } = props
 
-  const Icon = icons[icon as keyof typeof icons] || undefined
+  const Icon = icon ? icons[icon] : undefined
   const Comp = asChild ? Slot : Toggle
 
   const onClickHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

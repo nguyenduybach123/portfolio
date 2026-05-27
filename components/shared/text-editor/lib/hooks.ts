@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useEditableEditor } from './stores'
 
 // isActive (can action) => false => disable true
@@ -99,7 +99,6 @@ export function useToggleActive(isActive = fnActiveDefault) {
   }, [editable, editor])
 
   const editorDisabled = useMemo(() => {
-    console.log('[useToggleActive] editable:', editable, 'editor:', editor)
     return !editable || !editor
   }, [editable, editor])
 
@@ -133,7 +132,6 @@ export function useTiptapEditor(providedEditor?: Editor | null): {
   canCommand?: Editor['can']
 } {
   const { editor: coreEditor } = useCurrentEditor()
-  console.log('[useTiptapEditor] providedEditor:', providedEditor, 'coreEditor from context:', coreEditor)
   const mainEditor = React.useMemo(() => providedEditor || coreEditor, [providedEditor, coreEditor])
 
   const editorState = useEditorStateTiptap({
@@ -155,13 +153,11 @@ export function useTiptapEditor(providedEditor?: Editor | null): {
     }
   })
 
-  console.log('[useTiptapEditor] mainEditor:', mainEditor, 'editorState:', editorState)
-
   return editorState || { editor: null }
 }
 
 function useEditorInstance() {
-  const editor = useTiptapEditor().editor
+  const editor = useCurrentEditor().editor
   return editor as Editor
 }
 
@@ -179,28 +175,34 @@ export { useEditorInstance, useEditorState, useCanCommand }
 
 export function useButtonProps(extensionName: string) {
   const editor = useEditorInstance()
-  console.log('[useButtonProps] editor instance:', editor)
   const extension = useExtension(extensionName)
+  console.log('useButtonProps', { extensionName, editor, extension })
+
+  const editorRef = React.useRef<Editor | null>(editor)
+  editorRef.current = editor
+
   return useMemo(() => {
-    if (!editor || !extension) {
+    const currentEditor = editorRef.current
+    const currentExtension = extension
+
+    console.log('useButtonProps useMemo', { extensionName, currentEditor, currentExtension })
+    if (!currentEditor || !currentExtension) {
       return null
     }
 
-    const { button } = extension.options
+    const { button } = currentExtension.options
 
+    console.log('useButtonProps button', { extensionName, currentExtension: currentExtension.options })
     if (!button || !isFunction(button)) {
       return null
     }
 
-    const buttonProps = button({
-      editor,
-      extension
+    return button({
+      editor: currentEditor,
+      extension: currentExtension
     })
-
-    return buttonProps
-  }, [editor, extension])
+  }, [extensionName, extension])
 }
-
 export function useExtension(extensionName: string) {
   const editor = useEditorInstance()
 

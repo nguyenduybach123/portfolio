@@ -1,74 +1,70 @@
 import {
   FontFamily as FontFamilyTiptap,
-  type FontFamilyOptions as TiptapFontFamilyOptions,
-} from '@tiptap/extension-text-style';
+  type FontFamilyOptions as TiptapFontFamilyOptions
+} from '@tiptap/extension-text-style'
+import { GeneralOptions, NameValueOption } from '../../lib/types'
+import { DEFAULT_FONT_FAMILY_LIST } from './lib/constants'
+import { ensureNameValueOptions } from '../../lib/utils/utils'
 
-import { DEFAULT_FONT_FAMILY_LIST } from '@/constants';
-import { ensureNameValueOptions } from '@/utils/utils';
+export * from './components/RichTextFontFamily'
 
-import type { GeneralOptions, NameValueOption } from '@/types';
-
-export * from './components/RichTextFontFamily';
-
-export interface FontFamilyOptions
-  extends TiptapFontFamilyOptions, GeneralOptions<FontFamilyOptions> {
+export interface FontFamilyOptions extends TiptapFontFamilyOptions, GeneralOptions<FontFamilyOptions> {
   /**
    * Font family list.
    */
-  fontFamilyList: (string | NameValueOption)[];
+  fontFamilyList: (string | NameValueOption)[]
 }
 
-export const FontFamily =
-  /* @__PURE__ */ FontFamilyTiptap.extend<FontFamilyOptions>({
-    //@ts-expect-error
-    addOptions() {
-      return {
-        ...this.parent?.(),
-        fontFamilyList: DEFAULT_FONT_FAMILY_LIST,
-        button({ editor, extension, t }: any) {
-          const fontFamilyList = ensureNameValueOptions(extension?.options?.fontFamilyList || []);
+export const FontFamily = /* @__PURE__ */ FontFamilyTiptap.extend<FontFamilyOptions>({
+  //@ts-expect-error
+  addOptions() {
+    return {
+      ...this.parent?.(),
+      fontFamilyList: DEFAULT_FONT_FAMILY_LIST,
+      button({ editor, extension, t }: any) {
+        const fontFamilyList = ensureNameValueOptions(extension?.options?.fontFamilyList || [])
 
-          const items = fontFamilyList.map((font) => ({
-            action: () => {
-              if (font.value === 'Default') {
-                editor.chain().focus().unsetFontFamily().run();
-                return;
+        const items = fontFamilyList.map((font) => ({
+          action: () => {
+            if (font.value === 'Default') {
+              editor.chain().focus().unsetFontFamily().run()
+              return
+            }
+            editor.chain().focus().setFontFamily(font.value).run()
+          },
+          isActive: () => editor.isActive('textStyle', { fontFamily: font.value }) || false,
+          // disabled: !editor.can().setFontFamily(font.value),
+          title: font.name,
+          font: font.value,
+          default: font.value === 'Default'
+        }))
+
+        return {
+          // component: FontFamilyButton,
+          componentProps: {
+            tooltip: 'Font Family',
+            disabled: false,
+            items,
+            isActive: () => {
+              const find: any = items?.find((k: any) => k.isActive())
+
+              if (find && !find.default) {
+                return find
               }
-              editor.chain().focus().setFontFamily(font.value).run();
+
+              const item = {
+                title: 'Font Family',
+                font: 'Default',
+                isActive: () => false,
+                disabled: false
+              }
+              return item
             },
-            isActive: () => editor.isActive('textStyle', { fontFamily: font.value }) || false,
-            // disabled: !editor.can().setFontFamily(font.value),
-            title: font.name,
-            font: font.value,
-            default: font.value === 'Default',
-          }));
-
-          return {
-            // component: FontFamilyButton,
-            componentProps: {
-              tooltip: t('editor.fontFamily.tooltip'),
-              disabled: false,
-              items,
-              isActive: () => {
-                const find: any = items?.find((k: any) => k.isActive());
-
-                if (find && !find.default) {
-                  return find;
-                }
-
-                const item = {
-                  title: t('editor.fontFamily.default.tooltip'),
-                  font: t('editor.fontFamily.default.tooltip'),
-                  isActive: () => false,
-                  disabled: false,
-                };
-                return item;
-              },
-              icon: 'MenuDown',
-              fontFamilyList,
-            },
-          };
-        },
-      };
-    },
-  });
+            icon: 'MenuDown',
+            fontFamilyList
+          }
+        }
+      }
+    }
+  }
+})

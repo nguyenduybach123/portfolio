@@ -1,10 +1,9 @@
-import { ActionButton } from '@/components';
-import { TextUnderline } from '@/extensions/TextUnderline/TextUnderline';
-import { useToggleActive } from '@/hooks/useActive';
-import { useButtonProps } from '@/hooks/useButtonProps';
+import ActionButton from '../../../components/action-button'
+import { useButtonProps, useToggleActive } from '../../../lib/hooks'
+import { TextUnderline } from '../TextUnderline'
 
 export function RichTextUnderline() {
-  const buttonProps = useButtonProps(TextUnderline.name);
+  const buttonProps = useButtonProps(TextUnderline.name)
 
   const {
     icon = undefined,
@@ -12,22 +11,22 @@ export function RichTextUnderline() {
     shortcutKeys = undefined,
     tooltipOptions = {},
     action = undefined,
-    isActive = undefined,
-  } = buttonProps?.componentProps ?? {};
+    isActive = undefined
+  } = buttonProps?.componentProps ?? {}
 
-  const { dataState, disabled, update } = useToggleActive(isActive);
+  const { dataState, disabled, update } = useToggleActive(isActive)
 
   const onAction = () => {
-    if (disabled) return;
+    if (disabled) return
 
     if (action) {
-      action();
-      update();
+      action()
+      update()
     }
-  };
+  }
 
   if (!buttonProps) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -40,5 +39,5 @@ export function RichTextUnderline() {
       tooltip={tooltip}
       tooltipOptions={tooltipOptions}
     />
-  );
+  )
 }

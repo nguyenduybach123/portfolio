@@ -1,62 +1,52 @@
-import React, { useRef, useState, useMemo } from 'react';
-import ReactCrop, { type Crop, type PixelCrop } from 'react-image-crop';
+import React, { useRef, useState, useMemo } from 'react'
+import ReactCrop, { type Crop, type PixelCrop } from 'react-image-crop'
 
-import { IconComponent, useToast } from '@/components';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { Image as ExtensionImage } from '@/extensions/Image';
-import { useExtension } from '@/hooks/useExtension';
-import { useLocale } from '@/locales';
-import { dataURLtoFile, readImageAsBase64 } from '@/utils/file';
-import { validateFiles } from '@/utils/validateFile';
+import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { dataURLtoFile, readImageAsBase64 } from '@/utils/file'
+import { useExtension } from '../../../lib/hooks'
+import { Image as ExtensionImage } from '../Image'
+import { CropIcon, LoaderIcon, Trash2Icon } from 'lucide-react'
+import { validateFiles } from '../../../lib/utils'
 
 export function ImageCropper({ editor, imageInline, onClose, disabled, alt }: any) {
-  const { t } = useLocale();
-  const { toast } = useToast();
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [isCropping, setIsCropping] = useState(false)
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [isCropping, setIsCropping] = useState(false);
+  const imgRef = React.useRef<HTMLImageElement | null>(null)
 
-  const imgRef = React.useRef<HTMLImageElement | null>(null);
-
-  const [crop, setCrop] = React.useState<Crop>();
-  const [croppedImageUrl, setCroppedImageUrl] = React.useState<string>('');
-  const fileInput = useRef<HTMLInputElement>(null);
+  const [crop, setCrop] = React.useState<Crop>()
+  const [croppedImageUrl, setCroppedImageUrl] = React.useState<string>('')
+  const fileInput = useRef<HTMLInputElement>(null)
   const [urlUpload, setUrlUpload] = useState<any>({
     src: '',
-    file: null,
-  });
-  const extension = useExtension(ExtensionImage.name);
+    file: null
+  })
+  const extension = useExtension(ExtensionImage.name)
 
   const uploadOptions = useMemo(() => {
-    return extension?.options ?? {};
-  }, [extension]);
+    return extension?.options ?? {}
+  }, [extension])
 
   function onCropComplete(crop: PixelCrop) {
     if (imgRef.current && crop.width && crop.height) {
-      const croppedImageUrl = getCroppedImg(imgRef.current, crop);
-      setCroppedImageUrl(croppedImageUrl);
+      const croppedImageUrl = getCroppedImg(imgRef.current, crop)
+      setCroppedImageUrl(croppedImageUrl)
     }
   }
 
   function getCroppedImg(image: HTMLImageElement, crop: PixelCrop): string {
-    const canvas = document.createElement('canvas');
-    const scaleX = image.naturalWidth / image.width;
-    const scaleY = image.naturalHeight / image.height;
+    const canvas = document.createElement('canvas')
+    const scaleX = image.naturalWidth / image.width
+    const scaleY = image.naturalHeight / image.height
 
-    canvas.width = crop.width * scaleX;
-    canvas.height = crop.height * scaleY;
+    canvas.width = crop.width * scaleX
+    canvas.height = crop.height * scaleY
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d')
 
     if (ctx) {
-      ctx.imageSmoothingEnabled = false;
+      ctx.imageSmoothingEnabled = false
 
       ctx.drawImage(
         image,
@@ -68,118 +58,103 @@ export function ImageCropper({ editor, imageInline, onClose, disabled, alt }: an
         0,
         crop.width * scaleX,
         crop.height * scaleY
-      );
+      )
     }
 
-    return canvas.toDataURL('image/png', 1.0);
+    return canvas.toDataURL('image/png', 1.0)
   }
 
   const onCrop = React.useCallback(async () => {
-    if (isCropping) return;
+    if (isCropping) return
 
-    setIsCropping(true);
+    setIsCropping(true)
     try {
-      const fileCrop = dataURLtoFile(croppedImageUrl, urlUpload?.file?.name || 'image.png');
+      const fileCrop = dataURLtoFile(croppedImageUrl, urlUpload?.file?.name || 'image.png')
 
-      let src = '';
+      let src = ''
       if (uploadOptions.upload) {
-        src = await uploadOptions.upload(fileCrop);
+        src = await uploadOptions.upload(fileCrop)
       } else {
-        src = URL.createObjectURL(fileCrop);
+        src = URL.createObjectURL(fileCrop)
       }
 
-      editor.chain().focus().setImageInline({ src, inline: imageInline, alt }).run();
+      editor.chain().focus().setImageInline({ src, inline: imageInline, alt }).run()
 
-      setDialogOpen(false);
+      setDialogOpen(false)
 
       setUrlUpload({
         src: '',
-        file: null,
-      });
+        file: null
+      })
 
-      resetFileInput();
-      onClose();
+      resetFileInput()
+      onClose()
     } catch (error) {
-      console.error('Error cropping image', error);
+      console.error('Error cropping image', error)
     } finally {
-      setIsCropping(false);
+      setIsCropping(false)
     }
-  }, [
-    croppedImageUrl,
-    editor,
-    imageInline,
-    isCropping,
-    onClose,
-    urlUpload?.file?.name,
-    uploadOptions,
-  ]);
+  }, [croppedImageUrl, editor, imageInline, isCropping, onClose, urlUpload?.file?.name, uploadOptions])
 
   function handleClick(e: any) {
-    e.preventDefault();
-    fileInput.current?.click();
+    e.preventDefault()
+    fileInput.current?.click()
   }
 
   const handleFile = async (event: any) => {
-    const files = event?.target?.files;
+    const files = event?.target?.files
     if (!editor || editor.isDestroyed || files.length === 0) {
-      event.target.value = '';
-      return;
+      event.target.value = ''
+      return
     }
 
     const validFiles = validateFiles(files, {
       acceptMimes: uploadOptions?.acceptMimes,
       maxSize: uploadOptions?.maxSize,
-      t,
-      toast,
-      onError: uploadOptions.onError,
-    });
+      onError: uploadOptions.onError
+    })
 
     if (validFiles.length <= 0) {
-      event.target.value = '';
-      return;
+      event.target.value = ''
+      return
     }
 
-    const file = validFiles[0];
-    const base64 = await readImageAsBase64(file);
+    const file = validFiles[0]
+    const base64 = await readImageAsBase64(file)
 
-    setDialogOpen(true);
+    setDialogOpen(true)
     setUrlUpload({
       src: base64.src,
-      file,
-    });
-  };
+      file
+    })
+  }
 
   const resetFileInput = () => {
     if (fileInput.current) {
-      fileInput.current.value = '';
+      fileInput.current.value = ''
     }
-  };
+  }
 
   return (
     <>
-      <Button
-        className='richtext-mt-1 richtext-w-full'
-        disabled={disabled}
-        onClick={handleClick}
-        size='sm'
-      >
-        {t('editor.image.dialog.tab.uploadCrop')}
+      <Button className='richtext-mt-1 richtext-w-full' disabled={disabled} onClick={handleClick} size='sm'>
+        {'Upload & Crop'}
       </Button>
 
       <Dialog
         open={dialogOpen}
         onOpenChange={(open) => {
-          setDialogOpen(open);
+          setDialogOpen(open)
           if (!open) {
-            setUrlUpload({ src: '', file: null });
-            resetFileInput();
+            setUrlUpload({ src: '', file: null })
+            resetFileInput()
           }
         }}
       >
         <DialogTrigger />
 
         <DialogContent>
-          <DialogTitle>{t('editor.image.dialog.tab.uploadCrop')}</DialogTitle>
+          <DialogTitle>{'Upload & Crop'}</DialogTitle>
 
           <div>
             {urlUpload.src && (
@@ -198,31 +173,31 @@ export function ImageCropper({ editor, imageInline, onClose, disabled, alt }: an
             <Button
               disabled={isCropping}
               onClick={() => {
-                setDialogOpen(false);
+                setDialogOpen(false)
                 setUrlUpload({
                   src: '',
-                  file: null,
-                });
-                resetFileInput();
+                  file: null
+                })
+                resetFileInput()
               }}
             >
-              {t('editor.imageUpload.cancel')}
+              {'Cancel'}
 
-              <IconComponent className='richtext-ml-1' name='Trash2' />
+              <Trash2Icon className='richtext-ml-1' />
             </Button>
 
             <Button className='richtext-w-fit' disabled={isCropping || !crop} onClick={onCrop}>
               {isCropping ? (
                 <>
-                  {t('editor.imageUpload.uploading')}
+                  {'Uploading...'}
 
-                  <IconComponent className='richtext-ml-1 richtext-animate-spin' name='Loader' />
+                  <LoaderIcon className='richtext-ml-1 richtext-animate-spin' />
                 </>
               ) : (
                 <>
-                  {t('editor.imageUpload.crop')}
+                  {'Crop'}
 
-                  <IconComponent className='richtext-ml-1' name='Crop' />
+                  <CropIcon className='richtext-ml-1' />
                 </>
               )}
             </Button>
@@ -239,5 +214,5 @@ export function ImageCropper({ editor, imageInline, onClose, disabled, alt }: an
         type='file'
       />
     </>
-  );
+  )
 }

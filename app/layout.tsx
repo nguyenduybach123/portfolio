@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
+import { QueryAPIProvider } from './_components'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -21,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <div className='relative flex min-h-screen flex-col'>
-          <main className='flex-1'>{children}</main>
-        </div>
+        <QueryAPIProvider>
+          <div className='relative flex min-h-screen flex-col'>
+            <main className='flex-1'>{children}</main>
+          </div>
+        </QueryAPIProvider>
       </body>
     </html>
   )

@@ -5,32 +5,32 @@ import {
   TableHeader,
   type TableCellOptions,
   type TableRowOptions,
-  type TableHeaderOptions,
-} from '@tiptap/extension-table';
+  type TableHeaderOptions
+} from '@tiptap/extension-table'
 
-import type { TableCellBackgroundOptions } from './TableCellBackground';
-import type { GeneralOptions } from '@/types';
+import type { TableCellBackgroundOptions } from './TableCellBackground'
 
-import { TableCellBackground } from './TableCellBackground';
+import { TableCellBackground } from './TableCellBackground'
+import { GeneralOptions } from '../../lib/types'
 
 export interface TableOptions extends GeneralOptions<TableOptions> {
-  HTMLAttributes: Record<string, any>;
-  resizable: boolean;
-  handleWidth: number;
-  cellMinWidth: number;
-  lastColumnResizable: boolean;
-  allowTableNodeSelection: boolean;
+  HTMLAttributes: Record<string, any>
+  resizable: boolean
+  handleWidth: number
+  cellMinWidth: number
+  lastColumnResizable: boolean
+  allowTableNodeSelection: boolean
   /** options for table rows */
-  tableRow: Partial<TableRowOptions>;
+  tableRow: Partial<TableRowOptions>
   /** options for table headers */
-  tableHeader: Partial<TableHeaderOptions>;
+  tableHeader: Partial<TableHeaderOptions>
   /** options for table cells */
-  tableCell: Partial<TableCellOptions>;
+  tableCell: Partial<TableCellOptions>
   /** options for table cell background */
-  tableCellBackground: Partial<TableCellBackgroundOptions>;
+  tableCellBackground: Partial<TableCellBackgroundOptions>
 }
 
-export * from '@/extensions/Table/components/RichTextTable';
+export * from './components/RichTextTable'
 
 export const Table = /* @__PURE__ */ TiptapTable.extend<TableOptions>({
   //@ts-expect-error
@@ -42,7 +42,7 @@ export const Table = /* @__PURE__ */ TiptapTable.extend<TableOptions>({
           border: 1px solid #000;
           border-collapse: collapse;
           width: 100%;
-        `,
+        `
       },
       resizable: true,
       lastColumnResizable: true,
@@ -52,10 +52,10 @@ export const Table = /* @__PURE__ */ TiptapTable.extend<TableOptions>({
         componentProps: {
           isActive: () => editor.isActive('table'),
           icon: 'Table',
-          tooltip: t('editor.table.tooltip'),
-        },
-      }),
-    };
+          tooltip: 'Table'
+        }
+      })
+    }
   },
 
   addExtensions() {
@@ -63,7 +63,7 @@ export const Table = /* @__PURE__ */ TiptapTable.extend<TableOptions>({
       TableRow.configure(this.options.tableRow),
       TableHeader.configure(this.options.tableHeader),
       TableCell.configure(this.options.tableCell),
-      TableCellBackground.configure(this.options.tableCellBackground),
-    ];
-  },
-});
+      TableCellBackground.configure(this.options.tableCellBackground)
+    ]
+  }
+})

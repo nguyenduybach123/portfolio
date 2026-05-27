@@ -87,6 +87,7 @@
 /**
  * Performance Optimizations
  */
+
 @layer utilities {
   /* GPU acceleration hints for animated elements */
   .gpu-accelerate {
@@ -319,6 +320,96 @@
   }
   .richtext-text-left {
     @apply text-left;
+  }
+
+  /* layout */
+  .richtext-flex {
+    @apply flex;
+  }
+
+  .richtext-flex-col {
+    @apply flex-col;
+  }
+
+  .richtext-flex-wrap {
+    @apply flex-wrap;
+  }
+
+  .richtext-justify-between {
+    @apply justify-between;
+  }
+
+  .richtext-gap-1 {
+    @apply gap-1;
+  }
+
+  .richtext-cursor-pointer {
+    @apply cursor-pointer;
+  }
+
+  .richtext-box-border {
+    @apply box-border;
+  }
+
+  /* spacing */
+  .richtext-p-0 {
+    @apply p-0;
+  }
+
+  .richtext-p-1 {
+    @apply p-1;
+  }
+
+  .richtext-p-2 {
+    @apply p-2;
+  }
+
+  .richtext-mt-2 {
+    @apply mt-2;
+  }
+
+  /* sizing */
+  .richtext-size-4 {
+    @apply size-4;
+  }
+
+  .richtext-w-full {
+    @apply w-full;
+  }
+
+  /* border */
+  .richtext-border {
+    @apply border;
+  }
+
+  .richtext-border-solid {
+    @apply border-solid;
+  }
+
+  .richtext-border-border {
+    @apply border-border;
+  }
+
+  .richtext-rounded-\[2px\] {
+    @apply rounded-[2px];
+  }
+
+  /* typography */
+  .richtext-text-center {
+    @apply text-center;
+  }
+
+  .richtext-text-sm {
+    @apply text-sm;
+  }
+
+  .richtext-text-foreground {
+    @apply text-foreground;
+  }
+
+  /* background */
+  .richtext-bg-foreground {
+    @apply bg-foreground;
   }
 }
 /**

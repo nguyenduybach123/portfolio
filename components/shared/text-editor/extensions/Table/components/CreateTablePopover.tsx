@@ -1,83 +1,80 @@
-import React, { useState } from 'react';
+import { useState } from 'react'
 
-import { Popover, PopoverContent, PopoverTrigger } from '@/components';
-import {
-  TABLE_DEFAULT_SELECTED_GRID_SIZE,
-  TABLE_INIT_GRID_SIZE,
-  TABLE_MAX_GRID_SIZE,
-} from '@/constants';
-import { isMobile } from '@/utils/is-mobile';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { useIsMobile } from '@/hooks/use-mobile'
+import { TABLE_DEFAULT_SELECTED_GRID_SIZE, TABLE_INIT_GRID_SIZE, TABLE_MAX_GRID_SIZE } from '../lib/constants'
 
-const createArray = (length: number) => Array.from({ length }).map((_, index) => index + 1);
+const createArray = (length: number) => Array.from({ length }).map((_, index) => index + 1)
 
 interface IPropsCreateTablePopover {
-  createTable: any;
-  children: any;
-  dataState?: any;
+  createTable: any
+  children: any
+  dataState?: any
 }
 
 interface GridSize {
-  rows: number;
-  cols: number;
+  rows: number
+  cols: number
 }
 
 function CreateTablePopover(props: IPropsCreateTablePopover) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
+  const isMobile = useIsMobile()
 
-  const [withHeaderRow, setWithHeaderRow] = useState<boolean>(true);
+  const [withHeaderRow, setWithHeaderRow] = useState<boolean>(true)
   const [tableGridSize, setTableGridSize] = useState<GridSize>({
-    rows: isMobile() ? TABLE_MAX_GRID_SIZE : TABLE_INIT_GRID_SIZE,
-    cols: isMobile() ? TABLE_MAX_GRID_SIZE : TABLE_INIT_GRID_SIZE,
-  });
+    rows: isMobile ? TABLE_MAX_GRID_SIZE : TABLE_INIT_GRID_SIZE,
+    cols: isMobile ? TABLE_MAX_GRID_SIZE : TABLE_INIT_GRID_SIZE
+  })
 
   const [selectedTableGridSize, setSelectedTableGridSize] = useState<GridSize>({
     rows: TABLE_DEFAULT_SELECTED_GRID_SIZE,
-    cols: TABLE_DEFAULT_SELECTED_GRID_SIZE,
-  });
+    cols: TABLE_DEFAULT_SELECTED_GRID_SIZE
+  })
 
   function selectTableGridSize(rows: number, cols: number): void {
     if (rows === tableGridSize.rows) {
       setTableGridSize((prev) => {
         return {
           ...prev,
-          rows: Math.min(rows + 1, TABLE_MAX_GRID_SIZE),
-        };
-      });
+          rows: Math.min(rows + 1, TABLE_MAX_GRID_SIZE)
+        }
+      })
     }
 
     if (cols === tableGridSize.cols) {
       setTableGridSize((prev) => {
         return {
           ...prev,
-          cols: Math.min(cols + 1, TABLE_MAX_GRID_SIZE),
-        };
-      });
+          cols: Math.min(cols + 1, TABLE_MAX_GRID_SIZE)
+        }
+      })
     }
 
     setSelectedTableGridSize({
       rows,
-      cols,
-    });
+      cols
+    })
   }
 
   function onMouseDown(rows: number, cols: number) {
-    props?.createTable({ rows, cols, withHeaderRow });
-    resetTableGridSize();
-    setOpen(false);
+    props?.createTable({ rows, cols, withHeaderRow })
+    resetTableGridSize()
+    setOpen(false)
   }
 
   function resetTableGridSize(): void {
-    setWithHeaderRow(false);
+    setWithHeaderRow(false)
 
     setTableGridSize({
       rows: TABLE_INIT_GRID_SIZE,
-      cols: TABLE_INIT_GRID_SIZE,
-    });
+      cols: TABLE_INIT_GRID_SIZE
+    })
 
     setSelectedTableGridSize({
       rows: TABLE_DEFAULT_SELECTED_GRID_SIZE,
-      cols: TABLE_DEFAULT_SELECTED_GRID_SIZE,
-    });
+      cols: TABLE_DEFAULT_SELECTED_GRID_SIZE
+    })
   }
 
   return (
@@ -106,10 +103,10 @@ function CreateTablePopover(props: IPropsCreateTablePopover) {
                       >
                         <div className='richtext-box-border richtext-size-4 richtext-rounded-[2px] !richtext-border richtext-border-solid !richtext-border-border richtext-p-1'></div>
                       </div>
-                    );
+                    )
                   })}
                 </div>
-              );
+              )
             })}
           </div>
 
@@ -119,7 +116,7 @@ function CreateTablePopover(props: IPropsCreateTablePopover) {
         </div>
       </PopoverContent>
     </Popover>
-  );
+  )
 }
 
-export default CreateTablePopover;
+export default CreateTablePopover

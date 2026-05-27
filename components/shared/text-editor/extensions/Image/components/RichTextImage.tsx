@@ -1,149 +1,133 @@
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react'
+import { useButtonProps, useEditorInstance, useExtension, useToggleActive } from '../../../lib/hooks'
+import { DEFAULT_OPTIONS, Image } from '../Image'
+import { validateFiles } from '../../../lib/utils'
 
-import {
-  ActionButton,
-  Button,
-  Checkbox,
-  Input,
-  Label,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-  useToast,
-  IconComponent,
-} from '@/components';
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { ImageCropper } from '@/extensions/Image/components/ImageCropper';
-import { DEFAULT_OPTIONS, Image } from '@/extensions/Image/Image';
-import { useToggleActive } from '@/hooks/useActive';
-import { useButtonProps } from '@/hooks/useButtonProps';
-import { useExtension } from '@/hooks/useExtension';
-import { useLocale } from '@/locales';
-import { useEditorInstance } from '@/store/editor';
-import { validateFiles } from '@/utils/validateFile';
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import ActionButton from '../../../components/action-button'
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { LoaderIcon } from 'lucide-react'
+import { ImageCropper } from './ImageCropper'
+import { Separator } from '@/components/ui/separator'
 
 export function RichTextImage() {
-  const { t } = useLocale();
-  const { toast } = useToast();
+  const editor = useEditorInstance()
+  const buttonProps = useButtonProps(Image.name)
 
-  const editor = useEditorInstance();
-  const buttonProps = useButtonProps(Image.name);
+  const { icon, tooltip } = buttonProps?.componentProps ?? {}
 
-  const { icon, tooltip } = buttonProps?.componentProps ?? {};
+  const { editorDisabled } = useToggleActive()
 
-  const { editorDisabled } = useToggleActive();
+  const [open, setOpen] = useState(false)
 
-  const [open, setOpen] = useState(false);
+  const [isUploading, setIsUploading] = useState(false)
+  const extension = useExtension(Image.name)
 
-  const [isUploading, setIsUploading] = useState(false);
-  const extension = useExtension(Image.name);
+  const [link, setLink] = useState<string>('')
+  const [alt, setAlt] = useState<string>('')
+  const fileInput = useRef<HTMLInputElement>(null)
 
-  const [link, setLink] = useState<string>('');
-  const [alt, setAlt] = useState<string>('');
-  const fileInput = useRef<HTMLInputElement>(null);
+  const defaultInline = extension?.options.defaultInline || false
 
-  const defaultInline = extension?.options.defaultInline || false;
-
-  const [imageInline, setImageInline] = useState(defaultInline);
+  const [imageInline, setImageInline] = useState(defaultInline)
 
   const uploadOptions = useMemo(() => {
-    const uploadOptions = extension?.options;
+    const uploadOptions = extension?.options
 
-    return uploadOptions || DEFAULT_OPTIONS;
-  }, [extension]);
+    return uploadOptions || DEFAULT_OPTIONS
+  }, [extension])
 
   async function handleFile(event: any) {
-    const files = event?.target?.files;
+    const files = event?.target?.files
     if (!editor || editor.isDestroyed || files.length === 0 || isUploading) {
-      event.target.value = '';
-      return;
+      event.target.value = ''
+      return
     }
 
     const validFiles = validateFiles(files, {
       acceptMimes: uploadOptions?.acceptMimes,
       maxSize: uploadOptions?.maxSize,
-      t,
-      toast,
-      onError: uploadOptions.onError,
-    });
+      onError: uploadOptions.onError
+    })
 
     if (validFiles.length <= 0) {
-      event.target.value = '';
-      return;
+      event.target.value = ''
+      return
     }
 
-    setIsUploading(true);
+    setIsUploading(true)
     try {
       if (uploadOptions?.multiple) {
         // Handle multiple files upload
         const uploadPromises = validFiles.map(async (file) => {
-          let src = '';
+          let src = ''
           if (uploadOptions.upload) {
-            src = await uploadOptions.upload(file);
+            src = await uploadOptions.upload(file)
           } else {
-            src = URL.createObjectURL(file);
+            src = URL.createObjectURL(file)
           }
-          return src;
-        });
+          return src
+        })
 
-        const srcs = await Promise.all(uploadPromises);
+        const srcs = await Promise.all(uploadPromises)
         // Insert all images (you might want to adjust this based on your editor's capabilities)
         srcs.forEach((src) => {
-          editor.chain().focus().setImageInline({ src, inline: imageInline, alt }).run();
-        });
+          editor.chain().focus().setImageInline({ src, inline: imageInline, alt }).run()
+        })
       } else {
         // Single file upload (take the first valid file)
-        const file = validFiles[0];
-        let src = '';
+        const file = validFiles[0]
+        let src = ''
         if (uploadOptions.upload) {
-          src = await uploadOptions.upload(file);
+          src = await uploadOptions.upload(file)
         } else {
-          src = URL.createObjectURL(file);
+          src = URL.createObjectURL(file)
         }
-        editor.chain().focus().setImageInline({ src, inline: imageInline, alt }).run();
+        editor.chain().focus().setImageInline({ src, inline: imageInline, alt }).run()
       }
 
-      setOpen(false);
-      setAlt('');
-      setImageInline(defaultInline);
+      setOpen(false)
+      setAlt('')
+      setImageInline(defaultInline)
     } catch (error) {
-      console.error('Error uploading image', error);
+      console.error('Error uploading image', error)
       if (uploadOptions.onError) {
         uploadOptions.onError({
           type: 'upload',
-          message: t('editor.upload.error'),
-        });
+          message: 'Error uploading image'
+        })
       } else {
-        toast({
-          variant: 'destructive',
-          title: t('editor.upload.error'),
-        });
+        console.warn('Error uploading image')
       }
     } finally {
-      setIsUploading(false);
-      event.target.value = '';
+      setIsUploading(false)
+      event.target.value = ''
     }
   }
 
   function handleLink(e: any) {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
 
-    editor.chain().focus().setImageInline({ src: link, inline: imageInline, alt }).run();
-    setOpen(false);
-    setImageInline(defaultInline);
-    setLink('');
-    setAlt('');
+    editor.chain().focus().setImageInline({ src: link, inline: imageInline, alt }).run()
+    setOpen(false)
+    setImageInline(defaultInline)
+    setLink('')
+    setAlt('')
   }
 
   function handleClick(e: any) {
-    e.preventDefault();
-    fileInput.current?.click();
+    e.preventDefault()
+    fileInput.current?.click()
   }
 
   if (!buttonProps) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -154,28 +138,26 @@ export function RichTextImage() {
           icon={icon}
           tooltip={tooltip}
           action={() => {
-            if (editorDisabled) return;
-            setOpen(true);
+            if (editorDisabled) return
+            setOpen(true)
           }}
         />
       </DialogTrigger>
 
       <DialogContent>
-        <DialogTitle>{t('editor.image.dialog.title')}</DialogTitle>
+        <DialogTitle>Upload</DialogTitle>
 
         <Tabs
           activationMode='manual'
           defaultValue={
-            uploadOptions.resourceImage === 'both' || uploadOptions.resourceImage === 'upload'
-              ? 'upload'
-              : 'link'
+            uploadOptions.resourceImage === 'both' || uploadOptions.resourceImage === 'upload' ? 'upload' : 'link'
           }
+          className='space-y-2'
         >
           {uploadOptions.resourceImage === 'both' && (
-            <TabsList className='richtext-grid richtext-w-full richtext-grid-cols-2'>
-              <TabsTrigger value='upload'>{t('editor.image.dialog.tab.upload')}</TabsTrigger>
-
-              <TabsTrigger value='link'>{t('editor.image.dialog.tab.url')}</TabsTrigger>
+            <TabsList className='grid w-full grid-cols-2'>
+              <TabsTrigger value='upload'>Upload</TabsTrigger>
+              <TabsTrigger value='link'>URL</TabsTrigger>
             </TabsList>
           )}
 
@@ -183,39 +165,35 @@ export function RichTextImage() {
             <Checkbox
               checked={imageInline}
               onCheckedChange={(v) => {
-                setImageInline(v as boolean);
+                setImageInline(v as boolean)
               }}
             />
 
-            <Label>{t('editor.link.dialog.inline')}</Label>
+            <Label className='ml-1'>Inline</Label>
           </div>
 
           {uploadOptions.enableAlt && (
             <div className='richtext-my-[10px]'>
-              <Label className='mb-[6px]'>{t('editor.imageUpload.alt')}</Label>
+              <Label className='mb-[6px]'>Alt</Label>
 
               <Input onChange={(e) => setAlt(e.target.value)} required type='text' value={alt} />
             </div>
           )}
 
           <TabsContent value='upload'>
-            <div className='richtext-flex richtext-items-center richtext-gap-[10px]'>
-              <Button
-                className='richtext-mt-1 richtext-w-full'
-                disabled={isUploading}
-                onClick={handleClick}
-                size='sm'
-              >
+            <div className='richtext-flex richtext-items-center richtext-gap-[10px] mt-3'>
+              <Button className='richtext-mt-1 richtext-w-full' disabled={isUploading} onClick={handleClick} size='sm'>
                 {isUploading ? (
                   <>
-                    {t('editor.imageUpload.uploading')}
-
-                    <IconComponent className='richtext-ml-1 richtext-animate-spin' name='Loader' />
+                    Uploading
+                    <LoaderIcon className='richtext-ml-2 richtext-animate-spin' />
                   </>
                 ) : (
-                  t('editor.image.dialog.tab.upload')
+                  'Upload'
                 )}
               </Button>
+
+              <Separator orientation='vertical' className='mx-2 my-auto h-6' />
 
               <ImageCropper
                 alt={alt}
@@ -223,7 +201,7 @@ export function RichTextImage() {
                 editor={editor}
                 imageInline={imageInline}
                 onClose={() => {
-                  setAlt('');
+                  setAlt('')
                 }}
               />
             </div>
@@ -245,18 +223,18 @@ export function RichTextImage() {
                 <Input
                   autoFocus
                   onChange={(e) => setLink(e.target.value)}
-                  placeholder={t('editor.image.dialog.placeholder')}
+                  placeholder='Enter image URL'
                   required
                   type='url'
                   value={link}
                 />
 
-                <Button type='submit'>{t('editor.image.dialog.button.apply')}</Button>
+                <Button type='submit'>Apply</Button>
               </div>
             </form>
           </TabsContent>
         </Tabs>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

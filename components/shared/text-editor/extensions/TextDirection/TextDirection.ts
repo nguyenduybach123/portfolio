@@ -1,8 +1,4 @@
-import { Extension } from '@tiptap/core';
-
-export * from '@/extensions/TextDirection/components/RichTextTextDirection';
-
-export * from '@/extensions/TextDirection/components/RichTextTextDirection';
+import { Extension } from '@tiptap/core'
 
 const TextDirection = /* @__PURE__ */ Extension.create({
   name: 'richTextTextDirection',
@@ -11,50 +7,42 @@ const TextDirection = /* @__PURE__ */ Extension.create({
       ...this.parent?.(),
       directions: ['auto', 'ltr', 'rtl', 'unset'],
       defaultDirection: 'auto',
-      button({
-        editor,
-        extension,
-        t,
-      }: {
-        editor: any;
-        extension: Extension;
-        t: (...args: any[]) => string;
-      }) {
-        const directions = (extension.options?.directions as any[]) || [];
+      button({ editor, extension }: { editor: any; extension: Extension }) {
+        const directions = (extension.options?.directions as any[]) || []
 
         const iconMap = {
           auto: 'TextDirection',
           ltr: 'LeftToRight',
           rtl: 'RightToLeft',
-          unset: 'X',
-        } as any;
+          unset: 'X'
+        } as any
 
         const items = directions.map((k) => ({
-          title: t(`editor.textDirection.${k}.tooltip`),
+          title: `Text Direction: ${k}`,
           value: k,
           icon: iconMap[k],
           action: () => {
             if (k === 'unset') {
-              editor.commands?.unsetTextDirection?.();
-              return;
+              editor.commands?.unsetTextDirection?.()
+              return
             }
 
-            editor.commands?.setTextDirection?.(k);
+            editor.commands?.setTextDirection?.(k)
           },
-          disabled: false,
-        }));
+          disabled: false
+        }))
 
         return {
           componentProps: {
             icon: 'TextDirection',
-            tooltip: t('editor.textDirection.tooltip'),
+            tooltip: 'Text Direction',
             items,
-            isActive: () => editor.getAttributes('paragraph'),
-          },
-        };
-      },
-    };
-  },
-});
+            isActive: () => editor.getAttributes('paragraph')
+          }
+        }
+      }
+    }
+  }
+})
 
-export { TextDirection };
+export { TextDirection }

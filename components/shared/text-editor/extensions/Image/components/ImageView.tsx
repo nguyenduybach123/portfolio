@@ -1,64 +1,63 @@
-import { NodeViewWrapper } from '@tiptap/react';
-import { clamp, isNumber, throttle } from 'lodash-es';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-
-import { IMAGE_MAX_SIZE, IMAGE_MIN_SIZE, IMAGE_THROTTLE_WAIT_TIME } from '@/constants';
+import { NodeViewWrapper } from '@tiptap/react'
+import { clamp, isNumber, throttle } from 'lodash-es'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { IMAGE_MAX_SIZE, IMAGE_MIN_SIZE, IMAGE_THROTTLE_WAIT_TIME } from '../lib/constants'
 
 interface Size {
-  width: number;
-  height: number;
+  width: number
+  height: number
 }
 
 const ResizeDirection = {
   TOP_LEFT: 'tl',
   TOP_RIGHT: 'tr',
   BOTTOM_LEFT: 'bl',
-  BOTTOM_RIGHT: 'br',
-};
+  BOTTOM_RIGHT: 'br'
+}
 
 function ImageView(props: any) {
   const [maxSize, setMaxSize] = useState<Size>({
     width: IMAGE_MAX_SIZE,
-    height: IMAGE_MAX_SIZE,
-  });
+    height: IMAGE_MAX_SIZE
+  })
 
   const [originalSize, setOriginalSize] = useState({
     width: 0,
-    height: 0,
-  });
+    height: 0
+  })
 
   const [resizeDirections] = useState<string[]>([
     ResizeDirection.TOP_LEFT,
     ResizeDirection.TOP_RIGHT,
     ResizeDirection.BOTTOM_LEFT,
-    ResizeDirection.BOTTOM_RIGHT,
-  ]);
+    ResizeDirection.BOTTOM_RIGHT
+  ])
 
-  const [resizing, setResizing] = useState<boolean>(false);
+  const [resizing, setResizing] = useState<boolean>(false)
 
   const [resizerState, setResizerState] = useState({
     x: 0,
     y: 0,
     w: 0,
     h: 0,
-    dir: '',
-  });
+    dir: ''
+  })
 
-  const { align, inline } = props?.node?.attrs;
-  const inlineFloat = inline && (align === 'left' || align === 'right');
+  const { align, inline } = props?.node?.attrs
+  const inlineFloat = inline && (align === 'left' || align === 'right')
 
   const imgAttrs = useMemo(() => {
-    const { src, alt, width: w, height: h, flipX, flipY } = props?.node?.attrs;
+    const { src, alt, width: w, height: h, flipX, flipY } = props?.node?.attrs
 
-    const width = isNumber(w) ? `${w}px` : w;
-    const height = isNumber(h) ? `${h}px` : h;
-    const transformStyles: any = [];
+    const width = isNumber(w) ? `${w}px` : w
+    const height = isNumber(h) ? `${h}px` : h
+    const transformStyles: any = []
 
-    if (flipX) transformStyles.push('rotateX(180deg)');
-    if (flipY) transformStyles.push('rotateY(180deg)');
-    const transform = transformStyles.join(' ');
+    if (flipX) transformStyles.push('rotateX(180deg)')
+    if (flipY) transformStyles.push('rotateY(180deg)')
+    const transform = transformStyles.join(' ')
 
-    const floatStyle = inlineFloat ? { float: align } : {};
+    const floatStyle = inlineFloat ? { float: align } : {}
 
     return {
       src: src || undefined,
@@ -67,113 +66,112 @@ function ImageView(props: any) {
         width: width || undefined,
         height: height || undefined,
         transform: transform || 'none',
-        ...floatStyle,
-      },
-    };
-  }, [props?.node?.attrs]);
+        ...floatStyle
+      }
+    }
+  }, [props?.node?.attrs])
 
   const imageMaxStyle = useMemo(() => {
     const {
-      style: { width },
-    } = imgAttrs;
+      style: { width }
+    } = imgAttrs
 
-    return { width: width === '100%' ? width : undefined };
-  }, [imgAttrs]);
+    return { width: width === '100%' ? width : undefined }
+  }, [imgAttrs])
 
   function onImageLoad(e: Record<string, any>) {
     setOriginalSize({
       width: e.target.width,
-      height: e.target.height,
-    });
+      height: e.target.height
+    })
   }
 
-  // https://github.com/scrumpy/tiptap/issues/361#issuecomment-540299541
   function selectImage() {
-    const { editor, getPos } = props;
-    editor.commands.setNodeSelection(getPos());
+    const { editor, getPos } = props
+    editor.commands.setNodeSelection(getPos())
   }
 
   const getMaxSize = useCallback(
     throttle(() => {
-      const { editor } = props;
-      const { width } = getComputedStyle(editor.view.dom);
+      const { editor } = props
+      const { width } = getComputedStyle(editor.view.dom)
       setMaxSize((prev) => {
         return {
           ...prev,
-          width: Number.parseInt(width, 10),
-        };
-      });
+          width: Number.parseInt(width, 10)
+        }
+      })
     }, IMAGE_THROTTLE_WAIT_TIME),
     [props?.editor]
-  );
+  )
 
   function onMouseDown(e: MouseEvent, dir: string) {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
 
-    const originalWidth = originalSize.width;
-    const originalHeight = originalSize.height;
-    const aspectRatio = originalWidth / originalHeight;
+    const originalWidth = originalSize.width
+    const originalHeight = originalSize.height
+    const aspectRatio = originalWidth / originalHeight
 
-    let width = Number(props.node.attrs.width);
-    let height = Number(props.node.attrs.height);
-    const maxWidth = maxSize.width;
+    let width = Number(props.node.attrs.width)
+    let height = Number(props.node.attrs.height)
+    const maxWidth = maxSize.width
 
     if (width && !height) {
-      width = width > maxWidth ? maxWidth : width;
-      height = Math.round(width / aspectRatio);
+      width = width > maxWidth ? maxWidth : width
+      height = Math.round(width / aspectRatio)
     } else if (height && !width) {
-      width = Math.round(height * aspectRatio);
-      width = width > maxWidth ? maxWidth : width;
+      width = Math.round(height * aspectRatio)
+      width = width > maxWidth ? maxWidth : width
     } else if (!width && !height) {
-      width = originalWidth > maxWidth ? maxWidth : originalWidth;
-      height = Math.round(width / aspectRatio);
+      width = originalWidth > maxWidth ? maxWidth : originalWidth
+      height = Math.round(width / aspectRatio)
     } else {
-      width = width > maxWidth ? maxWidth : width;
+      width = width > maxWidth ? maxWidth : width
     }
 
-    setResizing(true);
+    setResizing(true)
 
     setResizerState({
       x: e.clientX,
       y: e.clientY,
       w: width,
       h: height,
-      dir,
-    });
+      dir
+    })
   }
 
   const onMouseMove = useCallback(
     throttle((e: MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
+      e.preventDefault()
+      e.stopPropagation()
 
       if (!resizing) {
-        return;
+        return
       }
 
-      const { x, w, dir } = resizerState;
+      const { x, w, dir } = resizerState
 
-      const dx = (e.clientX - x) * (/l/.test(dir) ? -1 : 1);
+      const dx = (e.clientX - x) * (/l/.test(dir) ? -1 : 1)
       // const dy = (e.clientY - y) * (/t/.test(dir) ? -1 : 1)
 
-      const width = clamp(w + dx, IMAGE_MIN_SIZE, maxSize.width);
-      const height = null;
+      const width = clamp(w + dx, IMAGE_MIN_SIZE, maxSize.width)
+      const height = null
 
       props.updateAttributes({
         width,
-        height,
-      });
+        height
+      })
     }, IMAGE_THROTTLE_WAIT_TIME),
     [resizing, resizerState, maxSize, props.updateAttributes]
-  );
+  )
 
   const onMouseUp = useCallback(
     (e: MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
+      e.preventDefault()
+      e.stopPropagation()
       if (!resizing) {
-        return;
+        return
       }
 
       setResizerState({
@@ -181,48 +179,48 @@ function ImageView(props: any) {
         y: 0,
         w: 0,
         h: 0,
-        dir: '',
-      });
-      setResizing(false);
+        dir: ''
+      })
+      setResizing(false)
 
-      selectImage();
+      selectImage()
     },
     [resizing, selectImage]
-  );
+  )
 
   const onEvents = useCallback(() => {
-    document?.addEventListener('mousemove', onMouseMove, true);
-    document?.addEventListener('mouseup', onMouseUp, true);
-  }, [onMouseMove, onMouseUp]);
+    document?.addEventListener('mousemove', onMouseMove, true)
+    document?.addEventListener('mouseup', onMouseUp, true)
+  }, [onMouseMove, onMouseUp])
 
   const offEvents = useCallback(() => {
-    document?.removeEventListener('mousemove', onMouseMove, true);
-    document?.removeEventListener('mouseup', onMouseUp, true);
-  }, [onMouseMove, onMouseUp]);
+    document?.removeEventListener('mousemove', onMouseMove, true)
+    document?.removeEventListener('mouseup', onMouseUp, true)
+  }, [onMouseMove, onMouseUp])
 
   useEffect(() => {
     if (resizing) {
-      onEvents();
+      onEvents()
     } else {
-      offEvents();
+      offEvents()
     }
 
     return () => {
-      offEvents();
-    };
-  }, [resizing, onEvents, offEvents]);
+      offEvents()
+    }
+  }, [resizing, onEvents, offEvents])
 
   const resizeOb: ResizeObserver = useMemo(() => {
-    return new ResizeObserver(() => getMaxSize());
-  }, [getMaxSize]);
+    return new ResizeObserver(() => getMaxSize())
+  }, [getMaxSize])
 
   useEffect(() => {
-    resizeOb.observe(props.editor.view.dom);
+    resizeOb.observe(props.editor.view.dom)
 
     return () => {
-      resizeOb.disconnect();
-    };
-  }, [props.editor.view.dom, resizeOb]);
+      resizeOb.disconnect()
+    }
+  }, [props.editor.view.dom, resizeOb])
 
   return (
     <NodeViewWrapper
@@ -234,7 +232,7 @@ function ImageView(props: any) {
         display: inline ? 'inline' : 'block',
         textAlign: inlineFloat ? undefined : align,
         width: imgAttrs.style?.width ?? 'auto',
-        ...(inlineFloat ? {} : imageMaxStyle),
+        ...(inlineFloat ? {} : imageMaxStyle)
       }}
     >
       <div
@@ -264,13 +262,13 @@ function ImageView(props: any) {
                   key={`image-dir-${direction}`}
                   onMouseDown={(e: any) => onMouseDown(e, direction)}
                 ></span>
-              );
+              )
             })}
           </div>
         )}
       </div>
     </NodeViewWrapper>
-  );
+  )
 }
 
-export default ImageView;
+export default ImageView

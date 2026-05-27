@@ -1,10 +1,9 @@
-import { ActionButton } from '@/components';
-import { TaskList } from '@/extensions/TaskList/TaskList';
-import { useToggleActive } from '@/hooks/useActive';
-import { useButtonProps } from '@/hooks/useButtonProps';
+import { TaskList } from '@tiptap/extension-list'
+import { useButtonProps, useToggleActive } from '../../../lib/hooks'
+import ActionButton from '../../../components/action-button'
 
 export function RichTextTaskList() {
-  const buttonProps = useButtonProps(TaskList.name);
+  const buttonProps = useButtonProps(TaskList.name)
 
   const {
     icon = undefined,
@@ -12,22 +11,22 @@ export function RichTextTaskList() {
     shortcutKeys = undefined,
     tooltipOptions = {},
     action = undefined,
-    isActive = undefined,
-  } = buttonProps?.componentProps ?? {};
+    isActive = undefined
+  } = buttonProps?.componentProps ?? {}
 
-  const { dataState, disabled, update } = useToggleActive(isActive);
+  const { dataState, disabled, update } = useToggleActive(isActive)
 
   const onAction = () => {
-    if (disabled) return;
+    if (disabled) return
 
     if (action) {
-      action();
-      update();
+      action()
+      update()
     }
-  };
+  }
 
   if (!buttonProps) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -40,5 +39,5 @@ export function RichTextTaskList() {
       tooltip={tooltip}
       tooltipOptions={tooltipOptions}
     />
-  );
+  )
 }

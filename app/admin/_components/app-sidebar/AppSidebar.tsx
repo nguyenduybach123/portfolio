@@ -11,7 +11,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem
 } from '@/components/ui/sidebar'
-import { ChartBarIcon, FolderIcon, LayoutDashboardIcon, ListIcon, NewspaperIcon, UsersIcon } from 'lucide-react'
+import {
+  ChartBarIcon,
+  FolderIcon,
+  LayoutDashboardIcon,
+  ListIcon,
+  NewspaperIcon,
+  PanelsTopLeftIcon,
+  UsersIcon,
+  Package2Icon,
+  CogIcon
+} from 'lucide-react'
 import { NavMain, NavUser } from './components'
 
 const data = {
@@ -27,24 +37,34 @@ const data = {
       icon: LayoutDashboardIcon
     },
     {
-      title: 'Blog',
+      title: 'Users',
+      url: '/admin/users',
+      icon: UsersIcon
+    },
+    {
+      title: 'Blogs',
       url: '/admin/posts',
       icon: NewspaperIcon
     },
     {
-      title: 'Analytics',
-      url: '/admin/analytics',
-      icon: ChartBarIcon
-    },
-    {
       title: 'Projects',
       url: '/admin/projects',
+      icon: Package2Icon
+    },
+    {
+      title: 'Pages',
+      url: '/admin/pages',
+      icon: PanelsTopLeftIcon
+    },
+    {
+      title: 'Files & Media',
+      url: '/admin/files',
       icon: FolderIcon
     },
     {
-      title: 'Team',
-      url: '/admin/team',
-      icon: UsersIcon
+      title: 'Configuration',
+      url: '/admin/configuration',
+      icon: CogIcon
     }
   ]
 }
