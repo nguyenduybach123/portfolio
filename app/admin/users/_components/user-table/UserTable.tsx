@@ -5,6 +5,8 @@ import { FC, useState } from 'react'
 import { DataTableBulkActions } from '@/components/shared/data-table/shared'
 import { useBulkActions, useUserColumnsDefs } from './lib/hooks'
 import { User as UserResponse } from '@/types/users'
+import { useRouter } from 'next/navigation'
+import { BASE_PATHS } from '@/constants/path'
 
 interface FilterValues {
   name?: string
@@ -18,6 +20,9 @@ interface Props {
 const UserTable: FC<Props> = (props) => {
   // Props
   const { data, filterValues } = props
+
+  // Hooks
+  const router = useRouter()
 
   // States
   const [selectedRows, setSelectedRows] = useState<UserResponse[]>([])
@@ -34,7 +39,11 @@ const UserTable: FC<Props> = (props) => {
   }
 
   //Memos
-  const columns = useUserColumnsDefs({})
+  const columns = useUserColumnsDefs({
+    onViewDetails: (user) => {
+      router.push(BASE_PATHS.admin.users.detail(user.id))
+    }
+  })
 
   const bulkActionList = useBulkActions({
     onDeleteSelected: () => {}
@@ -63,7 +72,7 @@ const UserTable: FC<Props> = (props) => {
       </DataTable.Content>
       <DataTable.Pagination />
 
-      <DataTableBulkActions entityName='người dùng' actions={bulkActionList} />
+      <DataTableBulkActions entityName='User' actions={bulkActionList} />
     </DataTable>
   )
 }

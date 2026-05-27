@@ -57,8 +57,8 @@ const DynamicFilterSidebar: FC<Props> = (props) => {
           <div className='relative border-b border-border/50 px-6 py-5'>
             <div className='flex items-start justify-between gap-3'>
               <div className='space-y-1'>
-                <h3 className='text-base font-semibold tracking-tight'>Bộ lọc</h3>
-                <p className='text-xs text-muted-foreground'>Tùy chỉnh kết quả tìm kiếm</p>
+                <h3 className='text-base font-semibold tracking-tight'>Filter Data</h3>
+                <p className='text-xs text-muted-foreground'>Customize search results</p>
               </div>
               {onClose && (
                 <Button variant='ghost' size='icon' className='-mr-2 -mt-1 h-7 w-7 lg:hidden' onClick={onClose}>

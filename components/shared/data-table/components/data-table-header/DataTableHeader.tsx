@@ -15,7 +15,7 @@ const DataTableHeader = <TData,>() => {
       {table.getHeaderGroups().map((headerGroup) => (
         <TableRow
           key={headerGroup.id}
-          className='hover:bg-muted! bg-muted [&>th]:border-t-0 [&>th]:font-mono [&>th]:font-semibold [&>th]:text-muted-foreground'
+          className='bg-muted [&>th]:border-t-0 [&>th]:font-mono [&>th]:font-semibold [&>th]:text-muted-foreground'
         >
           {enableRowSelection && (
             <TableHead className='relative h-10 w-12 border-t before:absolute before:inset-y-0 before:left-0 before:w-px before:bg-border first:before:bg-transparent'>
@@ -28,7 +28,7 @@ const DataTableHeader = <TData,>() => {
             </TableHead>
           )}
 
-          {headerGroup.headers.map((header) => {
+          {headerGroup.headers.map((header, index) => {
             const { column } = header
             const isPinned = column.getIsPinned()
             const isLastLeftPinned = isPinned === 'left' && column.getIsLastColumn('left')
@@ -41,7 +41,9 @@ const DataTableHeader = <TData,>() => {
                 data-last-col={isLastLeftPinned ? 'left' : isFirstRightPinned ? 'right' : undefined}
                 colSpan={header.colSpan}
                 style={{ width: header.getSize() }}
-                className='data-pinned:bg-muted/90 data-pinned:backdrop-blur-xs relative h-10 truncate border-t [&:not([data-pinned]):has(+[data-pinned])_div.cursor-col-resize:last-child]:opacity-0 [&[data-last-col=left]_div.cursor-col-resize:last-child]:opacity-0 [&[data-pinned=right]:last-child_div.cursor-col-resize:last-child]:opacity-0'
+                className={cn(
+                  'data-pinned:bg-muted/90 data-pinned:backdrop-blur-xs relative h-10 truncate border-t [&:not([data-pinned]):has(+[data-pinned])_div.cursor-col-resize:last-child]:opacity-0 [&[data-last-col=left]_div.cursor-col-resize:last-child]:opacity-0 [&[data-pinned=right]:last-child_div.cursor-col-resize:last-child]:opacity-0'
+                )}
               >
                 <div className='flex items-center justify-between space-x-2'>
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
@@ -84,7 +86,7 @@ const DataTableHeader = <TData,>() => {
                       </DropdownMenu>
                     ))}
                 </div>
-                {header.column.getCanResize() && (
+                {header.column.getCanResize() && index < headerGroup.headers.length - 1 && (
                   <div
                     {...{
                       onDoubleClick: () => header.column.resetSize(),

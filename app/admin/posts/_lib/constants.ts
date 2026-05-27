@@ -1,4 +1,4 @@
-import { FieldConfig } from '@/components/shared/dynamic-filter'
+import { FieldConfig, SelectFieldConfig } from '@/components/shared/dynamic-filter'
 import { PostStatus } from '@/types/posts'
 import { z } from 'zod'
 
@@ -13,67 +13,42 @@ export const POST_FILTER_SCHEMA = z.object({
 
   status: z.nativeEnum(PostStatus).optional(),
 
-  featured: z.boolean().optional(),
-
-  tags: z.array(z.string().min(1)).optional()
+  featured: z.number().optional()
 })
 
 export const POST_FILTER_FIELD_CONFIG: Record<string, FieldConfig> = {
   q: {
-    label: 'Tìm kiếm',
+    label: 'Search',
     type: 'text',
-    placeholder: 'Nhập tiêu đề, nội dung...',
-    description: 'Tìm kiếm theo tiêu đề hoặc nội dung'
+    placeholder: 'Enter title, content...',
+    description: 'Search by title or content'
   },
 
   title: {
-    label: 'Tiêu đề',
+    label: 'Title',
     type: 'text',
-    placeholder: 'Nhập tiêu đề bài viết...'
+    placeholder: 'Enter post title...'
   },
 
   status: {
-    label: 'Trạng thái',
+    label: 'Status',
     type: 'select',
-    placeholder: 'Chọn trạng thái',
-    description: 'Lọc theo trạng thái bài viết'
-    // options sẽ handle ở component select
-  },
+    placeholder: 'Select status',
+    description: 'Filter by post status',
+    options: [
+      { label: 'Draft', value: PostStatus.DRAFT },
+      { label: 'Published', value: PostStatus.PUBLISHED },
+      { label: 'Archived', value: PostStatus.ARCHIVED }
+    ]
+  } as SelectFieldConfig,
 
   featured: {
-    label: 'Nổi bật',
-    type: 'checkbox',
-    description: 'Chỉ hiển thị bài viết nổi bật'
-  },
-
-  tags: {
-    label: 'Tags',
-    type: 'auto-complete',
-    placeholder: 'Nhập tag...',
-    description: 'Có thể chọn nhiều tag'
-  },
-
-  createdAt: {
-    label: 'Ngày tạo',
-    type: 'date-range',
-    description: 'Lọc theo khoảng thời gian'
-  },
-
-  views: {
-    label: 'Lượt xem',
-    type: 'number-range',
-    placeholder: 'VD: 100 - 1000'
-  },
-
-  sortBy: {
-    label: 'Sắp xếp theo',
+    label: 'Featured',
     type: 'select',
-    placeholder: 'Chọn field'
-  },
-
-  order: {
-    label: 'Thứ tự',
-    type: 'select',
-    placeholder: 'Asc / Desc'
-  }
+    description: 'Only show featured posts',
+    options: [
+      { label: 'Yes', value: 1 },
+      { label: 'No', value: 0 }
+    ]
+  } as SelectFieldConfig
 }

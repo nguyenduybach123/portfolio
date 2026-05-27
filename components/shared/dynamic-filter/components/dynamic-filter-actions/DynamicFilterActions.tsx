@@ -19,7 +19,7 @@ export interface Props {
 // Component
 const DynamicFilterActions: FC<Props> = (props) => {
   // Props
-  const { className, resetLabel = 'Đặt lại', submitLabel = 'Áp dụng' } = props
+  const { className, resetLabel = 'Reset', submitLabel = 'Apply' } = props
 
   // Hooks
   const { form } = useDynamicFilterContext()

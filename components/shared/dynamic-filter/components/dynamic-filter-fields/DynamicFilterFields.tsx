@@ -1,17 +1,22 @@
-'use client'
-
+// Core
+import { FC } from 'react'
 import { motion } from 'framer-motion'
-import { useController } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
 
-import { Field, FieldLabel, FieldDescription, FieldError } from '@/components/ui/field'
-
-import { DynamicFilterFieldRenderer } from '../../shared'
+// Internal
 import { useDynamicFilterContext } from '../../lib/hooks'
+import { getSchemaShape } from '../../lib/utils'
+import { DynamicFilterFieldRenderer } from '../../shared'
 
-type Props = {
-  name: string
-  fieldSchema: any
-  config: any
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05
+    }
+  }
 }
 
 const item = {
@@ -19,28 +24,41 @@ const item = {
   show: { opacity: 1, y: 0 }
 }
 
-const DynamicFieldItem = ({ name, fieldSchema, config }: Props) => {
+// Component
+const DynamicFilterFields: FC = () => {
+  // Hooks
   const { form, schema, fieldConfig } = useDynamicFilterContext()
 
-  const { field, fieldState } = useController({
-    name,
-    control: form.control
-  })
+  console.log('DynamicFilterFields render with schema:', Object.entries(getSchemaShape(schema)))
 
-  const hasError = !!fieldState.error
-
+  // Template
   return (
-    <motion.div variants={item}>
-      <Field data-invalid={hasError} className='space-y-2'>
-        <FieldLabel className='text-xs font-medium text-muted-foreground'>{config.label ?? name}</FieldLabel>
+    <motion.div variants={container} initial='hidden' animate='show' className='space-y-4'>
+      {Object.entries(getSchemaShape(schema)).map(([name, fieldSchema]) => {
+        const config = fieldConfig[name]
 
-        <DynamicFilterFieldRenderer field={field} name={name} config={config} fieldSchema={fieldSchema} />
+        if (!config) return null
 
-        {config.description && <FieldDescription className='text-xs'>{config.description}</FieldDescription>}
-
-        <FieldError errors={[fieldState.error]} />
-      </Field>
+        return (
+          <Controller
+            key={name}
+            control={form.control}
+            name={name}
+            render={({ field }) => (
+              <motion.div variants={item}>
+                <Field className='min-w-0'>
+                  <FieldLabel className='text-xs font-medium text-muted-foreground'>{config.label ?? name}</FieldLabel>
+                  <DynamicFilterFieldRenderer field={field} name={name} config={config} fieldSchema={fieldSchema} />
+                  {config.description && <FieldDescription className='text-xs'>{config.description}</FieldDescription>}
+                  <FieldError className='text-xs' />
+                </Field>
+              </motion.div>
+            )}
+          />
+        )
+      })}
     </motion.div>
   )
 }
-export default DynamicFieldItem
+
+export default DynamicFilterFields

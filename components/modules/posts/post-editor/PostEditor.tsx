@@ -141,7 +141,7 @@ const PostEditor: FC<Props> = (props) => {
       />
 
       <div className='flex justify-end'>
-        <Button type='submit'>Lưu bài viết</Button>
+        <Button type='submit'>Save Post</Button>
       </div>
     </form>
   )

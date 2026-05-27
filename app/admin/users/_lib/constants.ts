@@ -1,79 +1,37 @@
-import { FieldConfig } from '@/components/shared/dynamic-filter'
-import { PostStatus } from '@/types/posts'
+import { FieldConfig, SelectFieldConfig } from '@/components/shared/dynamic-filter'
 import { z } from 'zod'
 
-export const POST_FILTER_SCHEMA = z.object({
-  title: z.string().trim().min(1).optional(),
+export const USER_FILTER_SCHEMA = z.object({
+  q: z.string().trim().optional(),
 
-  summary: z.string().trim().optional(),
+  fullName: z.string().trim().optional(),
 
-  content: z.string().trim().optional(),
-
-  thumbnail: z.string().url().optional(),
-
-  status: z.nativeEnum(PostStatus).optional(),
-
-  featured: z.boolean().optional(),
-
-  tags: z.array(z.string().min(1)).optional()
+  provider: z.enum(['Local', 'Google', 'GitHub']).optional()
 })
 
-export const POST_FILTER_FIELD_CONFIG: Record<string, FieldConfig> = {
+export type UserFilterValues = z.infer<typeof USER_FILTER_SCHEMA>
+
+export const USER_FILTER_FIELD_CONFIG: Record<string, FieldConfig> = {
   q: {
-    label: 'Tìm kiếm',
+    label: 'Search',
     type: 'text',
-    placeholder: 'Nhập tiêu đề, nội dung...',
-    description: 'Tìm kiếm theo tiêu đề hoặc nội dung'
+    placeholder: 'Name, email, or username...'
   },
 
-  title: {
-    label: 'Tiêu đề',
+  fullName: {
+    label: 'Full Name',
     type: 'text',
-    placeholder: 'Nhập tiêu đề bài viết...'
+    placeholder: 'Enter full name...'
   },
 
-  status: {
-    label: 'Trạng thái',
+  provider: {
+    label: 'Provider',
     type: 'select',
-    placeholder: 'Chọn trạng thái',
-    description: 'Lọc theo trạng thái bài viết'
-    // options sẽ handle ở component select
-  },
-
-  featured: {
-    label: 'Nổi bật',
-    type: 'checkbox',
-    description: 'Chỉ hiển thị bài viết nổi bật'
-  },
-
-  tags: {
-    label: 'Tags',
-    type: 'auto-complete',
-    placeholder: 'Nhập tag...',
-    description: 'Có thể chọn nhiều tag'
-  },
-
-  createdAt: {
-    label: 'Ngày tạo',
-    type: 'date-range',
-    description: 'Lọc theo khoảng thời gian'
-  },
-
-  views: {
-    label: 'Lượt xem',
-    type: 'number-range',
-    placeholder: 'VD: 100 - 1000'
-  },
-
-  sortBy: {
-    label: 'Sắp xếp theo',
-    type: 'select',
-    placeholder: 'Chọn field'
-  },
-
-  order: {
-    label: 'Thứ tự',
-    type: 'select',
-    placeholder: 'Asc / Desc'
-  }
+    placeholder: 'Select provider',
+    options: [
+      { label: 'Local', value: 'Local' },
+      { label: 'Google', value: 'Google' },
+      { label: 'GitHub', value: 'GitHub' }
+    ]
+  } as SelectFieldConfig
 }

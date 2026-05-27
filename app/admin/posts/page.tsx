@@ -30,6 +30,7 @@ const Posts = () => {
       <DynamicFilter schema={POST_FILTER_SCHEMA} onSubmit={handleFilterSubmit} fieldConfig={POST_FILTER_FIELD_CONFIG}>
         <DynamicFilter.Sidebar open={isFilterOpen} onClose={() => setIsFilterOpen(false)}>
           <div className='space-y-5'>
+            <DynamicFilter.Fields />
             <DynamicFilter.Actions />
           </div>
         </DynamicFilter.Sidebar>
@@ -41,8 +42,8 @@ const Posts = () => {
           {/* Post Header */}
           <div className='flex flex-col justify-between gap-4 sm:flex-row sm:items-end'>
             <div className='space-y-1'>
-              <h1 className='text-2xl font-bold tracking-tight'>Bài viết</h1>
-              <p className='text-sm text-muted-foreground'>Quản lý các bài viết trong hệ thống</p>
+              <h1 className='text-2xl font-bold tracking-tight'>Posts List</h1>
+              <p className='text-sm text-muted-foreground'>Manage the posts in the system</p>
             </div>
             <div className='flex items-center gap-2'>
               <Button
@@ -52,11 +53,11 @@ const Posts = () => {
                 className='relative gap-2'
               >
                 <SlidersHorizontalIcon className='h-4 w-4' />
-                {isFilterOpen ? 'Ẩn bộ lọc' : 'Hiện bộ lọc'}
+                {isFilterOpen ? 'Hide Filter' : 'Show Filter'}
               </Button>
               <Button onClick={handleCreatePost} className='gap-2'>
                 <PlusIcon className='h-4 w-4' />
-                Thêm mới
+                Add New
               </Button>
             </div>
           </div>

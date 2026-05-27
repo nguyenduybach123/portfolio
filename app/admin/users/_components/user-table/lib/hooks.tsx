@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { DataTableActionCell } from '@/components/shared/data-table/shared'
+import { EyeIcon } from 'lucide-react'
 
 import { UserTableRow } from './types'
 import { TrashIcon } from 'lucide-react'
@@ -31,7 +31,7 @@ export const useUserColumnsDefs = ({ onEdit, onDelete, onViewDetails }: UseUserC
       // USER INFO
       {
         accessorKey: 'fullName',
-        header: 'Người dùng',
+        header: 'Full Name',
         cell: ({ row }) => {
           const user = row.original
 
@@ -40,11 +40,11 @@ export const useUserColumnsDefs = ({ onEdit, onDelete, onViewDetails }: UseUserC
               <img
                 src={user.avatarUrl || '/images/avatar-placeholder.png'}
                 alt={user.fullName || user.email}
-                className='size-10 rounded-full object-cover'
+                className='h-10 w-10 rounded-full object-cover'
               />
 
               <div className='flex flex-col'>
-                <span className='font-medium'>{user.fullName || 'Chưa cập nhật'}</span>
+                <span className='font-medium'>{user.fullName || 'N/A'}</span>
 
                 <span className='text-xs text-muted-foreground'>{user.email}</span>
               </div>
@@ -83,7 +83,7 @@ export const useUserColumnsDefs = ({ onEdit, onDelete, onViewDetails }: UseUserC
       // ROLE
       {
         accessorKey: 'role',
-        header: 'Vai trò',
+        header: 'Role',
         cell: ({ row }) => {
           const role = row.original.role
 
@@ -110,14 +110,14 @@ export const useUserColumnsDefs = ({ onEdit, onDelete, onViewDetails }: UseUserC
       // CREATED
       {
         accessorKey: 'createdAt',
-        header: 'Ngày tạo',
+        header: 'Created At',
         cell: ({ row }) => <div className='text-sm text-muted-foreground'>{formatDateTime(row.original.createdAt)}</div>
       },
 
       // UPDATED
       {
         accessorKey: 'updatedAt',
-        header: 'Cập nhật',
+        header: 'Updated At',
         cell: ({ row }) => {
           const { createdAt, updatedAt } = row.original
 
@@ -134,7 +134,7 @@ export const useUserColumnsDefs = ({ onEdit, onDelete, onViewDetails }: UseUserC
       // ACTIONS
       {
         id: 'actions',
-        header: 'Thao tác',
+        header: 'Actions',
         cell: ({ row }) => {
           const user = row.original
 
@@ -144,7 +144,8 @@ export const useUserColumnsDefs = ({ onEdit, onDelete, onViewDetails }: UseUserC
               onDelete={() => onDelete?.(user)}
               actions={[
                 {
-                  label: 'Xem chi tiết',
+                  label: 'View Details',
+                  icon: EyeIcon,
                   onAction: () => onViewDetails?.(user)
                 }
               ]}
@@ -161,9 +162,9 @@ export const useBulkActions = ({ onDeleteSelected }: { onDeleteSelected?: () => 
   return useMemo(
     () => [
       {
-        label: 'Xóa người dùng đã chọn',
+        label: 'Delete Selected Users',
         icon: TrashIcon,
-        tooltip: 'Xóa tất cả người dùng đã chọn',
+        tooltip: 'Delete all selected users',
         variant: 'destructive' as const,
         onAction: () => {
           onDeleteSelected?.()

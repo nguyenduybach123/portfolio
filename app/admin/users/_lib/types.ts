@@ -1,4 +1,4 @@
 import z from 'zod'
-import { POST_FILTER_SCHEMA } from './constants'
+import { USER_FILTER_SCHEMA } from './constants'
 
-export type PostFilterType = z.infer<typeof POST_FILTER_SCHEMA>
+export type UserFilterValues = z.infer<typeof USER_FILTER_SCHEMA>

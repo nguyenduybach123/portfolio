@@ -4,7 +4,7 @@ import { PostTableRow } from './types'
 import { Badge } from '@/components/ui/badge'
 import { DataTableActionCell } from '@/components/shared/data-table/shared'
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
-import { TrashIcon } from 'lucide-react'
+import { EditIcon, EyeIcon, TrashIcon } from 'lucide-react'
 
 type UsePostColumnsDefsProps = {
   onEdit?: (row: PostTableRow) => void
@@ -32,7 +32,7 @@ export const usePostColumnsDefs = (props: UsePostColumnsDefsProps) => {
       // 📌 TITLE
       {
         accessorKey: 'title',
-        header: 'Bài viết',
+        header: 'Post',
         cell: ({ row }) => {
           const post = row.original
 
@@ -55,10 +55,9 @@ export const usePostColumnsDefs = (props: UsePostColumnsDefsProps) => {
         }
       },
 
-      // 📌 STATUS
       {
         accessorKey: 'status',
-        header: 'Trạng thái',
+        header: 'Status',
         cell: ({ row }) => {
           const status = row.original.status
 
@@ -77,7 +76,7 @@ export const usePostColumnsDefs = (props: UsePostColumnsDefsProps) => {
       // 📌 FEATURED
       {
         accessorKey: 'featured',
-        header: 'Nổi bật',
+        header: 'Featured',
         cell: ({ row }) => (row.original.featured ? <Badge>Featured</Badge> : <span className='text-gray-400'>-</span>)
       },
 
@@ -108,37 +107,35 @@ export const usePostColumnsDefs = (props: UsePostColumnsDefsProps) => {
       // 📌 METRICS
       {
         accessorKey: 'viewCount',
-        header: 'Lượt xem',
+        header: 'Views',
         cell: ({ row }) => <span className='text-sm'>{row.original.viewCount.toLocaleString()}</span>
       },
       {
         accessorKey: 'commentCount',
-        header: 'Bình luận',
+        header: 'Comments',
         cell: ({ row }) => <span className='text-sm'>{row.original.commentCount}</span>
       },
 
       // 📌 PUBLISHED
       {
         accessorKey: 'publishedAt',
-        header: 'Xuất bản',
+        header: 'Published',
         cell: ({ row }) => <div className='text-sm text-gray-600'>{formatDateTime(row.original.publishedAt)}</div>
       },
 
       // 📌 CREATED
       {
         accessorKey: 'createdAt',
-        header: 'Ngày tạo',
+        header: 'Created',
         cell: ({ row }) => <div className='text-sm text-gray-600'>{formatDateTime(row.original.createdAt)}</div>
       },
 
       // 📌 UPDATED
       {
         accessorKey: 'updatedAt',
-        header: 'Cập nhật',
+        header: 'Updated',
         cell: ({ row }) => {
           const { createdAt, updatedAt } = row.original
-
-          const isUpdated = updatedAt && createdAt && new Date(updatedAt) > new Date(createdAt)
 
           return (
             <div>
@@ -151,19 +148,24 @@ export const usePostColumnsDefs = (props: UsePostColumnsDefsProps) => {
       // 📌 ACTIONS
       {
         id: 'actions',
-        header: 'Thao tác',
+        header: 'Actions',
         cell: ({ row }) => {
           const post = row.original
 
           return (
             <DataTableActionCell
               rowName={post.title}
-              extraActions={<DropdownMenuItem onSelect={() => onEdit?.(post)}>Chỉnh sửa</DropdownMenuItem>}
               onDelete={() => onDelete?.(post)}
               actions={[
                 {
-                  label: 'Xem chi tiết',
+                  label: 'View Details',
+                  icon: EyeIcon,
                   onAction: () => onViewDetails?.(post)
+                },
+                {
+                  label: 'Edit Post',
+                  icon: EditIcon,
+                  onAction: () => onEdit?.(post)
                 }
               ]}
             />

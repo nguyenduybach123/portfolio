@@ -33,7 +33,7 @@ export const mockUsers: User[] = [
     avatarUrl: 'https://i.pravatar.cc/150?img=3',
     provider: 'GITHUB',
     providerId: 'github_789456',
-    role: 'EDITOR',
+    role: 'USER',
     createdAt: '2026-02-15T14:45:00Z',
     updatedAt: '2026-05-21T08:00:00Z'
   },
@@ -57,7 +57,7 @@ export const mockUsers: User[] = [
     avatarUrl: 'https://i.pravatar.cc/150?img=5',
     provider: 'LOCAL',
     providerId: null,
-    role: 'MODERATOR',
+    role: 'USER',
     createdAt: '2026-03-12T11:15:00Z',
     updatedAt: '2026-05-22T09:10:00Z'
   },
@@ -81,7 +81,7 @@ export const mockUsers: User[] = [
     avatarUrl: 'https://i.pravatar.cc/150?img=7',
     provider: 'GITHUB',
     providerId: 'github_112233',
-    role: 'EDITOR',
+    role: 'USER',
     createdAt: '2026-04-02T08:10:00Z',
     updatedAt: '2026-05-23T16:25:00Z'
   },
@@ -105,7 +105,7 @@ export const mockUsers: User[] = [
     avatarUrl: 'https://i.pravatar.cc/150?img=9',
     provider: 'LOCAL',
     providerId: null,
-    role: 'ADMIN',
+    role: 'USER',
     createdAt: '2026-04-20T09:50:00Z',
     updatedAt: '2026-05-25T08:45:00Z'
   },
