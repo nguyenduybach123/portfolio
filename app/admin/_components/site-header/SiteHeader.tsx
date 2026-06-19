@@ -1,5 +1,5 @@
 'use client'
-
+import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Bell } from 'lucide-react'
@@ -16,15 +16,24 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
+import { cn } from '@/lib/utils'
+import { NotificationDrawer, SearchDialog } from './components'
 
 const SiteHeader = () => {
+  // States
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+
+  // Hooks
   const pathname = usePathname()
 
-  // Tự động phân tách pathname thành các chỉ mục để làm Breadcrumb động
   const segments = pathname ? pathname.split('/').filter(Boolean) : []
 
   return (
-    <header className='h-(--header-height) group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height) sticky top-0 z-30 flex w-full shrink-0 items-center border-b border-border/40 bg-background/60 backdrop-blur-md transition-all duration-200'>
+    <header
+      className={cn(
+        'h-(--header-height) group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height) sticky top-0 z-30 flex w-full shrink-0 items-center rounded-t-xl border-b border-border/40 bg-background/60 py-2 backdrop-blur-md transition-all duration-200'
+      )}
+    >
       <div className='flex w-full items-center justify-between px-4 lg:px-6'>
         {/* Left Side: Sidebar Trigger + Dynamic Breadcrumb */}
         <div className='flex items-center gap-2'>
@@ -85,7 +94,12 @@ const SiteHeader = () => {
         {/* Right Side: Minimal Actions (Cân bằng thị giác cho Header) */}
         <div className='flex items-center gap-3'>
           {/* Nút bấm giả lập Kính mờ kích hoạt Tìm kiếm nhanh (Command Menu) */}
-          <button className='hidden h-9 w-48 items-center justify-between rounded-lg bg-muted/40 px-3 py-1.5 text-xs text-muted-foreground/60 transition-all hover:bg-muted/80 hover:text-muted-foreground focus:outline-none md:flex'>
+          <button
+            onClick={() => setIsSearchOpen(true)}
+            className={cn(
+              'hidden h-9 w-48 items-center justify-between rounded-lg bg-muted/40 px-3 py-1.5 text-xs text-muted-foreground/60 transition-all hover:bg-muted/80 hover:text-muted-foreground focus:outline-none md:flex'
+            )}
+          >
             <div className='flex items-center gap-2'>
               <Search className='h-3.5 w-3.5' />
               <span>Search everywhere...</span>
@@ -100,13 +114,13 @@ const SiteHeader = () => {
             <Search className='h-4 w-4' />
           </Button>
 
-          {/* Notification Button */}
-          <Button variant='ghost' size='icon' className='relative h-8 w-8 text-muted-foreground/80 hover:bg-muted/60'>
-            <Bell className='h-4 w-4' />
-            <span className='absolute right-2.5 top-2.5 h-1.5 w-1.5 rounded-full bg-primary' />
-          </Button>
+          {/* Nút Thông báo */}
+          <NotificationDrawer />
         </div>
       </div>
+
+      {/** Search Dialog */}
+      <SearchDialog open={isSearchOpen} onOpenChange={setIsSearchOpen} />
     </header>
   )
 }
