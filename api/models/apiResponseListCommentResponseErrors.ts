@@ -1,3 +1,3 @@
 // @ts-nocheck
 
-export type ApiResponseListCommentResponseErrors = {[key: string]: string};
+export type ApiResponseListCommentResponseErrors = {[key: string]: string[]};

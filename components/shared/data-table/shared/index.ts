@@ -1,5 +1,6 @@
-export { default as DataTableSkeleton } from "./data-table-skeleton";
-export { default as DataTableActionCell } from "./data-table-action-cell";
-export { default as DataTableBulkAction } from "./data-table-bulk-actions";
-export { default as DataTableBulkActions } from "./data-table-bulk-actions";
-export { default as DataTableDeleteDialog } from "./data-table-delete-dialog";
+export { default as DataTableSkeleton } from './data-table-skeleton'
+export { default as DataTableActionCell } from './data-table-action-cell'
+export { default as DataTableBulkAction } from './data-table-bulk-actions'
+export { default as DataTableBulkActions } from './data-table-bulk-actions'
+export { default as DataTableDeleteDialog } from './data-table-delete-dialog'
+export { default as DataTableDnDProvider } from './data-table-dnd-provider'

@@ -1,4 +1,6 @@
-import { PaintBucketIcon, Plus } from 'lucide-react'
+'use client'
+
+import {  Plus } from 'lucide-react'
 import React, { useCallback, useMemo, useState } from 'react'
 import { HexColorPicker } from 'react-colorful'
 

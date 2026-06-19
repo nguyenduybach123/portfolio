@@ -30,6 +30,7 @@ export const useUserColumnsDefs = ({ onEdit, onDelete, onViewDetails }: UseUserC
     () => [
       // USER INFO
       {
+        id: 'fullName',
         accessorKey: 'fullName',
         header: 'Full Name',
         cell: ({ row }) => {
@@ -39,12 +40,12 @@ export const useUserColumnsDefs = ({ onEdit, onDelete, onViewDetails }: UseUserC
             <div className='flex items-center gap-3'>
               <img
                 src={user.avatarUrl || '/images/avatar-placeholder.png'}
-                alt={user.fullName || user.email}
+                alt={user.username || user.email}
                 className='h-10 w-10 rounded-full object-cover'
               />
 
               <div className='flex flex-col'>
-                <span className='font-medium'>{user.fullName || 'N/A'}</span>
+                <span className='font-medium'>{user.username || 'N/A'}</span>
 
                 <span className='text-xs text-muted-foreground'>{user.email}</span>
               </div>
@@ -55,6 +56,7 @@ export const useUserColumnsDefs = ({ onEdit, onDelete, onViewDetails }: UseUserC
 
       // USERNAME
       {
+        id: 'username',
         accessorKey: 'username',
         header: 'Username',
         cell: ({ row }) =>
@@ -65,23 +67,9 @@ export const useUserColumnsDefs = ({ onEdit, onDelete, onViewDetails }: UseUserC
           )
       },
 
-      // PROVIDER
-      {
-        accessorKey: 'provider',
-        header: 'Provider',
-        cell: ({ row }) => {
-          const provider = row.original.provider
-
-          if (!provider) {
-            return <span className='text-muted-foreground'>-</span>
-          }
-
-          return <Badge variant='outline'>{provider}</Badge>
-        }
-      },
-
       // ROLE
       {
+        id: 'role',
         accessorKey: 'role',
         header: 'Role',
         cell: ({ row }) => {
@@ -109,6 +97,7 @@ export const useUserColumnsDefs = ({ onEdit, onDelete, onViewDetails }: UseUserC
 
       // CREATED
       {
+        id: 'createdAt',
         accessorKey: 'createdAt',
         header: 'Created At',
         cell: ({ row }) => <div className='text-sm text-muted-foreground'>{formatDateTime(row.original.createdAt)}</div>
@@ -116,6 +105,7 @@ export const useUserColumnsDefs = ({ onEdit, onDelete, onViewDetails }: UseUserC
 
       // UPDATED
       {
+        id: 'updateAt',
         accessorKey: 'updatedAt',
         header: 'Updated At',
         cell: ({ row }) => {
@@ -140,7 +130,7 @@ export const useUserColumnsDefs = ({ onEdit, onDelete, onViewDetails }: UseUserC
 
           return (
             <DataTableActionCell
-              rowName={user.fullName || user.email}
+              rowName={user.username || user.email}
               onDelete={() => onDelete?.(user)}
               actions={[
                 {

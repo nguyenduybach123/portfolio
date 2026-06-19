@@ -4,6 +4,11 @@ import { mockComments } from '@/data/comment-data'
 import { PersonalInfoCard, ProfileHeader } from './_components'
 import { CommentTable } from '@/components/modules/comments'
 import { Separator } from '@/components/ui/separator'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { UserSessionTable } from '@/components/modules/users'
+import { mockUserSessions } from '@/data/user-data'
 
 const mockStaffData = {
   name: 'Hang Minh Nguyen',
@@ -73,11 +78,44 @@ export function UserDetailPage() {
 
       <Separator className='my-10' />
 
-      <div className='space-y-6'>
-        <div className='flex items-center justify-between'>
-          <h2 className='text-lg font-semibold text-gray-900'>Recent comments</h2>
-        </div>
-        <CommentTable data={mockComments} />
+      <div className='container mx-auto max-w-6xl px-4 py-8'>
+        <Tabs defaultValue='personal' className='w-full'>
+          <TabsList className='grid w-full grid-cols-3 bg-white p-0'>
+            <TabsTrigger
+              value='credentials'
+              className='rounded-none border-b-2 border-transparent px-4 py-3 font-medium text-gray-700 data-[state=active]:border-orange-500 data-[state=active]:text-orange-500'
+            >
+              Credentials
+            </TabsTrigger>
+            <TabsTrigger
+              value='sessions'
+              className='rounded-none border-b-2 border-transparent px-4 py-3 font-medium text-gray-700 data-[state=active]:border-orange-500 data-[state=active]:text-orange-500'
+            >
+              Sessions
+            </TabsTrigger>
+            <TabsTrigger
+              value='comments'
+              className='rounded-none border-b-2 border-transparent px-4 py-3 font-medium text-gray-700 data-[state=active]:border-orange-500 data-[state=active]:text-orange-500'
+            >
+              Comments
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Credential Tab */}
+          <TabsContent value='credentials' className='mt-6 space-y-6'>
+            <div className='bg-slate-200/50 px-6 py-16 text-center text-gray-600'>Empty credentials</div>
+          </TabsContent>
+
+          {/* Sessions Tab */}
+          <TabsContent value='sessions' className='mt-6 space-y-6'>
+            <UserSessionTable data={mockUserSessions} />
+          </TabsContent>
+
+          {/* Comments Tab */}
+          <TabsContent value='comments' className='mt-6'>
+            <CommentTable data={mockComments} />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   )

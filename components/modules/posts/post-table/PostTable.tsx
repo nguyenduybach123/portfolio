@@ -1,37 +1,26 @@
 'use client'
 
 import { DataTable } from '@/components/shared'
-import { PostResponse } from '@/types/posts'
-import { FC, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { useBulkActions, usePostColumnsDefs } from './lib/hooks'
-import { DataTableBulkActions, DataTableDeleteDialog } from '@/components/shared/data-table/shared'
-
-interface FilterValues {
-  name?: string
-}
+import { DataTableBulkActions } from '@/components/shared/data-table/shared'
+import { PaginationResponsePostResponse, PostResponse } from '@/api/models'
+import { PaginationState } from '@tanstack/react-table'
+import { UseQueryResult } from '@tanstack/react-query'
+import { DataTableProps } from '@/components/shared/data-table'
 
 interface Props {
-  data: PostResponse[]
-  filterValues?: FilterValues
+  query: UseQueryResult<PaginationResponsePostResponse | undefined>
+  pagination: PaginationState
+  onPaginationChange: DataTableProps<PostResponse[]>['onPaginationChange']
 }
 
 const PostTable: FC<Props> = (props) => {
   // Props
-  const { data, filterValues } = props
+  const { query, pagination, onPaginationChange } = props
 
   // States
   const [selectedRows, setSelectedRows] = useState<PostResponse[]>([])
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 })
-
-  // Methods
-  const handlePaginationChange = (
-    updater: Partial<typeof pagination> | ((old: typeof pagination) => typeof pagination)
-  ) => {
-    setPagination((old) => {
-      const newPagination = typeof updater === 'function' ? updater(old) : updater
-      return { ...old, ...newPagination }
-    })
-  }
 
   //Memos
   const columns = usePostColumnsDefs({})
@@ -40,19 +29,21 @@ const PostTable: FC<Props> = (props) => {
     onDeleteSelected: () => {}
   })
 
+  const postTableData = useMemo(() => query.data?.items ?? [], [query.data])
+
   return (
     <DataTable
       columns={columns}
-      data={data}
-      rowCount={data.length}
-      getRowId={(row) => row.id}
+      data={postTableData}
+      rowCount={postTableData.length}
+      getRowId={(row) => row.id as string}
       manualPagination={false}
       selectedRows={selectedRows}
       enablePagination
       enableRowSelection
       state={{ pagination }}
       onSelectedRowsChange={(selected) => setSelectedRows(selected)}
-      onPaginationChange={handlePaginationChange}
+      onPaginationChange={onPaginationChange}
       classNames={{
         header: 'bg-primary/90'
       }}

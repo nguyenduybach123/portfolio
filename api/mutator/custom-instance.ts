@@ -18,7 +18,6 @@ export const NOTIFICATION_AXIOS_INSTANCE = Axios.create({
 
 // Request middleware
 AXIOS_INSTANCE.interceptors.request.use(async (config) => {
-  // config.headers.Authorization = `Bearer ${useAuthStore.getState().token}`
   return config
 })
 
@@ -40,10 +39,10 @@ NOTIFICATION_AXIOS_INSTANCE.interceptors.response.use(
 )
 
 // Main instance
-export const mainInstance = <T>(config: AxiosRequestConfig, options?: AxiosRequestConfig): Promise<T> => {
+export const mainInstance = <T>(url: string, options?: AxiosRequestConfig): Promise<T> => {
   const source = Axios.CancelToken.source()
   const promise = AXIOS_INSTANCE({
-    ...config,
+    url,
     ...options
   }).then(({ data, status }) => {
     return data instanceof Blob ? data : { ...data, statusCode: status }

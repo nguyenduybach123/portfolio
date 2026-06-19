@@ -4,11 +4,11 @@ import type { UserResponse } from './userResponse';
 
 export interface ApiResponseUserResponse {
   success?: boolean;
-  errorCode?: string;
   status?: number;
   message?: string;
+  errorCode?: string;
   data?: UserResponse;
   errors?: ApiResponseUserResponseErrors;
-  timestamp?: number;
+  timestamp?: string;
   traceId?: string;
 }

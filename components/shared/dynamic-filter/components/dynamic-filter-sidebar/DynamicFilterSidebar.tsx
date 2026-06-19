@@ -4,6 +4,7 @@ import { FC, ReactNode } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useDynamicFilterContext } from '../../lib/hooks'
 
 interface Props {
   open?: boolean
@@ -15,18 +16,28 @@ const DynamicFilterSidebar: FC<Props> = (props) => {
   // Props
   const { open, children, onClose } = props
 
+  // Hooks
+  const { isFilterOpen, setIsFilterOpen } = useDynamicFilterContext()
+
+  // Memos
+  const isOpen = open ?? isFilterOpen
+  const handleClose = () => {
+    setIsFilterOpen(false)
+    onClose?.()
+  }
+
   return (
     <>
       {/* Backdrop */}
       <AnimatePresence>
-        {open && (
+        {isOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className='fixed inset-0 z-40 bg-black/20 backdrop-blur-sm lg:hidden'
-            onClick={onClose}
+            onClick={handleClose}
           />
         )}
       </AnimatePresence>
@@ -35,18 +46,18 @@ const DynamicFilterSidebar: FC<Props> = (props) => {
       <motion.aside
         initial={false}
         animate={{
-          width: open ? 320 : 0,
-          opacity: open ? 1 : 0
+          width: isOpen ? 320 : 0,
+          opacity: isOpen ? 1 : 0
         }}
         transition={{
           duration: 0.3,
           ease: [0.4, 0, 0.2, 1]
         }}
-        className='relative z-50 h-fit overflow-hidden border-r border-border/50 bg-background/95 backdrop-blur-sm'
+        className='sticky top-0 z-50 h-fit overflow-hidden border-r border-border/50 bg-background/95 backdrop-blur-sm'
       >
         <motion.div
           initial={false}
-          animate={{ x: open ? 0 : -320 }}
+          animate={{ x: isOpen ? 0 : -320 }}
           transition={{
             duration: 0.3,
             ease: [0.4, 0, 0.2, 1]
@@ -61,7 +72,7 @@ const DynamicFilterSidebar: FC<Props> = (props) => {
                 <p className='text-xs text-muted-foreground'>Customize search results</p>
               </div>
               {onClose && (
-                <Button variant='ghost' size='icon' className='-mr-2 -mt-1 h-7 w-7 lg:hidden' onClick={onClose}>
+                <Button variant='ghost' size='icon' className='-mr-2 -mt-1 h-7 w-7 lg:hidden' onClick={handleClose}>
                   <X className='h-4 w-4' />
                 </Button>
               )}

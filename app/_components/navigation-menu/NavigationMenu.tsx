@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Home, FileText, Briefcase, BookOpen, X } from 'lucide-react'
+import { Home, FileText, Briefcase, BookOpen, MapPinnedIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { NavigationIcon } from './components'
 import Link from 'next/link'
@@ -11,7 +11,8 @@ const navItems = [
   { icon: Home, label: 'HOME', href: '/', isActive: true },
   { icon: FileText, label: 'ABOUT', href: '/about' },
   { icon: Briefcase, label: 'PROJECTS', href: '/projects' },
-  { icon: BookOpen, label: 'BLOG', href: '/blogs' }
+  { icon: BookOpen, label: 'BLOG', href: '/blogs' },
+  { icon: MapPinnedIcon, label: 'FAVORITE PLACE', href: '/map' }
 ]
 
 /**

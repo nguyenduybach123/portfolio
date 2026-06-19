@@ -1,0 +1,58 @@
+// @ts-nocheck
+import type { AddressStandardClaim } from './addressStandardClaim';
+import type { CustomUserPrincipalAttributes } from './customUserPrincipalAttributes';
+import type { CustomUserPrincipalClaims } from './customUserPrincipalClaims';
+import type { GrantedAuthority } from './grantedAuthority';
+import type { OidcIdToken } from './oidcIdToken';
+import type { OidcUserInfo } from './oidcUserInfo';
+import type { User } from './user';
+
+export interface CustomUserPrincipal {
+  user?: User;
+  sessionId?: number;
+  attributes?: CustomUserPrincipalAttributes;
+  password?: string;
+  avatar?: string;
+  name?: string;
+  enabled?: boolean;
+  id?: string;
+  userInfo?: OidcUserInfo;
+  accountNonLocked?: boolean;
+  username?: string;
+  authorities?: GrantedAuthority[];
+  email?: string;
+  idToken?: OidcIdToken;
+  claims?: CustomUserPrincipalClaims;
+  accountNonExpired?: boolean;
+  credentialsNonExpired?: boolean;
+  authenticatedAt?: string;
+  authorizedParty?: string;
+  accessTokenHash?: string;
+  issuedAt?: string;
+  audience?: string[];
+  subject?: string;
+  expiresAt?: string;
+  issuer?: string;
+  nonce?: string;
+  authenticationMethods?: string[];
+  authorizationCodeHash?: string;
+  authenticationContextClass?: string;
+  address?: AddressStandardClaim;
+  locale?: string;
+  zoneInfo?: string;
+  fullName?: string;
+  profile?: string;
+  updatedAt?: string;
+  givenName?: string;
+  birthdate?: string;
+  phoneNumber?: string;
+  middleName?: string;
+  nickName?: string;
+  emailVerified?: boolean;
+  familyName?: string;
+  picture?: string;
+  gender?: string;
+  website?: string;
+  phoneNumberVerified?: boolean;
+  preferredUsername?: string;
+}

@@ -16,6 +16,11 @@ export const BASE_PATHS = {
       create: '/admin/posts/create',
       detail: (id: string) => `/admin/posts/${id}`
     },
+    pages: {
+      path: '/admin/pages',
+      create: '/admin/pages/create',
+      detail: (id: string) => `/admin/pages/${id}`
+    },
     dashboard: '/admin/dashboard'
   }
 }

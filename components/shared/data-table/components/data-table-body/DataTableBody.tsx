@@ -1,42 +1,28 @@
-import { flexRender } from '@tanstack/react-table'
-import { Checkbox } from '@/components/ui/checkbox'
 import { TableRow, TableCell, TableBody } from '@/components/ui/table'
 import { useDataTableContext } from '../../lib/hooks'
+import { RowData, SortableRowData } from './components'
+import { useDnDProviderContext } from '../../shared/data-table-dnd-provider'
+import { DnDProviderContextValue } from '../../shared/data-table-dnd-provider/lib/types'
 
 const DataTableBody = <TData,>() => {
-  const { table, enableRowSelection, classNames } = useDataTableContext<TData>()
+  // Hooks
+  const { table, enableRowSelection } = useDataTableContext<TData>()
+  const dndContext = useDnDProviderContext()
 
+  // Memos
+  const enableDragAndDrop = dndContext?.enableDragAndDrop
+
+  // Template
   return (
     <TableBody>
       {table.getRowModel().rows?.length ? (
-        table.getRowModel().rows.map((row) => (
-          <TableRow
-            key={row.id}
-            data-state={row.getIsSelected() && 'selected'}
-            className={`border-b-gray-100 dark:border-b-gray-800 ${
-              row.getIsSelected()
-                ? 'bg-primary/10! hover:bg-primary/50 dark:bg-primary/20'
-                : 'hover:bg-primary/10 dark:hover:bg-gray-800/30'
-            } `}
-          >
-            {enableRowSelection && (
-              <TableCell>
-                <Checkbox
-                  checked={row.getIsSelected()}
-                  onCheckedChange={(value) => row.toggleSelected(!!value)}
-                  aria-label='Select row'
-                  className='[&>span]:border-gray-700! cursor-pointer border-2 [&>span]:data-[state=checked]:border-primary [&>span]:data-[state=checked]:bg-primary'
-                />
-              </TableCell>
-            )}
+        table.getRowModel().rows.map((row, index) => {
+          if (enableDragAndDrop) {
+            return <SortableRowData key={row.id} row={row} index={index} />
+          }
 
-            {row.getVisibleCells().map((cell) => (
-              <TableCell key={cell.id} className='py-3'>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </TableCell>
-            ))}
-          </TableRow>
-        ))
+          return <RowData key={row.id} row={row} />
+        })
       ) : (
         <TableRow>
           <TableCell

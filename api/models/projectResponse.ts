@@ -5,16 +5,19 @@ import type { ProjectResponseType } from './projectResponseType';
 export interface ProjectResponse {
   id?: string;
   title?: string;
+  slug?: string;
+  summary?: string;
   description?: string;
   type?: ProjectResponseType;
   category?: ProjectResponseCategory;
-  github?: string;
-  demo?: string;
-  image?: string;
+  githubUrl?: string;
+  demoUrl?: string;
+  thumbnailMediaId?: string;
   featured?: boolean;
   startDate?: string;
   endDate?: string;
-  createdAt?: string;
   technologies?: string[];
   responsibilities?: string[];
+  createdAt?: string;
+  updatedAt?: string;
 }

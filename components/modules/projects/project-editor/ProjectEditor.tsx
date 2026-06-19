@@ -37,18 +37,15 @@ function FormField({
   )
 }
 
-export default function ProjectEditor() {
+export default function ProjectEditor({ onSubmit }: { onSubmit: (data: ProjectFormValues) => void }) {
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(PROJECT_FORM_SCHEMA),
     mode: 'onBlur',
     defaultValues: DEFAULT_PROJECT_FORM_VALUES
   })
 
-  const onSubmit = (data: ProjectFormValues) => {
-    console.log('[v0] Form submitted:', data)
-    toast.success('Project saved successfully!', {
-      description: data.title
-    })
+  const handleSubmit = (data: ProjectFormValues) => {
+    onSubmit(data)
   }
 
   const handleCancel = () => {
@@ -59,7 +56,7 @@ export default function ProjectEditor() {
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
+    <form onSubmit={form.handleSubmit(handleSubmit)}>
       {/* Main Content */}
       <div className='mx-auto max-w-7xl px-6 py-12 pb-32'>
         <div className='grid grid-cols-[1fr_0.4fr] gap-12'>

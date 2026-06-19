@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 import {
   ControllerRenderProps,
   FieldValues,
@@ -88,4 +88,6 @@ export interface DynamicFilterContextValue {
   schema: z.ZodTypeAny;
   fieldConfig: Record<string, FieldConfig>;
   onSubmit: SubmitHandler<FieldValues>;
+  isFilterOpen: boolean;
+  setIsFilterOpen: Dispatch<SetStateAction<boolean>>;
 }

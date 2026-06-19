@@ -1,7 +1,9 @@
 // @ts-nocheck
 
 export interface UserResponse {
+  id?: string;
   email?: string;
-  name?: string;
-  avatar?: string;
+  username?: string;
+  avatarUrl?: string;
+  role?: string;
 }

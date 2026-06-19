@@ -1,3 +1,3 @@
-import { User as UserResponse } from '@/types/users'
+import { UserResponse } from '@/api/models'
 
 export type UserTableRow = UserResponse

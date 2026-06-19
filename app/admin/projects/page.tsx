@@ -1,74 +1,53 @@
-'use client'
-
-import { DynamicFilter } from '@/components/shared'
-import { POST_FILTER_FIELD_CONFIG, POST_FILTER_SCHEMA } from './_lib/constants'
-import { PostFilterType } from './_lib/types'
-import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { PlusIcon, SlidersHorizontalIcon } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import PostTable from '@/components/modules/posts/post-table/PostTable'
-import { mockPosts } from '@/data/posts'
-import { ProjectTable } from '@/components/modules/projects'
-import { projects } from '@/data/project-data'
+import { PlusIcon } from 'lucide-react'
+import { PageHeader } from '../_components'
+import { ProjectFilter, ProjectTable } from './_components'
+import { getQueryClient } from '@/configs/query-client'
+import { postQueryOptions } from '@/api/queries/post-queries'
+import Link from 'next/link'
 
-const Projects = () => {
-  // Hooks
-  const router = useRouter()
+interface Props {
+  searchParams: Promise<{
+    page?: string
+    size?: string
+  }>
+}
 
-  // States
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
+export default async function ProjectPage({ searchParams }: Props) {
+  const params = await searchParams
 
-  // Methods
-  const handleCreateProject = () => {
-    router.push('/admin/projects/create')
-  }
+  const queryClient = getQueryClient()
 
-  const handleFilterSubmit = (data: PostFilterType) => {}
+  const page = Number(params.page ?? 0)
+  const size = Number(params.size ?? 10)
+
+  await queryClient.prefetchQuery(
+    postQueryOptions({
+      page,
+      size
+    })
+  )
 
   return (
     <div className='container mx-auto flex max-w-6xl bg-background'>
-      {/* Filter Sidebar */}
-      <DynamicFilter schema={POST_FILTER_SCHEMA} onSubmit={handleFilterSubmit} fieldConfig={POST_FILTER_FIELD_CONFIG}>
-        <DynamicFilter.Sidebar open={isFilterOpen} onClose={() => setIsFilterOpen(false)}>
-          <div className='space-y-5'>
-            <DynamicFilter.Actions />
-          </div>
-        </DynamicFilter.Sidebar>
-      </DynamicFilter>
-
-      {/* Main Content */}
-      <div className='flex-1 overflow-auto'>
-        <div className='space-y-6 p-6 lg:p-8'>
-          {/* Project Header */}
-          <div className='flex flex-col justify-between gap-4 sm:flex-row sm:items-end'>
-            <div className='space-y-1'>
-              <h1 className='text-2xl font-bold tracking-tight'>Dự án</h1>
-              <p className='text-sm text-muted-foreground'>Quản lý các dự án trong hệ thống</p>
-            </div>
-            <div className='flex items-center gap-2'>
-              <Button
-                variant='outline'
-                size='default'
-                onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className='relative gap-2'
-              >
-                <SlidersHorizontalIcon className='h-4 w-4' />
-                {isFilterOpen ? 'Ẩn bộ lọc' : 'Hiện bộ lọc'}
-              </Button>
-              <Button onClick={handleCreateProject} className='gap-2'>
+      <ProjectFilter>
+        {/* Project Header */}
+        <PageHeader
+          title='Projects'
+          description='Manage projects in the system'
+          actions={
+            <Button asChild className='gap-2'>
+              <Link href='/admin/projects/create'>
                 <PlusIcon className='h-4 w-4' />
-                Thêm mới
-              </Button>
-            </div>
-          </div>
+                Add Project
+              </Link>
+            </Button>
+          }
+        />
 
-          {/* Project Table */}
-          <ProjectTable data={projects} />
-        </div>
-      </div>
+        {/* Project Table */}
+        <ProjectTable />
+      </ProjectFilter>
     </div>
   )
 }
-
-export default Projects

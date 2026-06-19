@@ -1,4 +1,4 @@
-import { User } from '@/types/users'
+import { User, UserSession } from '@/types/users'
 
 export const mockUsers: User[] = [
   {
@@ -120,5 +120,138 @@ export const mockUsers: User[] = [
     role: 'USER',
     createdAt: '2026-05-01T15:00:00Z',
     updatedAt: '2026-05-26T09:30:00Z'
+  }
+]
+
+export const mockUserSessions: UserSession[] = [
+  {
+    id: 'ses_001',
+    userId: 'usr_001',
+    refreshTokenHash: 'hash_001',
+    ipAddress: '192.168.1.10',
+    userAgent: 'Chrome 137.0.0.0 / Windows 11',
+    deviceId: 'dev_001',
+    deviceName: 'Desktop - Windows 11',
+    revoked: false,
+    expiresAt: '2026-07-01T12:00:00Z',
+    lastActiveAt: '2026-06-13T08:30:00Z',
+    createdAt: '2026-06-01T09:00:00Z'
+  },
+  {
+    id: 'ses_002',
+    userId: 'usr_002',
+    refreshTokenHash: 'hash_002',
+    ipAddress: '192.168.1.11',
+    userAgent: 'Firefox 139.0 / Ubuntu',
+    deviceId: 'dev_002',
+    deviceName: 'Laptop - Ubuntu',
+    revoked: false,
+    expiresAt: '2026-07-02T12:00:00Z',
+    lastActiveAt: '2026-06-13T07:15:00Z',
+    createdAt: '2026-06-02T10:00:00Z'
+  },
+  {
+    id: 'ses_003',
+    userId: 'usr_003',
+    refreshTokenHash: 'hash_003',
+    ipAddress: '192.168.1.12',
+    userAgent: 'Safari 18.0 / macOS',
+    deviceId: 'dev_003',
+    deviceName: 'MacBook Pro',
+    revoked: false,
+    expiresAt: '2026-07-03T12:00:00Z',
+    lastActiveAt: '2026-06-13T06:40:00Z',
+    createdAt: '2026-06-03T11:00:00Z'
+  },
+  {
+    id: 'ses_004',
+    userId: 'usr_004',
+    refreshTokenHash: 'hash_004',
+    ipAddress: '192.168.1.13',
+    userAgent: 'Chrome Mobile / Android 15',
+    deviceId: 'dev_004',
+    deviceName: 'Samsung Galaxy S25',
+    revoked: false,
+    expiresAt: '2026-07-04T12:00:00Z',
+    lastActiveAt: '2026-06-13T05:20:00Z',
+    createdAt: '2026-06-04T12:00:00Z'
+  },
+  {
+    id: 'ses_005',
+    userId: 'usr_005',
+    refreshTokenHash: 'hash_005',
+    ipAddress: '192.168.1.14',
+    userAgent: 'Safari Mobile / iOS 19',
+    deviceId: 'dev_005',
+    deviceName: 'iPhone 17 Pro',
+    revoked: false,
+    expiresAt: '2026-07-05T12:00:00Z',
+    lastActiveAt: '2026-06-13T04:45:00Z',
+    createdAt: '2026-06-05T13:00:00Z'
+  },
+  {
+    id: 'ses_006',
+    userId: 'usr_006',
+    refreshTokenHash: 'hash_006',
+    ipAddress: '192.168.1.15',
+    userAgent: 'Edge 137.0 / Windows 11',
+    deviceId: 'dev_006',
+    deviceName: 'Office PC',
+    revoked: true,
+    expiresAt: '2026-07-06T12:00:00Z',
+    lastActiveAt: '2026-06-10T14:00:00Z',
+    createdAt: '2026-06-06T14:00:00Z'
+  },
+  {
+    id: 'ses_007',
+    userId: 'usr_007',
+    refreshTokenHash: 'hash_007',
+    ipAddress: '192.168.1.16',
+    userAgent: 'Chrome 137.0 / macOS',
+    deviceId: 'dev_007',
+    deviceName: 'Mac Mini',
+    revoked: false,
+    expiresAt: '2026-07-07T12:00:00Z',
+    lastActiveAt: '2026-06-13T03:10:00Z',
+    createdAt: '2026-06-07T15:00:00Z'
+  },
+  {
+    id: 'ses_008',
+    userId: 'usr_008',
+    refreshTokenHash: 'hash_008',
+    ipAddress: '192.168.1.17',
+    userAgent: 'Firefox Mobile / Android',
+    deviceId: 'dev_008',
+    deviceName: 'Google Pixel 10',
+    revoked: true,
+    expiresAt: '2026-07-08T12:00:00Z',
+    lastActiveAt: '2026-06-09T18:30:00Z',
+    createdAt: '2026-06-08T16:00:00Z'
+  },
+  {
+    id: 'ses_009',
+    userId: 'usr_009',
+    refreshTokenHash: 'hash_009',
+    ipAddress: '192.168.1.18',
+    userAgent: 'Chrome 137.0 / Linux',
+    deviceId: 'dev_009',
+    deviceName: 'Development Server',
+    revoked: false,
+    expiresAt: '2026-07-09T12:00:00Z',
+    lastActiveAt: '2026-06-13T01:55:00Z',
+    createdAt: '2026-06-09T17:00:00Z'
+  },
+  {
+    id: 'ses_010',
+    userId: 'usr_010',
+    refreshTokenHash: 'hash_010',
+    ipAddress: '192.168.1.19',
+    userAgent: 'Safari / iPadOS',
+    deviceId: 'dev_010',
+    deviceName: 'iPad Pro',
+    revoked: false,
+    expiresAt: '2026-07-10T12:00:00Z',
+    lastActiveAt: '2026-06-13T00:25:00Z',
+    createdAt: '2026-06-10T18:00:00Z'
   }
 ]

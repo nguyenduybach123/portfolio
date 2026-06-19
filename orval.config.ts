@@ -7,7 +7,7 @@ const orvalConfig = async () => {
 
   const mainApiSwagger = await axios.get(`${backendSwaggerDocDomain}`)
 
-  const config: any = {
+  return defineConfig({
     'main-api': {
       output: {
         mode: 'tags',
@@ -15,20 +15,24 @@ const orvalConfig = async () => {
         schemas: 'api/models',
         client: 'react-query',
         clean: true,
-        prettier: true,
         override: {
           query: {
-            useQuery: true,
-            useInfinite: true,
-            useInfiniteQueryParam: 'page',
-            useMutation: true,
             signal: true,
             version: 5
+          },
+          operations: {
+            getPosts: {
+              query: {
+                useInfinite: true,
+                useInfiniteQueryParam: 'page'
+              }
+            }
           },
           mutator: {
             path: 'api/mutator/custom-instance.ts',
             name: 'mainInstance'
           },
+
           header: () => '// @ts-nocheck\r\n'
         }
       },
@@ -36,9 +40,7 @@ const orvalConfig = async () => {
         target: mainApiSwagger.data
       }
     }
-  }
-
-  return defineConfig(config)
+  })
 }
 
 export default orvalConfig

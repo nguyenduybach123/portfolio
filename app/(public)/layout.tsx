@@ -1,7 +1,7 @@
 import { Fragment, ReactNode } from 'react'
 import { NavigationEffect, NavigationMenu } from '../_components'
 
-const Public = ({ children }: { children: ReactNode }) => {
+const PublicLayout = ({ children }: { children: ReactNode }) => {
   return (
     <Fragment>
       <NavigationMenu />
@@ -11,4 +11,4 @@ const Public = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export default Public
+export default PublicLayout

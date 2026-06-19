@@ -4,11 +4,11 @@ import type { CommentResponse } from './commentResponse';
 
 export interface ApiResponseCommentResponse {
   success?: boolean;
-  errorCode?: string;
   status?: number;
   message?: string;
+  errorCode?: string;
   data?: CommentResponse;
   errors?: ApiResponseCommentResponseErrors;
-  timestamp?: number;
+  timestamp?: string;
   traceId?: string;
 }

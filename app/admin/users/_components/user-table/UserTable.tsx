@@ -1,80 +1,90 @@
 'use client'
 
+import { useMemo } from 'react'
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
+
 import { DataTable } from '@/components/shared'
-import { FC, useState } from 'react'
 import { DataTableBulkActions } from '@/components/shared/data-table/shared'
+
+import { useGetUsers } from '@/api/endpoints/users'
+
 import { useBulkActions, useUserColumnsDefs } from './lib/hooks'
-import { User as UserResponse } from '@/types/users'
-import { useRouter } from 'next/navigation'
-import { BASE_PATHS } from '@/constants/path'
 
-interface FilterValues {
-  name?: string
-}
+const DEFAULT_PAGE = 0
+const DEFAULT_SIZE = 10
 
-interface Props {
-  data: UserResponse[]
-  filterValues?: FilterValues
-}
-
-const UserTable: FC<Props> = (props) => {
-  // Props
-  const { data, filterValues } = props
-
-  // Hooks
+export default function UserTable() {
   const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
-  // States
-  const [selectedRows, setSelectedRows] = useState<UserResponse[]>([])
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 })
+  const pageIndex = Number(searchParams.get('page') ?? DEFAULT_PAGE)
 
-  // Methods
-  const handlePaginationChange = (
-    updater: Partial<typeof pagination> | ((old: typeof pagination) => typeof pagination)
-  ) => {
-    setPagination((old) => {
-      const newPagination = typeof updater === 'function' ? updater(old) : updater
-      return { ...old, ...newPagination }
-    })
+  const pageSize = Number(searchParams.get('size') ?? DEFAULT_SIZE)
+
+  const getUsersQuery = useGetUsers(
+    {
+      page: pageIndex,
+      size: pageSize
+    },
+    {
+      query: {
+        select: (data) => data.data.data
+      }
+    }
+  )
+
+  const pagination = useMemo(
+    () => ({
+      pageIndex,
+      pageSize
+    }),
+    [pageIndex, pageSize]
+  )
+
+  const handlePaginationChange = (updater: typeof pagination | ((old: typeof pagination) => typeof pagination)) => {
+    const next = typeof updater === 'function' ? updater(pagination) : updater
+
+    const params = new URLSearchParams(searchParams.toString())
+
+    params.set('page', String(next.pageIndex))
+    params.set('size', String(next.pageSize))
+
+    router.push(`${pathname}?${params.toString()}`)
   }
 
-  //Memos
   const columns = useUserColumnsDefs({
     onViewDetails: (user) => {
-      router.push(BASE_PATHS.admin.users.detail(user.id))
+      router.push(`/admin/users/${user.id}`)
     }
   })
 
-  const bulkActionList = useBulkActions({
+  const bulkActions = useBulkActions({
     onDeleteSelected: () => {}
   })
 
   return (
     <DataTable
       columns={columns}
-      data={data}
-      rowCount={data.length}
-      getRowId={(row) => row.id}
-      manualPagination={false}
-      selectedRows={selectedRows}
+      data={getUsersQuery?.data?.items ?? []}
+      rowCount={getUsersQuery.data?.totalElements ?? 0}
+      manualPagination
       enablePagination
       enableRowSelection
-      state={{ pagination }}
-      onSelectedRowsChange={(selected) => setSelectedRows(selected)}
-      onPaginationChange={handlePaginationChange}
-      classNames={{
-        header: 'bg-primary/90'
+      state={{
+        pagination
       }}
+      onPaginationChange={handlePaginationChange}
+      getRowId={(row) => row.id!}
     >
       <DataTable.Content>
         <DataTable.Header />
         <DataTable.Body />
       </DataTable.Content>
+
       <DataTable.Pagination />
 
-      <DataTableBulkActions entityName='User' actions={bulkActionList} />
+      <DataTableBulkActions entityName='User' actions={bulkActions} />
     </DataTable>
   )
 }
-
-export default UserTable

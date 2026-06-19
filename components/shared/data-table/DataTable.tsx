@@ -1,7 +1,7 @@
 'use client'
 
 // Core
-import { useEffect, useState, ReactNode, useMemo } from 'react'
+import { useEffect, useState, ReactNode, useMemo, useCallback, useRef } from 'react'
 import {
   getCoreRowModel,
   useReactTable,
@@ -20,7 +20,7 @@ import { DATA_TABLE_CONTEXT, DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from './lib
 import { assign } from 'lodash-es'
 import { DataTableBody, DataTableContent, DataTableHeader, DataTablePagination } from './components'
 
-interface DataTableRootProps<TData> extends Props<TData> {
+export interface DataTableRootProps<TData> extends Props<TData> {
   children: ReactNode
 }
 
@@ -44,20 +44,28 @@ const DataTable = <TData,>(props: DataTableRootProps<TData>) => {
   } = props
 
   // States
+  const [dataTable, setDataTable] = useState<TData[]>(data)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const [columnPinning, setColumnPinning] = useState<ColumnPinningState>({
     left: [],
     right: []
   })
   const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({})
-
+  const [columnOrder, setColumnOrder] = useState<string[]>(() => {
+    const allColumnIds = columns.map((col) => col.id as string)
+    console.log('allColumnIds', allColumnIds)
+    const pinnedLeftIds = columnPinning.left || []
+    const pinnedRightIds = columnPinning.right || []
+    const nonPinnedIds = allColumnIds.filter((id) => !pinnedLeftIds.includes(id) && !pinnedRightIds.includes(id))
+    return [...pinnedLeftIds, ...nonPinnedIds, ...pinnedRightIds]
+  })
   const [rowSelection, setRowSelection] = useState<RowSelectionState>(() => {
     const initialState: RowSelectionState = {}
 
     if (selectedRows && getRowId) {
       selectedRows.forEach((row) => {
         const rowId = getRowId!(row)
-        const rowIndex = data.findIndex((d) => getRowId!(d) === rowId)
+        const rowIndex = dataTable.findIndex((d) => getRowId!(d) === rowId)
         if (rowIndex !== -1) {
           initialState[rowIndex] = true
         }
@@ -65,7 +73,7 @@ const DataTable = <TData,>(props: DataTableRootProps<TData>) => {
     } else if (defaultSelectedRows && getRowId) {
       defaultSelectedRows.forEach((row) => {
         const rowId = getRowId!(row)
-        const rowIndex = data.findIndex((d) => getRowId!(d) === rowId)
+        const rowIndex = dataTable.findIndex((d) => getRowId!(d) === rowId)
         if (rowIndex !== -1) {
           initialState[rowIndex] = true
         }
@@ -75,48 +83,77 @@ const DataTable = <TData,>(props: DataTableRootProps<TData>) => {
     return initialState
   })
 
+  // Hooks
+  const initialOrder = useRef({
+    columnOrder,
+    data
+  })
+
   // Methods
-  const handlePaginationChange: OnChangeFn<PaginationState> = (updater) => {
-    if (!onPaginationChange) return
+  const handlePaginationChange: OnChangeFn<PaginationState> = useCallback(
+    (updater) => {
+      if (!onPaginationChange) return
 
-    const newPagination =
-      typeof updater === 'function'
-        ? updater(
-            state?.pagination || {
-              pageIndex: DEFAULT_PAGE_INDEX,
-              pageSize: DEFAULT_PAGE_SIZE
-            }
-          )
-        : updater
+      const newPagination =
+        typeof updater === 'function'
+          ? updater(
+              state?.pagination || {
+                pageIndex: DEFAULT_PAGE_INDEX,
+                pageSize: DEFAULT_PAGE_SIZE
+              }
+            )
+          : updater
 
-    onPaginationChange(newPagination)
-  }
+      onPaginationChange(newPagination)
+    },
+    [onPaginationChange, state?.pagination]
+  )
 
-  const handleRowSelectionChange = (updaterOrValue: Updater<RowSelectionState>) => {
-    setRowSelection((prev) => {
-      const newRowSelection = typeof updaterOrValue === 'function' ? updaterOrValue(prev) : updaterOrValue
+  const handleRowSelectionChange = useCallback(
+    (updaterOrValue: Updater<RowSelectionState>) => {
+      setRowSelection((prev) => {
+        const newRowSelection = typeof updaterOrValue === 'function' ? updaterOrValue(prev) : updaterOrValue
 
-      if (onSelectedRowsChange) {
-        const selectedRowIds = Object.keys(newRowSelection).filter((id) => newRowSelection[id])
+        if (onSelectedRowsChange) {
+          const selectedRowIds = Object.keys(newRowSelection).filter((id) => newRowSelection[id])
 
-        const selectedRows = selectedRowIds
-          .map((id) => data.find((row) => getRowId?.(row) === id))
-          .filter((row): row is TData => row !== undefined)
+          const selectedRows = selectedRowIds
+            .map((id) => dataTable.find((row) => getRowId?.(row) === id))
+            .filter((row): row is TData => row !== undefined)
 
-        onSelectedRowsChange(selectedRows)
-      }
+          onSelectedRowsChange(selectedRows)
+        }
 
-      return newRowSelection
-    })
-  }
+        return newRowSelection
+      })
+    },
+    [onSelectedRowsChange, dataTable, getRowId]
+  )
 
-  const handleOpenDeleteDialog = (open: boolean) => {
-    setOpenDeleteDialog(open)
-  }
+  const handleOpenDeleteDialog = useCallback(
+    (open: boolean) => {
+      setOpenDeleteDialog(open)
+    },
+    [setOpenDeleteDialog]
+  )
+
+  const handleColumnOrderChange = useCallback(
+    (newOrder: string[] | ((prevOrder: string[]) => string[])) => {
+      setColumnOrder(newOrder)
+    },
+    [setColumnOrder]
+  )
+
+  const handleDataChange = useCallback(
+    (newData: TData[] | ((prevData: TData[]) => TData[])) => {
+      setDataTable(newData)
+    },
+    [setDataTable]
+  )
 
   // Table
   const table = useReactTable({
-    data,
+    data: dataTable,
     columns,
     rowCount,
     getRowId,
@@ -125,11 +162,13 @@ const DataTable = <TData,>(props: DataTableRootProps<TData>) => {
       pagination: state?.pagination,
       rowSelection: enableRowSelection ? rowSelection : {},
       columnPinning,
-      columnSizing
+      columnSizing,
+      columnOrder
     },
     onPaginationChange: enablePagination ? handlePaginationChange : undefined,
     onColumnPinningChange: setColumnPinning,
     onColumnSizingChange: setColumnSizing,
+    onColumnOrderChange: setColumnOrder,
     onRowSelectionChange: enableRowSelection ? handleRowSelectionChange : undefined,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -140,6 +179,10 @@ const DataTable = <TData,>(props: DataTableRootProps<TData>) => {
   })
 
   // Effects
+  useEffect(() => {
+    setDataTable(data)
+  }, [data])
+
   useEffect(() => {
     if (!selectedRows || !getRowId) return
 
@@ -159,17 +202,23 @@ const DataTable = <TData,>(props: DataTableRootProps<TData>) => {
     () => ({
       // Props
       table,
+      initialOrder,
       openDeleteDialog,
       enableRowSelection,
       enablePagination,
       manualPagination,
       classNames,
+
       // Actions
-      openDeleteDialogAction: handleOpenDeleteDialog
+      openDeleteDialogAction: handleOpenDeleteDialog,
+      changeColumnOrderAction: handleColumnOrderChange,
+      changeDataTableAction: handleDataChange
     }),
     [
       table,
-      selectedRows,
+      dataTable,
+      columnOrder,
+      initialOrder,
       openDeleteDialog,
       enableRowSelection,
       enablePagination,
@@ -177,7 +226,10 @@ const DataTable = <TData,>(props: DataTableRootProps<TData>) => {
       classNames,
       rowSelection,
       columnPinning,
-      columnSizing
+      columnSizing,
+      handleOpenDeleteDialog,
+      handleColumnOrderChange,
+      handleDataChange
     ]
   )
 

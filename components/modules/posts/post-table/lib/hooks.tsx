@@ -31,6 +31,7 @@ export const usePostColumnsDefs = (props: UsePostColumnsDefsProps) => {
     () => [
       // 📌 TITLE
       {
+        id: 'title',
         accessorKey: 'title',
         header: 'Post',
         cell: ({ row }) => {
@@ -56,10 +57,11 @@ export const usePostColumnsDefs = (props: UsePostColumnsDefsProps) => {
       },
 
       {
+        id: 'status',
         accessorKey: 'status',
         header: 'Status',
         cell: ({ row }) => {
-          const status = row.original.status
+          const status = 'PUBLISHED'
 
           const map = {
             DRAFT: { label: 'Nháp', variant: 'outline' },
@@ -75,17 +77,20 @@ export const usePostColumnsDefs = (props: UsePostColumnsDefsProps) => {
 
       // 📌 FEATURED
       {
+        id: 'featured',
         accessorKey: 'featured',
         header: 'Featured',
-        cell: ({ row }) => (row.original.featured ? <Badge>Featured</Badge> : <span className='text-gray-400'>-</span>)
+        cell: ({ row }) =>
+          (row.original.viewCount ?? 0) > 10 ? <Badge>Featured</Badge> : <span className='text-gray-400'>-</span>
       },
 
       // 📌 TAGS
       {
+        id: 'tags',
         accessorKey: 'tags',
         header: 'Tags',
         cell: ({ row }) => {
-          const tags = row.original.tags
+          const tags = ['Life']
 
           if (!tags?.length) {
             return <span className='text-gray-400'>-</span>
@@ -106,44 +111,47 @@ export const usePostColumnsDefs = (props: UsePostColumnsDefsProps) => {
 
       // 📌 METRICS
       {
+        id: 'viewCount',
         accessorKey: 'viewCount',
         header: 'Views',
-        cell: ({ row }) => <span className='text-sm'>{row.original.viewCount.toLocaleString()}</span>
+        cell: ({ row }) => <span className='text-sm'>{row.original?.viewCount?.toLocaleString()}</span>
       },
       {
+        id: 'commentCount',
         accessorKey: 'commentCount',
         header: 'Comments',
-        cell: ({ row }) => <span className='text-sm'>{row.original.commentCount}</span>
+        cell: ({ row }) => <span className='text-sm'>{row.original.viewCount}</span>
       },
 
       // 📌 PUBLISHED
       {
+        id: 'publishedAt',
         accessorKey: 'publishedAt',
         header: 'Published',
         cell: ({ row }) => <div className='text-sm text-gray-600'>{formatDateTime(row.original.publishedAt)}</div>
       },
 
       // 📌 CREATED
-      {
-        accessorKey: 'createdAt',
-        header: 'Created',
-        cell: ({ row }) => <div className='text-sm text-gray-600'>{formatDateTime(row.original.createdAt)}</div>
-      },
+      // {
+      //   accessorKey: 'createdAt',
+      //   header: 'Created',
+      //   cell: ({ row }) => <div className='text-sm text-gray-600'>{formatDateTime(row.original.createdAt)}</div>
+      // },
 
-      // 📌 UPDATED
-      {
-        accessorKey: 'updatedAt',
-        header: 'Updated',
-        cell: ({ row }) => {
-          const { createdAt, updatedAt } = row.original
+      // // 📌 UPDATED
+      // {
+      //   accessorKey: 'updatedAt',
+      //   header: 'Updated',
+      //   cell: ({ row }) => {
+      //     const { createdAt, updatedAt } = row.original
 
-          return (
-            <div>
-              <div className='text-sm text-gray-600'>{formatDateTime(updatedAt)}</div>
-            </div>
-          )
-        }
-      },
+      //     return (
+      //       <div>
+      //         <div className='text-sm text-gray-600'>{formatDateTime(updatedAt)}</div>
+      //       </div>
+      //     )
+      //   }
+      // },
 
       // 📌 ACTIONS
       {

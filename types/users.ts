@@ -16,3 +16,17 @@ export interface User {
   createdAt: string
   updatedAt: string
 }
+
+export type UserSession = {
+  id: string
+  userId: string
+  refreshTokenHash: string
+  ipAddress: string
+  userAgent: string
+  deviceId: string
+  deviceName: string
+  revoked: boolean
+  expiresAt: string
+  lastActiveAt: string
+  createdAt: string
+}
