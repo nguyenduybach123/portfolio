@@ -124,7 +124,7 @@ export function FilesMedia({ children, initialFiles, initialFolderId = null }: F
   return <FILES_MEDIA_CONTEXT.Provider value={value}>{children}</FILES_MEDIA_CONTEXT.Provider>
 }
 
-export default assign(FilesMedia, {
+const FilesMediaCompound = assign(FilesMedia, {
   Header: FilesMediaHeader,
   Main: FilesMediaMain,
   Layout: FilesMediaLayout,
@@ -135,3 +135,7 @@ export default assign(FilesMedia, {
   Empty: FilesMediaEmpty,
   View: FilesMediaView
 })
+
+export type { FilesMediaProviderProps }
+
+export default FilesMediaCompound

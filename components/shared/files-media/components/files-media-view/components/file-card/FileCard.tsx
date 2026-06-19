@@ -2,9 +2,15 @@
 
 import { useState } from 'react'
 import { Eye, Copy, Download, Folder } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+
 import { FileItem } from '@/components/shared/files-media/lib/types'
 import { getFileIcon } from '@/components/shared/files-media/lib/icon-helper'
 import { formatDate, formatFileSize } from '@/components/shared/files-media/lib/utils'
+
+// Shadcn UI components
+import { Checkbox } from '@/components/ui/checkbox'
+import { Button } from '@/components/ui/button'
 
 interface FileCardProps {
   file: FileItem
@@ -23,100 +29,153 @@ const FileCard = ({ file, isSelected, onToggleSelect, onOpenPreview, onNavigateF
     }
   }
 
+  // Ngăn chặn sự kiện click lan ra ngoài khi thao tác trên overlay/checkbox
+  const handleActionClick = (e: React.MouseEvent, action: () => void) => {
+    e.stopPropagation()
+    action()
+  }
+
   return (
-    <div
-      className={`group relative cursor-pointer overflow-hidden rounded-lg border transition-all ${
-        isSelected ? 'border-accent bg-accent/5 ring-2 ring-accent/30' : 'border-border bg-card hover:border-accent/50'
+    <motion.div
+      layout // Giúp card di chuyển mượt mà khi layout grid thay đổi (vd: xóa file, filter)
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
+      className={`group relative overflow-hidden rounded-xl border transition-colors duration-300 ${
+        isSelected
+          ? 'border-primary bg-primary/5 ring-1 ring-primary/20'
+          : 'border-border/50 bg-card hover:border-border hover:shadow-sm'
       }`}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      {/* Checkbox */}
+      {/* Checkbox (Minimalist: Chỉ hiện khi được chọn hoặc khi hover) */}
       <div
-        className={`absolute left-2 top-2 z-10 rounded-md border transition-all ${
-          isSelected ? 'border-accent bg-accent' : 'border-border bg-card group-hover:bg-card/50'
+        className={`absolute left-3 top-3 z-20 transition-opacity duration-300 ${
+          isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
         }`}
-        onClick={() => onToggleSelect(file.id)}
+        onClick={(e) => e.stopPropagation()}
       >
-        {isSelected && (
-          <svg className='h-4 w-4 text-white' fill='currentColor' viewBox='0 0 20 20'>
-            <path
-              fillRule='evenodd'
-              d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
-              clipRule='evenodd'
-            />
-          </svg>
-        )}
-        {!isSelected && <div className='h-4 w-4' />}
+        <Checkbox
+          checked={isSelected}
+          onCheckedChange={() => onToggleSelect(file.id)}
+          className='bg-background/80 shadow-sm backdrop-blur-sm data-[state=checked]:bg-primary'
+        />
       </div>
 
-      {/* Preview Image */}
+      {/* Preview Section */}
       <div
-        className='relative aspect-square w-full overflow-hidden bg-gradient-to-br from-card to-card/50'
+        className='relative flex aspect-square w-full cursor-pointer items-center justify-center overflow-hidden bg-muted/30'
         onClick={handleFolderClick}
       >
         {file.isFolder ? (
-          <div className='flex h-full items-center justify-center'>
-            <Folder className='h-12 w-12 text-blue-400/30' />
-          </div>
+          <motion.div whileHover={{ scale: 1.05 }} transition={{ type: 'spring', stiffness: 400, damping: 25 }}>
+            <Folder className='h-14 w-14 text-blue-500/70' strokeWidth={1.5} />
+          </motion.div>
         ) : file.previewUrl ? (
-          <img
+          <motion.img
             src={file.previewUrl}
             alt={file.name}
-            className='h-full w-full object-cover transition-transform group-hover:scale-105'
+            className='h-full w-full object-cover'
+            animate={{ scale: isHovering ? 1.05 : 1 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
           />
         ) : (
-          <div className='flex h-full items-center justify-center'>{getFileIcon(file.type, false, 'md')}</div>
+          <motion.div whileHover={{ scale: 1.05, y: -2 }} transition={{ type: 'spring', stiffness: 300 }}>
+            {getFileIcon(file.type, false, 'lg')}
+          </motion.div>
         )}
 
-        {/* Quick Actions Overlay */}
-        {isHovering && !file.isFolder && (
-          <div className='absolute inset-0 flex items-center justify-center gap-2 bg-black/50 backdrop-blur-sm'>
-            <button
-              onClick={() => onOpenPreview(file.id)}
-              className='rounded-lg bg-white/10 p-2 text-white backdrop-blur transition-colors hover:bg-white/20'
-              title='Preview'
+        {/* Quick Actions Overlay với Framer Motion */}
+        <AnimatePresence>
+          {isHovering && !file.isFolder && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className='absolute inset-0 z-10 flex items-center justify-center gap-3 bg-background/40 backdrop-blur-md'
             >
-              <Eye className='h-4 w-4' />
-            </button>
-            <button
-              onClick={() => {}}
-              className='rounded-lg bg-white/10 p-2 text-white backdrop-blur transition-colors hover:bg-white/20'
-              title='Copy URL'
-            >
-              <Copy className='h-4 w-4' />
-            </button>
-            <button
-              onClick={() => {}}
-              className='rounded-lg bg-white/10 p-2 text-white backdrop-blur transition-colors hover:bg-white/20'
-              title='Download'
-            >
-              <Download className='h-4 w-4' />
-            </button>
-          </div>
-        )}
-      </div>
+              <motion.div
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 10, opacity: 0 }}
+                transition={{ duration: 0.2, delay: 0.05 }}
+              >
+                <Button
+                  size='icon'
+                  variant='secondary'
+                  className='h-9 w-9 rounded-full shadow-sm hover:scale-105'
+                  onClick={(e) => handleActionClick(e, () => onOpenPreview(file.id))}
+                  title='Preview'
+                >
+                  <Eye className='h-4 w-4' />
+                </Button>
+              </motion.div>
 
-      {/* File Info */}
-      <div className='space-y-1 border-t border-border p-3'>
-        <div className='flex items-start gap-2'>
-          <div className='mt-0.5 flex-shrink-0 text-muted-foreground'>
-            {getFileIcon(file.type, file.isFolder, 'sm')}
-          </div>
-          <p className='flex-1 truncate text-sm font-medium text-foreground'>{file.name}</p>
-        </div>
+              <motion.div
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 10, opacity: 0 }}
+                transition={{ duration: 0.2, delay: 0.1 }}
+              >
+                <Button
+                  size='icon'
+                  variant='secondary'
+                  className='h-9 w-9 rounded-full shadow-sm hover:scale-105'
+                  onClick={(e) => handleActionClick(e, () => {})}
+                  title='Copy URL'
+                >
+                  <Copy className='h-4 w-4' />
+                </Button>
+              </motion.div>
 
-        <div className='space-y-0.5 text-xs text-muted-foreground'>
-          {file.size && <div>{formatFileSize(file.size)}</div>}
-          {file.width && file.height && (
-            <div>
-              {file.width} × {file.height}
-            </div>
+              <motion.div
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 10, opacity: 0 }}
+                transition={{ duration: 0.2, delay: 0.15 }}
+              >
+                <Button
+                  size='icon'
+                  variant='secondary'
+                  className='h-9 w-9 rounded-full shadow-sm hover:scale-105'
+                  onClick={(e) => handleActionClick(e, () => {})}
+                  title='Download'
+                >
+                  <Download className='h-4 w-4' />
+                </Button>
+              </motion.div>
+            </motion.div>
           )}
-          <div>{formatDate(file.updatedAt)}</div>
+        </AnimatePresence>
+      </div>
+
+      {/* File Info Section (Minimalist Typography) */}
+      <div className='flex flex-col gap-1.5 p-4'>
+        <div className='flex items-center gap-2'>
+          <div className='flex-shrink-0 text-muted-foreground/70'>{getFileIcon(file.type, file.isFolder, 'sm')}</div>
+          <p className='truncate text-sm font-medium leading-none text-foreground' title={file.name}>
+            {file.name}
+          </p>
+        </div>
+
+        <div className='flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground/70'>
+          {file.size && <span>{formatFileSize(file.size)}</span>}
+          {file.width && file.height && (
+            <>
+              <span className='h-1 w-1 rounded-full bg-muted-foreground/30' />
+              <span>
+                {file.width} × {file.height}
+              </span>
+            </>
+          )}
+          <span className='h-1 w-1 rounded-full bg-muted-foreground/30' />
+          <span>{formatDate(file.updatedAt)}</span>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

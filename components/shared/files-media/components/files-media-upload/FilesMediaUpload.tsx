@@ -3,12 +3,12 @@
 import { Upload, X } from 'lucide-react'
 
 interface UploadZoneProps {
-  isUploading: boolean
-  progress: number
+  isUploading?: boolean
+  progress?: number
   onUpload: (files: File[]) => void
 }
 
-const FilesMediaUpload = ({ isUploading, progress }: UploadZoneProps) => {
+const FilesMediaUpload = ({ isUploading, progress = 0 }: UploadZoneProps) => {
   if (!isUploading) return null
 
   return (

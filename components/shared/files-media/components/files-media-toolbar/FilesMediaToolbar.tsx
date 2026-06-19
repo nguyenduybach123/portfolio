@@ -1,44 +1,65 @@
 'use client'
 
-import { useState } from 'react'
-import { Search, Filter, ArrowUpDown, Grid3x3, List } from 'lucide-react'
+import { useId } from 'react'
+import { motion } from 'framer-motion'
+import { Search, Filter, ArrowUpDown, Grid3x3, List, Check, ArrowDown, ArrowUp } from 'lucide-react'
+
+import { useFilesMediaContext } from '../../lib/hooks'
 import { FileType } from '../../lib/types'
 
+// Import shadcn components (Điều chỉnh đường dẫn cho phù hợp với project của bạn)
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+
 interface ToolbarProps {
-  searchQuery: string
-  onSearchChange: (query: string) => void
-  selectedFilter: FileType | 'all'
-  onFilterChange: (filter: FileType | 'all') => void
-  sortBy: 'name' | 'date' | 'size'
-  onSortChange: (sort: 'name' | 'date' | 'size') => void
-  sortOrder: 'asc' | 'desc'
-  onSortOrderChange: (order: 'asc' | 'desc') => void
-  viewMode: 'grid' | 'list'
-  onViewModeChange: (mode: 'grid' | 'list') => void
+  searchQuery?: string
+  selectedFilter?: FileType | 'all'
+  viewBy?: 'name' | 'date' | 'size'
+  sortOrder?: 'asc' | 'desc'
+  sortBy?: 'name' | 'date' | 'size'
+  viewMode?: 'grid' | 'list'
   selectedCount: number
-  totalCount: number
-  onSelectAll: () => void
   allSelected: boolean
+  totalCount: number
+  onSelectAll?: () => void
+  onSearchChange?: (query: string) => void
+  onFilterChange?: (filter: FileType | 'all') => void
+  onViewModeChange?: (mode: 'grid' | 'list') => void
+  onSortOrderChange?: (order: 'asc' | 'desc') => void
+  onSortChange?: (sort: 'name' | 'date' | 'size') => void
 }
 
-interface FilesMediaToolbarProps extends ToolbarProps {}
+const FilesMediaToolbar = (props: Partial<ToolbarProps>) => {
+  const context = (() => {
+    try {
+      return useFilesMediaContext()
+    } catch {
+      return null
+    }
+  })()
 
-const FilesMediaToolbar = ({
-  searchQuery,
-  onSearchChange,
-  selectedFilter,
-  onFilterChange,
-  sortBy,
-  onSortChange,
-  sortOrder,
-  onSortOrderChange,
-  viewMode,
-  onViewModeChange,
-  selectedCount,
-  allSelected
-}: ToolbarProps) => {
-  const [showFilterMenu, setShowFilterMenu] = useState(false)
-  const [showSortMenu, setShowSortMenu] = useState(false)
+  // Props resolution
+  const searchQuery = props.searchQuery ?? context?.searchQuery ?? ''
+  const onSearchChange = props.onSearchChange ?? context?.setSearchQuery ?? (() => {})
+  const selectedFilter = props.selectedFilter ?? 'all'
+  const onFilterChange = props.onFilterChange ?? (() => {})
+  const sortBy = props.sortBy ?? 'name'
+  const onSortChange = props.onSortChange ?? (() => {})
+  const sortOrder = props.sortOrder ?? 'asc'
+  const onSortOrderChange = props.onSortOrderChange ?? (() => {})
+  const viewMode = props.viewMode ?? context?.viewMode ?? 'grid'
+  const onViewModeChange = props.onViewModeChange ?? context?.setViewMode ?? (() => {})
+
+  const layoutId = useId() // Dùng cho Framer Motion layout animations
 
   const filterOptions: Array<{ value: FileType | 'all'; label: string }> = [
     { value: 'all', label: 'All Files' },
@@ -49,120 +70,122 @@ const FilesMediaToolbar = ({
   ]
 
   const sortOptions = [
-    { value: 'name' as const, label: 'Name' },
-    { value: 'date' as const, label: 'Date Modified' },
-    { value: 'size' as const, label: 'Size' }
-  ]
+    { value: 'name', label: 'Name' },
+    { value: 'date', label: 'Date Modified' },
+    { value: 'size', label: 'Size' }
+  ] as const
 
   return (
-    <div className='flex items-center justify-between gap-4 px-4'>
-      {/* Search Input */}
-      <div className='relative flex-1'>
-        <Search className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
-        <input
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className='flex flex-wrap items-center justify-between gap-4 px-4 pb-2'
+    >
+      {/* Search Input - Phong cách Minimalist không viền cứng */}
+      <div className='relative flex-1 sm:max-w-xs'>
+        <Search className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/70' />
+        <Input
           type='text'
           placeholder='Search files...'
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className='w-full rounded-lg border border-border bg-card py-2 pl-10 pr-4 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-accent/50'
+          className='h-9 w-full border-transparent bg-muted/50 pl-9 shadow-none transition-all hover:bg-muted focus-visible:border-primary/20 focus-visible:bg-background focus-visible:ring-1 focus-visible:ring-primary/30'
         />
       </div>
 
-      {/* Filter Dropdown */}
-      <div className='relative'>
-        <button
-          onClick={() => setShowFilterMenu(!showFilterMenu)}
-          className='inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm transition-colors hover:bg-card/80'
-        >
-          <Filter className='h-4 w-4' />
-          Filter
-        </button>
-
-        {showFilterMenu && (
-          <div className='absolute right-0 top-full z-10 mt-2 w-48 rounded-lg border border-border bg-card py-1 shadow-lg'>
-            {filterOptions.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => {
-                  onFilterChange(option.value)
-                  setShowFilterMenu(false)
-                }}
-                className={`w-full px-4 py-2 text-left text-sm transition-colors ${
-                  selectedFilter === option.value ? 'bg-accent/20 font-medium text-accent' : 'hover:bg-card/50'
-                }`}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Sort Dropdown */}
-      <div className='relative'>
-        <button
-          onClick={() => setShowSortMenu(!showSortMenu)}
-          className='inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm transition-colors hover:bg-card/80'
-        >
-          <ArrowUpDown className='h-4 w-4' />
-          Sort
-        </button>
-
-        {showSortMenu && (
-          <div className='absolute right-0 top-full z-10 mt-2 w-48 rounded-lg border border-border bg-card py-1 shadow-lg'>
-            {sortOptions.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => {
-                  onSortChange(option.value)
-                  setShowSortMenu(false)
-                }}
-                className={`w-full px-4 py-2 text-left text-sm transition-colors ${
-                  sortBy === option.value ? 'bg-accent/20 font-medium text-accent' : 'hover:bg-card/50'
-                }`}
-              >
-                {option.label}
-              </button>
-            ))}
-
-            <div className='my-1 border-t border-border' />
-
-            <button
-              onClick={() => {
-                onSortOrderChange(sortOrder === 'asc' ? 'desc' : 'asc')
-                setShowSortMenu(false)
-              }}
-              className='w-full px-4 py-2 text-left text-sm transition-colors hover:bg-card/50'
+      <div className='flex items-center gap-2 lg:gap-3'>
+        {/* Filter Dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant='outline'
+              size='sm'
+              className='h-9 border-dashed border-border/60 bg-transparent px-3 text-muted-foreground hover:text-foreground'
             >
-              {sortOrder === 'asc' ? '↑ Ascending' : '↓ Descending'}
-            </button>
-          </div>
-        )}
-      </div>
+              <Filter className='mr-2 h-4 w-4' />
+              {selectedFilter === 'all' ? 'Filter' : filterOptions.find((o) => o.value === selectedFilter)?.label}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end' className='w-48 rounded-xl shadow-sm'>
+            <DropdownMenuRadioGroup value={selectedFilter} onValueChange={(v) => onFilterChange(v as FileType | 'all')}>
+              {filterOptions.map((option) => (
+                <DropdownMenuRadioItem key={option.value} value={option.value} className='cursor-pointer'>
+                  {option.label}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
-      {/* View Mode Toggle */}
-      <div className='flex items-center gap-1 rounded-lg border border-border bg-card p-1'>
-        <button
-          onClick={() => onViewModeChange('grid')}
-          className={`rounded p-1.5 transition-colors ${
-            viewMode === 'grid' ? 'bg-accent/20 text-accent' : 'hover:bg-card/50'
-          }`}
-          title='Grid View'
-        >
-          <Grid3x3 className='h-4 w-4' />
-        </button>
+        {/* Sort Dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant='outline'
+              size='sm'
+              className='h-9 border-dashed border-border/60 bg-transparent px-3 text-muted-foreground hover:text-foreground'
+            >
+              <ArrowUpDown className='mr-2 h-4 w-4' />
+              Sort
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end' className='w-48 rounded-xl shadow-sm'>
+            <DropdownMenuRadioGroup value={sortBy} onValueChange={(v) => onSortChange(v as 'name' | 'date' | 'size')}>
+              {sortOptions.map((option) => (
+                <DropdownMenuRadioItem key={option.value} value={option.value} className='cursor-pointer'>
+                  {option.label}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
 
-        <button
-          onClick={() => onViewModeChange('list')}
-          className={`rounded p-1.5 transition-colors ${
-            viewMode === 'list' ? 'bg-accent/20 text-accent' : 'hover:bg-card/50'
-          }`}
-          title='List View'
-        >
-          <List className='h-4 w-4' />
-        </button>
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem
+              onClick={() => onSortOrderChange(sortOrder === 'asc' ? 'desc' : 'asc')}
+              className='cursor-pointer text-muted-foreground'
+            >
+              {sortOrder === 'asc' ? (
+                <>
+                  <ArrowUp className='mr-2 h-4 w-4' /> Ascending
+                </>
+              ) : (
+                <>
+                  <ArrowDown className='mr-2 h-4 w-4' /> Descending
+                </>
+              )}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* View Mode Toggle - Animated Sliding Background */}
+        <div className='relative flex items-center rounded-lg bg-muted/50 p-1'>
+          {(['grid', 'list'] as const).map((mode) => {
+            const isActive = viewMode === mode
+            return (
+              <button
+                key={mode}
+                onClick={() => onViewModeChange(mode)}
+                className={`relative z-10 flex h-7 w-7 items-center justify-center rounded-md text-sm transition-colors ${
+                  isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+                }`}
+                title={`${mode.charAt(0).toUpperCase() + mode.slice(1)} View`}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId={`view-toggle-${layoutId}`}
+                    className='absolute inset-0 z-0 rounded-md border border-border/50 bg-background shadow-sm'
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className='relative z-10'>
+                  {mode === 'grid' ? <Grid3x3 className='h-4 w-4' /> : <List className='h-4 w-4' />}
+                </span>
+              </button>
+            )
+          })}
+        </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

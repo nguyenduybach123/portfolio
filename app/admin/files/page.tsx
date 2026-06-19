@@ -1,6 +1,7 @@
 'use client'
 
 import { FilesMedia } from '@/components/shared'
+import mockFiles from '@/components/shared/files-media/lib/mock'
 
 export const mockFolders = [
   { id: 'root', name: 'My Files', icon: 'folder' },
@@ -24,34 +25,20 @@ export const mockFolders = [
 const FilesPage = () => {
   return (
     <div>
-      <FilesMedia initialFolderId={null} initialFiles={[]}>
+      <FilesMedia initialFolderId={'root'} initialFiles={mockFiles}>
         <FilesMedia.Layout>
           <FilesMedia.SideBar folders={mockFolders} currentFolderId={null} onNavigate={() => {}} />
 
           <FilesMedia.Main>
             <FilesMedia.Header />
-            <FilesMedia.Toolbar
-              searchQuery={''}
-              onSearchChange={() => {}}
-              selectedCount={0}
-              allSelected={true}
-              onSelectAll={() => {}}
-              onSortChange={() => {}}
-              sortOrder={'asc'}
-              onSortOrderChange={() => {}}
-              sortBy={'name'}
-              onViewModeChange={() => {}}
-              viewMode={'grid'}
-              selectedFilter={'all'}
-              onFilterChange={() => {}}
-              totalCount={0}
-            />
-
+            <FilesMedia.Toolbar />
             <FilesMedia.View />
           </FilesMedia.Main>
         </FilesMedia.Layout>
 
-        <FilesMedia.Upload isUploading={false} progress={0} onUpload={() => {}} />
+        <FilesMedia.Preview onClose={() => {}} />
+
+        <FilesMedia.Upload onUpload={() => {}} isUploading={false} progress={0} />
       </FilesMedia>
     </div>
   )

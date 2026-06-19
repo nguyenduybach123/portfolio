@@ -63,7 +63,7 @@ const data = {
     },
     {
       title: 'Configuration',
-      url: '/admin/configuration',
+      url: '/admin/configurations',
       icon: CogIcon
     }
   ]

@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import { Upload, X } from 'lucide-react'
 
 interface EmptyStateProps {
@@ -38,13 +39,13 @@ const FilesMediaEmpty = ({ query, onClearSearch, onUpload }: EmptyStateProps) =>
                 Get started by uploading your first file or creating a new folder.
               </p>
 
-              <button
+              <Button
                 onClick={() => onUpload([])}
-                className='mt-4 inline-flex items-center gap-2 rounded-lg bg-accent/10 px-4 py-2 text-sm font-medium text-accent transition-colors hover:bg-accent/20'
+                className='mt-4 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-accent transition-colors hover:bg-accent/20'
               >
                 <Upload className='h-4 w-4' />
                 Upload Files
-              </button>
+              </Button>
             </>
           )}
         </div>
